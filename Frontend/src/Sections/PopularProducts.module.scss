@@ -1,0 +1,30 @@
+.popularProducts {
+  height: 100%;
+  padding: 0rem 2.5rem;
+}
+
+.slide {
+  border-radius: 2rem;
+}
+
+.popularProductsBtn {
+  display: flex;
+  justify-content: center;
+  margin: 6rem auto 0rem;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 7rem;
+  border: none;
+  padding: 1rem 2rem;
+  transition: .2s all;
+  border: 1px solid white;
+  font-size: 1.8rem;
+
+  &:hover {
+    background-color: var(--secondary-color);
+    border: 1px solid black;
+    color: black;
+    cursor: pointer;
+  }
+
+}

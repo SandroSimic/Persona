@@ -1,0 +1,108 @@
+@import "../main.scss";
+
+.footerNav {
+  display: flex;
+  justify-content: space-between;
+  padding: 5rem 2.5rem;
+
+  @include tablet {
+    flex-direction: column;
+    gap: 3rem;
+  }
+}
+
+.newsletter {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+
+  & p {
+    font-size: 2rem;
+    width: 60%;
+
+    @include tablet {
+      width: 100%;
+      font-size: 1.6rem;
+    }
+  }
+}
+
+.newsletterAction {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+
+  & input {
+    border: none;
+    outline: 1px solid var(--primary-color);
+    padding: 1rem;
+    font-size: 2rem;
+    border-radius: 1rem;
+
+    @include tablet {
+      font-size: 1.6rem;
+    }
+
+    @include mobile {
+      width: 100%;
+    }
+  }
+
+  & button {
+    border: none;
+    padding: 1.4rem 4rem;
+    font-size: 1.6rem;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+    &:hover {
+      background-color: var(--secondary-color);
+      color: var(--primary-color);
+      border: 1px solid var(--primary-color);
+      cursor: pointer;
+    }
+
+    @include mobile {
+      width: 100%;
+    }
+  }
+
+  @include tablet {
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+  }
+  @include mobile {
+    flex-direction: column;
+  }
+}
+
+.footerNavActions {
+  display: flex;
+  gap: 3rem;
+
+  & div {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    & h3 {
+      font-size: 2rem;
+    }
+
+    & p {
+      font-size: 1.6rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      &:hover {
+        font-weight: 500;
+      }
+    }
+  }
+
+  @include tablet {
+    justify-content: center;
+    gap: 2rem;
+  }
+}
