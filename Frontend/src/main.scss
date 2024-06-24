@@ -1,12 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 
 :root {
   --primary-color: #202020;
-  --secondary-color: #ECECEC;
+  --secondary-color: #ececec;
+  --color-grey: #bcbcbc;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -19,44 +21,49 @@ html {
 }
 
 body {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 1.6rem;
   margin: 0px;
   padding: 0px;
 }
 
+input,
+button {
+  font-family: "Montserrat", sans-serif;
+}
+
 @mixin mobile {
   @media only screen and (max-width: 576px) {
-      @content;
+    @content;
   }
 }
 
 @mixin miniTablet {
   @media only screen and (max-width: 768px) {
-      @content;
+    @content;
   }
 }
 
 @mixin tablet {
   @media only screen and (max-width: 991px) {
-      @content;
+    @content;
   }
 }
 
 @mixin desktop {
   @media only screen and (min-width: 992px) {
-      @content;
+    @content;
   }
 }
 
 @mixin bigDesktop {
   @media only screen and (min-width: 1280px) {
-      @content;
+    @content;
   }
 }
 
 @mixin largeDesktop {
   @media only screen and (min-width: 1921px) {
-      @content;
+    @content;
   }
 }

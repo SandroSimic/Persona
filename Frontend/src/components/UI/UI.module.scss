@@ -1,5 +1,10 @@
 @import "../../main.scss";
 
+.icon {
+  width: 3.2rem;
+  height: 3.2rem;
+}
+
 .heading {
   display: flex;
   flex-direction: column;
@@ -28,5 +33,108 @@
 
   @include tablet {
     margin: 4rem 0rem;
+  }
+}
+
+.input {
+  width: 50rem;
+  height: 5rem;
+  position: relative;
+  display: block;
+
+  & input {
+    width: 100%;
+    height: 100%;
+    font-size: 1.2rem;
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+    padding: 1rem;
+    border: 1px solid var(--color-grey);
+  }
+
+  .iconInput {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+
+    & svg {
+      width: 3.2rem;
+      height: 3.2rem;
+    }
+  }
+
+  .label {
+    position: absolute;
+    top: 50%;
+    left: 5rem;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  & input:focus + .label {
+    top: -0.01rem;
+    background-color: white;
+    color: black;
+    padding: 0rem 1rem;
+    left: 1rem !important;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+}
+
+.line {
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-grey);
+}
+
+.or {
+  position: relative;
+
+  & span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 0rem 1rem;
+    font-size: 1.6rem;
+    color: var(--color-grey);
+    text-transform: uppercase;
+  }
+}
+
+.inputFile {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 1.5rem;
+  cursor: pointer;
+
+  input[type="file"] {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .label {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    align-items: center;
+    justify-content: center;
+    height: 15rem;
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid var(--color-grey);
+    border-radius: 4px;
+    color: var(--primary-color);
+    font-size: 1.6rem;
+    transition: all 0.2s ease;
   }
 }

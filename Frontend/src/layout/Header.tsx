@@ -5,8 +5,10 @@ import styles from "./Header.module.scss";
 import { GiHamburgerMenu } from "react-icons/gi";
 import useWindowSize from "../hooks/useWindowSize";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
   const { mobile } = useWindowSize();
   const [isOpened, setIsOpened] = useState<boolean>(false);
 
@@ -44,7 +46,7 @@ const Header = () => {
               <FaShoppingCart />
               {mobile ? null : <p>CART</p>}
             </li>
-            <li>
+            <li onClick={() => navigate("login")}>
               <FaUser />
               {mobile ? null : <p>LOGIN</p>}
             </li>
