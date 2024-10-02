@@ -36,7 +36,7 @@ const Navigation = () => {
           <img src={cartIcon} alt="Cart" />
           CART
         </Link>
-        <Link to="#">
+        <Link to="/login">
           <img src={userIcon} alt="User" />
           LOGIN
         </Link>

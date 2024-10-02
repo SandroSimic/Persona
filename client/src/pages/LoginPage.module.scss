@@ -1,0 +1,33 @@
+@import "../styles/utils.scss";
+
+.loginPage {
+  display: flex;
+  justify-content: space-between;
+}
+
+.loginPageImage {
+  width: 50%;
+  height: 100vh;
+
+  & img {
+    width: 100%;
+    height: 100%;
+  }
+
+  @include tablet {
+    display: none;
+  }
+}
+
+.loginPageForm {
+  margin: 0 auto;
+
+  @include tablet {
+    margin: 0;
+    width: 100%;
+    padding: 2.5rem 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

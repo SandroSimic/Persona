@@ -1,0 +1,16 @@
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.input {
+  height: 5rem;
+  font-size: 1.2rem;
+  border: 1px solid var(--secondary-color);
+  border-radius: 0.5rem;
+  padding: 0rem 1rem;
+
+  font-size: 1.4rem;
+  font-weight: bold;
+}
