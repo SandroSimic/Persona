@@ -6,3 +6,40 @@
   --black-color: #333333;
   --white-color: #ffffff;
 }
+
+
+@mixin mobile {
+  @media only screen and (max-width: 576px) {
+    @content;
+  }
+}
+
+@mixin miniTablet {
+  @media only screen and (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media only screen and (max-width: 991px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media only screen and (min-width: 992px) {
+    @content;
+  }
+}
+
+@mixin bigDesktop {
+  @media only screen and (min-width: 1280px) {
+    @content;
+  }
+}
+
+@mixin largeDesktop {
+  @media only screen and (min-width: 1921px) {
+    @content;
+  }
+}
