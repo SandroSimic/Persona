@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./layout/Layout";
 import LoginPage from "./pages/LoginPage";
+import { Toaster } from "react-hot-toast";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,16 @@ function App() {
           <Route path="*" element={<h1>Not Found</h1>} />
         </Routes>
       </Router>
+
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        toastOptions={{
+          style: {
+            fontSize: "1.7rem",
+          },
+        }}
+      />
     </QueryClientProvider>
   );
 }
