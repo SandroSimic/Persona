@@ -6,12 +6,21 @@ import googleImg from "../../assets/google.png";
 import { useState } from "react";
 import openedEyeImg from "../../assets/openEye.png";
 import closedEyeImg from "../../assets/closedEye.png";
+import { useLogin } from "./useLogin";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { loginUserQuery } = useLogin();
 
   const togglePassword = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    loginUserQuery({ email, password });
   };
 
   return (
@@ -20,13 +29,19 @@ const LoginForm = () => {
         <img src={bigLogo} alt="Logo" />
       </div>
       <Line horizontal={true} />
-      <form className={styles.loginForm}>
+      <form className={styles.loginForm} onSubmit={handleSubmit}>
         <div className={styles.loginFormHeader}>
           <h1>Login to Your Account</h1>
           <p>Please fill out the essential credentials for your account </p>
         </div>
         <div className={styles.loginFormInputs}>
-          <Input placeholder={"Enter your email"} />
+          <Input
+            placeholder={"Enter your email"}
+            type={"email"}
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            required
+          />
           <div className={styles.passwordInput}>
             <img
               src={showPassword ? openedEyeImg : closedEyeImg}
@@ -36,10 +51,15 @@ const LoginForm = () => {
             <Input
               placeholder={"Enter your password"}
               type={showPassword ? "text" : "password"}
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              required
             />
           </div>
         </div>
-        <button className={styles.loginBtn}>Login</button>
+        <button className={styles.loginBtn} type="submit">
+          Login
+        </button>
       </form>
       <Line or={true} />
       <div>

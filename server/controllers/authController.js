@@ -50,4 +50,22 @@ const loginUser = catchAsync(async (req, res, next) => {
   });
 });
 
-export { registerUser, loginUser };
+const getLoggedInUser = catchAsync(async (req, res, next) => {
+  const userId = req.user?._id;
+
+  if (!userId) {
+    return next(new AppError("User not found", 404));
+  }
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    return next(new AppError("User not found", 404));
+  }
+
+  res.status(200).json({
+    user,
+  });
+});
+
+export { registerUser, loginUser, getLoggedInUser };
