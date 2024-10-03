@@ -7,6 +7,7 @@ import { useState } from "react";
 import openedEyeImg from "../../assets/openEye.png";
 import closedEyeImg from "../../assets/closedEye.png";
 import { useLogin } from "./useLogin";
+import { Link } from "react-router-dom";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -69,7 +70,7 @@ const LoginForm = () => {
       </div>
       <div className={styles.haveAnAccountText}>
         <p>
-          Don&apos;t have an account? <span>Sign Up</span>
+          Don&apos;t have an account? <Link to={"/register"}>Sign Up</Link>
         </p>
       </div>
     </div>

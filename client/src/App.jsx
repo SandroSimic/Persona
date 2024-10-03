@@ -19,7 +19,7 @@ function App() {
             <Route path="product/:productId" element={<h1>productsId</h1>} />
           </Route>
           <Route path="login" element={<LoginPage />} />
-          <Route path="register" element={<h1>REGISTER</h1>} />
+          <Route path="register" element={<LoginPage register={true} />} />
           <Route path="*" element={<h1>Not Found</h1>} />
         </Routes>
       </Router>
