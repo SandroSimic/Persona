@@ -3,7 +3,10 @@ import Product from "../models/productModel.js";
 import mongoose from "mongoose";
 
 const getAllProducts = catchAsync(async (req, res) => {
-  const products = await Product.find();
+  const products = await Product.find().populate({
+    path: "reviews",
+    select: "message rating",
+  });
 
   if (products.length === 0 || !products) {
     return res.status(404).json({ message: "No products found" });
@@ -15,13 +18,15 @@ const getAllProducts = catchAsync(async (req, res) => {
 const createProduct = catchAsync(async (req, res) => {
   const { title, price, description, category, type } = req.body;
 
+  // Validate required fields
   if (!title || !price || !description || !category || !type) {
     return res.status(400).json({
       status: "fail",
-      message: "Svi podaci su obavezni.",
+      message: "All fields required.",
     });
   }
 
+  // Create the new product without explicitly setting averageRating and reviews
   const newProduct = await Product.create({
     title,
     price,
@@ -30,9 +35,46 @@ const createProduct = catchAsync(async (req, res) => {
     type,
   });
 
-  res.status(200).json({
-    newProduct,
+  res.status(201).json({
+    status: "success",
+    data: {
+      product: newProduct,
+    },
   });
+});
+
+const updateProduct = catchAsync(async (req, res, next) => {
+  const { title, price, description, category, type, images } = req.body;
+
+  const { productId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(productId)) {
+    return res.status(404).json({ message: "Invalid product ID" });
+  }
+
+  const existingProduct = await Product.findById(productId);
+
+  if (!existingProduct) {
+    return res.status(404).json({ message: "Product doesn't exist" });
+  }
+
+  let updatedProductData = {
+    title,
+    price,
+    description,
+    category,
+    type,
+    images,
+  };
+
+  const updatedProduct = await Product.findByIdAndUpdate(
+    productId,
+    updatedProductData,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
 });
 
 const getProductById = catchAsync(async (req, res) => {
@@ -55,51 +97,11 @@ const getProductById = catchAsync(async (req, res) => {
   res.status(200).json(product);
 });
 
-const updateProduct = catchAsync(async (req, res, next) => {
-  const { title, price, description, category, type, images } = req.body;
-
-  const { productId } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(productId)) {
-    return next(new AppError("Invalid Product Id", 404));
-  }
-
-  const existingProduct = await Product.findById(productId);
-
-  if (!existingProduct) {
-    return next(new AppError("The product does not exist", 404));
-  }
-
-  let updatedProductData = {
-    title,
-    price,
-    description,
-    category,
-    type,
-    images,
-  };
-
-  const updatedProduct = await Product.findByIdAndUpdate(
-    productId,
-    updatedProductData,
-    {
-      new: true,
-      runValidators: true,
-    }
-  );
-
-  if (!updatedProduct) {
-    return next(new AppError("Product not found", 404));
-  }
-
-  res.status(200).json({ updatedProduct });
-});
-
 const deleteProduct = catchAsync(async (req, res) => {
   const { productId } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(productId)) {
-    return next(new AppError("Invalid Product ID", 404));
+    return res.status(404).json({ message: "Invalid product ID" });
   }
 
   const existingProduct = await Product.findById(productId);
@@ -110,16 +112,24 @@ const deleteProduct = catchAsync(async (req, res) => {
   if (product) {
     res.status(200).json({ message: "Deleted Product" });
   } else {
-    return next(new AppError("No product found with that id", 404));
+    return res.status(404).json({ message: "No product found with that ID" });
   }
+});
+
+const getTopProducts = catchAsync(async (req, res, next) => {
+  const topProducts = await Product.find()
+    .sort({ averageRating: -1 })
+    .limit(6)
+    .populate("reviews");
+
+  res.status(200).json({ topProducts });
 });
 
 export {
   getAllProducts,
   createProduct,
-  getProductById,
   updateProduct,
+  getProductById,
   deleteProduct,
+  getTopProducts,
 };
-
-// radnom id 66fdad0b282639767cd40b64
