@@ -6,6 +6,7 @@ import connectDB from "./utils/db.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import globalErrorHandler from "./controllers/errorController.js";
+import reviewRoutes from "./routes/reviewRoutes.js";
 dotenv.config();
 connectDB();
 
@@ -24,6 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/products", productRoutes);
 app.use("/api/auth", userRoutes);
+app.use("/api/reviews", reviewRoutes);
 
 app.use(globalErrorHandler);
 const port = process.env.PORT || 8000;
