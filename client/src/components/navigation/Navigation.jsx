@@ -41,7 +41,11 @@ const Navigation = () => {
           CART
         </Link>
         {data?.user ? (
-          data?.user.username
+
+          <img src={data?.user?.userImage} style={{
+            width: "30px",
+            height: "30px",
+          }}/>
         ) : (
           <Link to="/login">
             <img src={userIcon} alt="User" />
