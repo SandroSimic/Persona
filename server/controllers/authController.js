@@ -2,6 +2,7 @@ import catchAsync from "../utils/catchAsync.js";
 import User from "../models/userModel.js";
 import AppError from "../utils/appError.js";
 import generateToken from "../utils/generateToken.js";
+import { s3Upload } from "../utils/s3Service.js";
 
 const registerUser = catchAsync(async (req, res, next) => {
   const { username, email, password } = req.body;
@@ -10,10 +11,13 @@ const registerUser = catchAsync(async (req, res, next) => {
     return next(new AppError("Please provide all fields", 400));
   }
 
+  const data = await s3Upload(req.file);
+
   const user = await User.create({
     username,
     email,
     password,
+    userImage: data.Location,
   });
 
   const newUser = await user.save();
