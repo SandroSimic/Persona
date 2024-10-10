@@ -9,7 +9,6 @@ export const loginUser = async (user) => {
       withCredentials: true,
     });
 
-    console.log("RESPONSE from login user", response.data);
 
     return response.data;
   } catch (error) {
@@ -26,7 +25,6 @@ export const getLoggedInUser = async () => {
       },
     });
 
-    console.log("RESPONSE from get user ", response.data);
 
     return response.data;
   } catch (error) {
@@ -40,7 +38,19 @@ export const registerUser = async (user) => {
       withCredentials: true,
     });
 
-    console.log("RESPONSE from register user", response.data);
+
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const logoutUser = async () => {
+  try {
+    const response = await axios.post(`${authApi}/logout`, {}, {
+      withCredentials: true,
+    });
+
 
     return response.data;
   } catch (error) {

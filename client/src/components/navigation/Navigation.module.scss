@@ -4,6 +4,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 2rem 5rem;
+  position: relative;
 }
 
 .logo {
@@ -51,7 +52,6 @@
     &:hover {
       text-shadow: 0 0 0.65px #333, 0 0 0.65px #333;
     }
-
   }
 
   @include tablet {
@@ -134,6 +134,75 @@
 
     &.open div:nth-child(3) {
       transform: rotate(-45deg) translate(5px, -3px);
+    }
+  }
+}
+
+.userProfile {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  transition: 0.2s all;
+  cursor: pointer;
+  &:hover {
+    padding: 0.2rem;
+    outline: 2px solid black;
+  }
+}
+
+.skeletonProfile {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #e0e0e0;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #e0e0e0;
+  }
+  50% {
+    background-color: #474747;
+  }
+  100% {
+    background-color: #e0e0e0;
+  }
+}
+
+.userOptions {
+  position: absolute;
+  bottom: -13rem;
+  right: 2rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 15rem;
+  width: 13rem;
+  border: 1px solid black;
+  border-radius: 1rem;
+
+  .logoutBtn {
+    border-radius: 0rem 0rem 1rem 1rem;
+
+  }
+
+  .profileBtn {
+    border-bottom: 1px solid black;
+    border-radius: 1rem 1rem 0rem 0rem;
+  }
+
+  & button {
+    border: none;
+    background-color: transparent;
+    height: 100%;
+    width: 100%;
+    font-size: 2rem;
+    &:hover {
+
+      background-color: #f0f0f0;
     }
   }
 }

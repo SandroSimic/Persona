@@ -11,7 +11,6 @@ export function useRegister() {
     mutationFn: registerUser,
     onSuccess: (user) => {
       if (user.error) {
-        console.log(user.message);
         toast.error(user.message);
         return;
       }
