@@ -3,6 +3,61 @@ import User from "../models/userModel.js";
 import AppError from "../utils/appError.js";
 import generateToken from "../utils/generateToken.js";
 import { s3Upload } from "../utils/s3Service.js";
+import passport from "passport";
+import dotenv from "dotenv";
+import crypto from "crypto";
+dotenv.config();
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: "http://localhost:8000/api/auth/google/callback",
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        let user = await User.findOne({ googleId: profile.id });
+
+        const randomPassword = crypto
+          .randomBytes(20)
+          .toString("hex")
+          .toUpperCase();
+
+        if (!user) {
+          user = await User.create({
+            username: profile.displayName,
+            email: profile.emails[0].value,
+            googleId: profile.id,
+            userImage: profile.photos[0].value,
+            password: randomPassword,
+          });
+        }
+
+        done(null, user);
+      } catch (error) {
+        done(error, null);
+      }
+    }
+  )
+);
+
+// Serialize and deserialize user for session support
+passport.serializeUser((user, done) => {
+  done(null, user._id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    console.log(id);
+
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err, null);
+  }
+});
 
 const registerUser = catchAsync(async (req, res, next) => {
   const { username, email, password } = req.body;
@@ -72,4 +127,17 @@ const getLoggedInUser = catchAsync(async (req, res, next) => {
   });
 });
 
-export { registerUser, loginUser, getLoggedInUser };
+const logoutUser = async (req, res, next) => {
+  res.clearCookie("jwt", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", // Ensure it's secure in production
+    sameSite: "strict",
+  });
+
+  // Respond with a JSON success message instead of a redirect
+  res.status(200).json({
+    message: "User logged out successfully",
+  });
+};
+
+export { registerUser, loginUser, getLoggedInUser, logoutUser };

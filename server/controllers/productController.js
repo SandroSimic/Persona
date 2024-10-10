@@ -105,7 +105,6 @@ const deleteProduct = catchAsync(async (req, res) => {
   }
 
   const existingProduct = await Product.findById(productId);
-  console.log(existingProduct);
 
   const product = await Product.findByIdAndDelete(productId);
 

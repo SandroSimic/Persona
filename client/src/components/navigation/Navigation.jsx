@@ -1,19 +1,51 @@
 import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
 import styles from "./Navigation.module.scss";
 import logo from "../../assets/logo.png";
 import cartIcon from "../../assets/cart.png";
 import userIcon from "../../assets/user.png";
-import { useState } from "react";
 import { useLoggedInUser } from "../login/useGetLoggedInUser";
+import { useLogout } from "../login/useLogout";
 
 const Navigation = () => {
   const [isOpenRes, setIsOpenRes] = useState(false);
-  const { data, error, isLoading } = useLoggedInUser();
-
-  console.log(data, error, isLoading);
+  const [openUserMenu, setOpenUserMenu] = useState(false);
+  const { data, isLoading } = useLoggedInUser();
+  const userMenuRef = useRef(null);
+  const { logout } = useLogout();
 
   const handleOpenRes = () => {
     setIsOpenRes(!isOpenRes);
+  };
+
+  const handleOpenUserMenu = () => {
+    setOpenUserMenu(!openUserMenu);
+  };
+
+  const handleClickOutside = (event) => {
+    if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+      setOpenUserMenu(false);
+    }
+  };
+
+  useEffect(() => {
+    if (openUserMenu) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openUserMenu]);
+
+  const SkeletonLoader = () => {
+    return (
+      <div className={styles.skeletonProfile}>
+        {/* Skeleton structure for the loading user image */}
+      </div>
+    );
   };
 
   return (
@@ -40,12 +72,15 @@ const Navigation = () => {
           <img src={cartIcon} alt="Cart" />
           CART
         </Link>
-        {data?.user ? (
-
-          <img src={data?.user?.userImage} style={{
-            width: "30px",
-            height: "30px",
-          }}/>
+        {isLoading ? (
+          <SkeletonLoader />
+        ) : data?.user ? (
+          <img
+            src={data?.user?.userImage}
+            className={styles.userProfile}
+            alt="User Profile"
+            onClick={handleOpenUserMenu}
+          />
         ) : (
           <Link to="/login">
             <img src={userIcon} alt="User" />
@@ -61,6 +96,13 @@ const Navigation = () => {
         <div />
         <div />
       </div>
+
+      {openUserMenu && (
+        <div className={styles.userOptions} ref={userMenuRef}>
+          <button className={styles.profileBtn}>Profile</button>
+          <button className={styles.logoutBtn} onClick={logout}>Logout</button>
+        </div>
+      )}
     </div>
   );
 };
