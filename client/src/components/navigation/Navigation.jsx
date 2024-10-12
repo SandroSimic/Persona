@@ -4,9 +4,13 @@ import logo from "../../assets/logo.png";
 import cartIcon from "../../assets/cart.png";
 import userIcon from "../../assets/user.png";
 import { useState } from "react";
+import { useLoggedInUser } from "../login/useGetLoggedInUser";
 
 const Navigation = () => {
   const [isOpenRes, setIsOpenRes] = useState(false);
+  const { data, error, isLoading } = useLoggedInUser();
+
+  console.log(data, error, isLoading);
 
   const handleOpenRes = () => {
     setIsOpenRes(!isOpenRes);
@@ -36,10 +40,18 @@ const Navigation = () => {
           <img src={cartIcon} alt="Cart" />
           CART
         </Link>
-        <Link to="/login">
-          <img src={userIcon} alt="User" />
-          LOGIN
-        </Link>
+        {data?.user ? (
+
+          <img src={data?.user?.userImage} style={{
+            width: "30px",
+            height: "30px",
+          }}/>
+        ) : (
+          <Link to="/login">
+            <img src={userIcon} alt="User" />
+            LOGIN
+          </Link>
+        )}
       </div>
       <div
         className={`${styles.hamburger} ${isOpenRes ? styles.open : ""}`}
