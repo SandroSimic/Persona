@@ -11,10 +11,6 @@ const router = express.Router();
 
 router.route("/").get(getAllReviews).post(createReview);
 
-router
-  .route("/:reviewId")
-  .put(updateReview)
-  .get(getReviewById)
-  .delete(deleteReview);
+router.route("/:id").put(updateReview).get(getReviewById).delete(deleteReview);
 
 export default router;

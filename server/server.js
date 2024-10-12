@@ -7,6 +7,8 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import globalErrorHandler from "./controllers/errorController.js";
 import reviewRoutes from "./routes/reviewRoutes.js";
+import ShoppingCart from "./models/shoppingCartModel.js";
+
 dotenv.config();
 connectDB();
 
@@ -26,6 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/products", productRoutes);
 app.use("/api/auth", userRoutes);
 app.use("/api/reviews", reviewRoutes);
+// app.use("/api/shopping-cart", ShoppingCartRoutes);
 
 app.use(globalErrorHandler);
 const port = process.env.PORT || 8000;
