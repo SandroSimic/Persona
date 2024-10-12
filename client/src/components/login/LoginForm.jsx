@@ -64,9 +64,11 @@ const LoginForm = () => {
       </form>
       <Line or={true} />
       <div>
-        <button className={styles.googleBtn}>
-          <img src={googleImg} alt="google logo" />
-        </button>
+      <a href={`http://localhost:8000/api/auth/google`}>
+          <button className={styles.googleBtn}>
+            <img src={googleImg} alt="google logo" />
+          </button>
+        </a>
       </div>
       <div className={styles.haveAnAccountText}>
         <p>

@@ -11,6 +11,7 @@ const generateToken = (res, userId) => {
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
   });
+
 };
 
 export default generateToken;

@@ -19,6 +19,7 @@ const getAllProducts = getAll(Product, [
     },
   },
 ]);
+
 const createProduct = createOne(Product, Product.calculateTotalAmount);
 const updateProduct = updateOne(Product);
 const deleteProduct = deleteOne(Product);
@@ -32,6 +33,7 @@ const getProductById = getOne(Product, [
     },
   },
 ]);
+
 
 const getTopProducts = catchAsync(async (req, res, next) => {
   const topProducts = await Product.find()
