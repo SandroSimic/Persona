@@ -48,6 +48,12 @@ const Navigation = () => {
     );
   };
 
+  if (isLoading) {
+    return;
+  }
+
+  console.log(data?.user?.userImage);
+
   return (
     <div className={styles.header}>
       <ul className={`${styles.navList} ${isOpenRes ? styles.open : ""}`}>
@@ -100,7 +106,9 @@ const Navigation = () => {
       {openUserMenu && (
         <div className={styles.userOptions} ref={userMenuRef}>
           <button className={styles.profileBtn}>Profile</button>
-          <button className={styles.logoutBtn} onClick={logout}>Logout</button>
+          <button className={styles.logoutBtn} onClick={logout}>
+            Logout
+          </button>
         </div>
       )}
     </div>

@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./layout/Layout";
 import LoginPage from "./pages/LoginPage";
 import { Toaster } from "react-hot-toast";
+import MainPage from "./pages/MainPage";
 
 const queryClient = new QueryClient();
 
@@ -14,7 +15,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route index element={<h1>Home</h1>} />
+            <Route index element={<MainPage />} />
             <Route path="products" element={<h1>allProducts</h1>} />
             <Route path="product/:productId" element={<h1>productsId</h1>} />
           </Route>
