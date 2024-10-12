@@ -65,7 +65,7 @@ const registerUser = catchAsync(async (req, res, next) => {
   const { username, email, password } = req.body;
 
   if (!username || !email || !password) {
-    return next(new AppError("Please provide all fields", 400));
+    return next(new AppError("Please provide all field", 400));
   }
 
   const data = await s3Upload(req.file);

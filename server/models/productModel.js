@@ -24,9 +24,24 @@ const productSchema = new mongoose.Schema({
   images: {
     type: [String],
   },
-  // stock: {
-  //   // napraviti stock model i importovati
-  // },
+  stock: {
+    sizes: [
+      {
+        size: {
+          name: {
+            type: String,
+          },
+          qty: {
+            type: Number,
+          },
+        },
+      },
+    ],
+    totalAmount: {
+      type: Number,
+      default: 0,
+    },
+  },
   reviews: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -39,11 +54,21 @@ const productSchema = new mongoose.Schema({
   },
 });
 
+productSchema.pre("save", function (next) {
+  const totalAmount = this.stock.sizes.reduce((acc, size) => {
+    return acc + size.size.qty;
+  }, 0);
+
+  this.stock.totalAmount = totalAmount;
+
+  next();
+});
+
 productSchema.statics.calculateAverageRating = async function (productId) {
   const product = await this.findById(productId).populate("reviews");
 
   if (!product || product.reviews.length === 0) {
-    return 0; // No reviews, return 0
+    return 0;
   }
 
   const totalRating = product.reviews.reduce(
@@ -52,10 +77,9 @@ productSchema.statics.calculateAverageRating = async function (productId) {
   );
   const averageRating = (totalRating / product.reviews.length).toFixed(1);
 
-  // Update the product's average rating
   await this.findByIdAndUpdate(productId, { averageRating }, { new: true });
 
-  return averageRating; // Return the calculated average rating
+  return averageRating;
 };
 
 const Product = mongoose.model("Product", productSchema);
