@@ -1,0 +1,67 @@
+.heroSection {
+  background: url("../assets/heroBg.png");
+  background-repeat: no-repeat;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  height: 88.4vh;
+}
+
+.textWrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10rem;
+  & h1 {
+    font-size: 7.2rem;
+    color: white;
+    font-weight: 200;
+    width: 102rem;
+    text-align: center;
+  }
+}
+.buttons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+  & button {
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    text-transform: uppercase;
+    border-radius: 12rem;
+    border: none;
+    font-weight: 400;
+  }
+}
+
+
+.collectionsBtn {
+  // border 1px solid black
+  border: 2px solid black;
+  transition: 0.3s all;
+  cursor: pointer;
+  &:hover {
+    background-color: black;
+    border-color: white;
+    color: white;
+  }
+}
+
+.shopNowBtn {
+  background-color: black;
+  color: white;
+  border: 2px solid white;
+  transition: 0.3s all;
+  cursor: pointer;
+  &:hover {
+    background-color: white;
+    border: 2px solid black;
+    color: black;
+  }
+}

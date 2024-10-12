@@ -2,7 +2,7 @@ import catchAsync from "../utils/catchAsync.js";
 import User from "../models/userModel.js";
 import AppError from "../utils/appError.js";
 import generateToken from "../utils/generateToken.js";
-import { s3Upload } from "../utils/s3Service.js";
+import { s3Upload, s3UploadFromUrl } from "../utils/s3Service.js";
 import passport from "passport";
 import dotenv from "dotenv";
 import crypto from "crypto";
@@ -25,12 +25,14 @@ passport.use(
           .toString("hex")
           .toUpperCase();
 
+          const s3ImageUrl = await s3UploadFromUrl(profile.photos[0].value);
+
         if (!user) {
           user = await User.create({
             username: profile.displayName,
             email: profile.emails[0].value,
             googleId: profile.id,
-            userImage: profile.photos[0].value,
+            userImage: s3ImageUrl,
             password: randomPassword,
           });
         }
