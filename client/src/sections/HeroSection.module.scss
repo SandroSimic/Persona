@@ -1,3 +1,5 @@
+@import "./../styles/utils.scss";
+
 .heroSection {
   background: url("../assets/heroBg.png");
   background-repeat: no-repeat;
@@ -20,8 +22,18 @@
     font-weight: 200;
     width: 102rem;
     text-align: center;
+
+    @include tablet {
+      font-size: 3.2rem;
+      width: 100%;
+    }
+  }
+
+  @include tablet {
+    gap: 5rem;
   }
 }
+
 .buttons {
   display: flex;
   align-items: center;
@@ -37,19 +49,29 @@
     border-radius: 12rem;
     border: none;
     font-weight: 400;
+
+    @include tablet {
+      padding: 1.5rem;
+      font-size: 1.6rem;
+    }
   }
 }
 
-
 .collectionsBtn {
-  // border 1px solid black
   border: 2px solid black;
   transition: 0.3s all;
   cursor: pointer;
   &:hover {
     background-color: black;
-    border-color: white;
+    border: 2px solid white;
     color: white;
+  }
+
+  @include tablet {
+    border: none;
+  }
+  @include mobile {
+    font-size: 1.4rem;
   }
 }
 
@@ -63,5 +85,13 @@
     background-color: white;
     border: 2px solid black;
     color: black;
+  }
+
+  @include tablet {
+    border: none;
+  }
+
+  @include mobile {
+    font-size: 1.4rem;
   }
 }
