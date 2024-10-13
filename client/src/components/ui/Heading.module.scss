@@ -1,0 +1,35 @@
+// u headingWrapper stavi da je flex i da image gap 1rem i stavi da je flex-direction: column
+@import "../../styles/utils.scss";
+
+.headingWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 5rem;
+}
+
+// inludaj tablet i promjeni da je font 2.6rem
+.mainHeading {
+  font-size: 3.6rem;
+  font-weight: 400;
+  @include tablet {
+    font-size: 2.6rem;
+  }
+  @include mobile {
+    font-size: 1.8rem;
+  }
+}
+
+.subHeading {
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: var(--text-secondary-color);
+  @include tablet {
+    font-size: 1.6rem;
+  }
+  @include mobile {
+    font-size: 1.2rem;
+  }
+}
