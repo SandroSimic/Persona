@@ -25,7 +25,7 @@ passport.use(
           .toString("hex")
           .toUpperCase();
 
-          const s3ImageUrl = await s3UploadFromUrl(profile.photos[0].value);
+        const s3ImageUrl = await s3UploadFromUrl(profile.photos[0].value);
 
         if (!user) {
           user = await User.create({
