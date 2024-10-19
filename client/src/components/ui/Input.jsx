@@ -9,6 +9,7 @@ const Input = ({
   onChange,
   accept = "image/*",
   required,
+  className,
 }) => {
   const [imagePreview, setImagePreview] = useState(null);
 
@@ -54,11 +55,11 @@ const Input = ({
           </label>
         </div>
       ) : (
-        <div style={{position: "relative"}}>
+        <div style={{ position: "relative" }}>
           {required ? <div className={styles.required}>*</div> : null}
           <input
             type={type}
-            className={styles.input}
+            className={`${styles.input} ${className ? className : ""}`}
             placeholder={placeholder}
             value={value}
             onChange={onChange}
