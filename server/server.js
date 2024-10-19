@@ -9,7 +9,8 @@ import globalErrorHandler from "./controllers/errorController.js";
 import session from "express-session";
 import passport from "passport";
 import reviewRoutes from "./routes/reviewRoutes.js";
-import ShoppingCart from "./models/shoppingCartModel.js";
+import cartRoutes from "./routes/cartRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
 
 dotenv.config();
 connectDB();
@@ -25,11 +26,11 @@ app.use(
 );
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "someSecretKey",  // Replace with a secure key
+    secret: process.env.SESSION_SECRET || "someSecretKey", // Replace with a secure key
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === "production",  // Secure cookies in production
+      secure: process.env.NODE_ENV === "production", // Secure cookies in production
       httpOnly: true,
       sameSite: "strict",
     },
@@ -39,14 +40,14 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/products", productRoutes);
 app.use("/api/auth", userRoutes);
 app.use("/api/reviews", reviewRoutes);
-// app.use("/api/shopping-cart", ShoppingCartRoutes);
+app.use("/api/cart", cartRoutes);
+app.use("/api/order", orderRoutes);
 
 app.use(globalErrorHandler);
 const port = process.env.PORT || 8000;
