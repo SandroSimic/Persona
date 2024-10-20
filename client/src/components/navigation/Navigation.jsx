@@ -48,11 +48,6 @@ const Navigation = () => {
     );
   };
 
-  if (isLoading) {
-    return;
-  }
-
-  console.log(data?.user?.userImage);
 
   return (
     <div className={styles.header}>
