@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { validate } from "uuid";
+
 import validator from "validator";
 
 const orderSchema = new mongoose.Schema({
@@ -43,7 +43,7 @@ const orderSchema = new mongoose.Schema({
     type: String,
     required: [true, "Country is required"],
   },
-  adress: {
+  address: {
     type: String,
     required: [true, "Adress code is required"],
   },

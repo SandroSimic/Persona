@@ -21,4 +21,14 @@ const protect = catchAsync(async (req, res, next) => {
   }
 });
 
-export { protect };
+const isUserAdmin = catchAsync(async (req, res, next) => {
+  if (req.user.isAdmin) {
+    next();
+  } else {
+    return res
+      .status(401)
+      .json({ message: "user is not authorized to use this route" });
+  }
+});
+
+export { protect, isUserAdmin };

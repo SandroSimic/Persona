@@ -34,7 +34,6 @@ const getProductById = getOne(Product, [
   },
 ]);
 
-
 const getTopProducts = catchAsync(async (req, res, next) => {
   const topProducts = await Product.find()
     .sort({ averageRating: -1 })
