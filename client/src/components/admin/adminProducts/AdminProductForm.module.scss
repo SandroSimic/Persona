@@ -1,0 +1,43 @@
+.adminProductForm {
+  background-color: white;
+  border-radius: 3rem;
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.adminProductHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & h1 {
+    font-size: 2.4rem;
+    text-transform: uppercase;
+  }
+
+  & button {
+    padding: 2rem 3rem;
+    border-radius: 1rem;
+    text-transform: uppercase;
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    font-size: 1.4rem;
+    transition: background-color 0.3s;
+
+    &:hover {
+      cursor: pointer;
+      background-color: #3b78d9;
+    }
+  }
+}
+
+.productsForm {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+

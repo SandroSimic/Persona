@@ -114,3 +114,18 @@
   font-weight: bold;
   font-size: 1.8rem;
 }
+
+.fileWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  align-items: center;
+  gap: 1rem;
+  & img {
+    width: 5rem;
+
+    height: auto;
+    border-radius: 5px;
+    margin-top: 1rem;
+  }
+}

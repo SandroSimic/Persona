@@ -3,18 +3,19 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  background-color: #f9f9f9;
+  margin: 1rem;
   border-radius: 10px;
+  gap: 2rem;
   overflow: hidden;
   transition: transform 0.3s ease;
-  padding: 4rem;
+  padding: 0rem 4rem 4rem 4rem;
+  background-color: var(--secondary-color-light);
 }
 
 .imageWrapper {
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: center;
-  background-color: var(--secondary-color-light);
   padding: 1rem;
   border-radius: 3rem;
 }
@@ -28,19 +29,35 @@
   text-align: center;
   margin-top: 1rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
   width: 100%;
 }
 
 .textWrapper h3 {
-  font-size: 1.8rem;
-  font-weight: bold;
+  font-size: 2.5rem;
+  font-weight: 600;
   margin-bottom: 0.5rem;
 }
 
 .textWrapper p {
-  font-weight: bold;
-  font-size: 1.8rem;
+  font-weight: 500;
+  font-size: 2rem;
   color: #333;
+}
+
+.button {
+  background-color: var(--black-color);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 3rem;
+  font-size: 1.8rem;
+  font-weight: bold;
+  transition: all 0.3s;
+  cursor: pointer;
+  &:hover {
+    background-color: white;
+    color: black;
+  }
 }

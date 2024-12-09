@@ -1,0 +1,28 @@
+.adminProductsTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  & h1 {
+    font-size: 2.4rem;
+  }
+
+  & button {
+    background-color: white;
+    color: var(--black-color);
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    font-size: 1.6rem;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 0 0 1px var(--black-color) inset;
+    &:hover {
+      box-shadow: 0 0 0 2px var(--black-color) inset;
+
+    }
+  }
+}

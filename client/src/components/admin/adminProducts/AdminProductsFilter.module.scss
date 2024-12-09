@@ -1,0 +1,67 @@
+.adminProductsFilter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5rem;
+}
+
+.adminProductsFilterSearch {
+  display: flex;
+  gap: 1rem;
+
+  & input {
+    width: 30rem;
+    padding: 1.1rem 1rem;
+    border-radius: 10px;
+    background-color: #efefef;
+    border: 1px solid #bcbcbc;
+  }
+
+  & button {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 3rem;
+    align-items: center;
+    background-color: var(--black-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 1.6rem;
+    &:hover {
+      background-color: var(--primary-color);
+    }
+  }
+}
+
+.adminProductsFiltersAdvance {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+
+
+  & select {
+    width: 15rem;
+    padding: 1.1rem 1rem;
+    border-radius: 5px;
+  }
+
+  & button {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 1rem;
+    padding: 1rem;
+    align-items: center;
+    background-color: var(--black-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 1.6rem;
+    &:hover {
+      background-color: var(--primary-color);
+    }
+  }
+}

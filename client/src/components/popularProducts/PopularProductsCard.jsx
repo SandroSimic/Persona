@@ -11,6 +11,7 @@ const PopularProductsCard = ({ image, name, price }) => {
         <h3>{name}</h3>
         <p>{price}</p>
       </div>
+      <button className={styles.button}>Add to cart</button>
     </div>
   );
 };
