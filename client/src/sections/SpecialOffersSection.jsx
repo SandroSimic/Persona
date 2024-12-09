@@ -5,7 +5,7 @@ import styles from "./SpecialOffersSection.module.scss";
 
 const SpecialOffersSection = () => {
   return (
-    <Section>
+    <Section className={styles.specialOffersSection}>
       <Heading mainHeading="SPECIAL OFFERS" />
       <div className={styles.specialOffersContainer}>
         <div className={styles.specialOffersImgContainer}>

@@ -1,0 +1,59 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  gap: 5rem;
+
+  & .button {
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1.5rem;
+    border-radius: 50%;
+    font-size: 2.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    &:hover {
+      background-color: var(--black-color);
+      color: white;
+    }
+  }
+}
+
+.btnPages {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  & .buttonCircle {
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    &:hover {
+      background-color: var(--black-color);
+      color: white;
+    }
+  }
+}
+
+.text {
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: var(--black-color);
+
+  & span {
+    font-weight: 700;
+  }
+}

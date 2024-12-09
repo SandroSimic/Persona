@@ -6,8 +6,10 @@ import LoginPage from "./pages/LoginPage";
 import { Toaster } from "react-hot-toast";
 import MainPage from "./pages/MainPage";
 import ProtectedRoute from "./components/ProtectedRoute";
-import AdminPage from "./pages/AdminPage";
 import AdminLayout from "./layout/AdminLayout";
+import AdminDashboard from "./components/admin/AdminDashboard";
+import AdminProducts from "./components/admin/adminProducts/AdminProducts";
+import AdminProductForm from "./components/admin/adminProducts/AdminProductForm";
 
 const queryClient = new QueryClient();
 
@@ -30,8 +32,9 @@ function App() {
               <ProtectedRoute>
                 <Routes>
                   <Route path="/" element={<AdminLayout />}>
-                    <Route index element={<h1>Admin Dashboard</h1>} />
-                    <Route path="products" element={<h1>Admin Products</h1>} />
+                    <Route index element={<AdminDashboard />} />
+                    <Route path="products" element={<AdminProducts />} />
+                    <Route path="products/new" element={<AdminProductForm />} />
                     <Route
                       path="analytics"
                       element={<h1>Admin Analytics</h1>}

@@ -110,7 +110,7 @@ const RegisterForm = () => {
             />
           </div>
           <Input
-            placeholder={"Enter your password"}
+            placeholder={"Enter your Profile Image"}
             type={"file"}
             required
             onChange={(e) =>

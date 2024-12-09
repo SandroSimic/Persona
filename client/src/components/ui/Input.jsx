@@ -5,16 +5,22 @@ import styles from "./Input.module.scss";
 const Input = ({
   placeholder,
   type,
+  fileText,
+  fileIcon,
   value,
   onChange,
   accept = "image/*",
   required,
   className,
+  seeImage,
+  multiple
 }) => {
   const [imagePreview, setImagePreview] = useState(null);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
+
+
     if (file) {
       if (file.type.startsWith("image/")) {
         setImagePreview(URL.createObjectURL(file));
@@ -30,6 +36,7 @@ const Input = ({
     }
   };
 
+
   return (
     <div className={styles.inputWrapper}>
       {type === "file" ? (
@@ -37,20 +44,30 @@ const Input = ({
           <label className={styles.profileLabel}>
             <input
               type="file"
+              multiple={multiple}
               className={styles.fileInput}
               accept={accept}
               onChange={handleFileChange}
             />
-            {imagePreview ? (
+            {!seeImage && imagePreview ? (
               <img
                 src={imagePreview}
                 alt="Profile Preview"
                 className={styles.imagePreview}
               />
             ) : (
-              <span className={styles.placeholderText}>
-                ENTER YOUR PROFILE PICTURE
-              </span>
+              <div className={styles.fileWrapper}>
+                {fileIcon ? (
+                  <img
+                    src={fileIcon}
+                    alt="File Icon"
+                    className={styles.fileIcon}
+                  />
+                ) : null}
+                <span className={styles.placeholderText}>
+                  {fileText ? fileText : "Choose a file"}
+                </span>
+              </div>
             )}
           </label>
         </div>

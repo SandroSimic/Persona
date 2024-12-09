@@ -40,15 +40,6 @@ const Navigation = () => {
     };
   }, [openUserMenu]);
 
-  const SkeletonLoader = () => {
-    return (
-      <div className={styles.skeletonProfile}>
-        {/* Skeleton structure for the loading user image */}
-      </div>
-    );
-  };
-
-
   return (
     <div className={styles.header}>
       <ul className={`${styles.navList} ${isOpenRes ? styles.open : ""}`}>
@@ -101,11 +92,27 @@ const Navigation = () => {
       {openUserMenu && (
         <div className={styles.userOptions} ref={userMenuRef}>
           <button className={styles.profileBtn}>Profile</button>
+          {data
+            ? data.user?.isAdmin && (
+                <button className={styles.profileBtn}>
+                  <Link to="/admin">Admin</Link>
+                </button>
+              )
+            : null}
+
           <button className={styles.logoutBtn} onClick={logout}>
             Logout
           </button>
         </div>
       )}
+    </div>
+  );
+};
+
+export const SkeletonLoader = () => {
+  return (
+    <div className={styles.skeletonProfile}>
+      {/* Skeleton structure for the loading user image */}
     </div>
   );
 };
