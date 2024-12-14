@@ -18,18 +18,36 @@ export const upload = multer({
   limits: { fieldSize: 5000000 },
 });
 
-export const compressImage = async (req, res, next) => {
-  if (!req.file || !req.file.buffer) return next();
 
-  sharp(req.file.buffer)
-    .resize({ fit: "inside", width: 500, height: 500 })
-    .toBuffer()
-    .then((data) => {
-      req.file.buffer = data;
-      next();
-    })
-    .catch((err) => {
-      console.error("IMAGE COMPRESSION ERROR", err);
-      next(err);
-    });
+export const uploadMultiple = multer({
+  storage: storage,
+  fileFilter: fileFilter,
+  limits: { fieldSize: 5000000 },
+}).array("images", 6);
+
+
+export const compressImage = async (req, res, next) => {
+  if (!req.files || req.files.length === 0) {
+    console.log("No files to compress");
+    return next();
+  }
+
+  try {
+    console.log("Starting image compression...");
+    req.files = await Promise.all(
+      req.files.map(async (file) => {
+        console.log(`Compressing file: ${file.originalname}`);
+        const compressedBuffer = await sharp(file.buffer)
+          .resize({ fit: "inside", width: 500, height: 500 })
+          .toBuffer();
+        console.log(`Compression complete: ${file.originalname}`);
+        return { ...file, buffer: compressedBuffer }; // Replace buffer with compressed data
+      })
+    );
+    console.log("All images compressed successfully");
+    next();
+  } catch (err) {
+    console.error("IMAGE COMPRESSION ERROR", err);
+    next(new AppError("Image compression failed", 500));
+  }
 };

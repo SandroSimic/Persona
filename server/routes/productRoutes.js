@@ -7,10 +7,14 @@ import {
   deleteProduct,
   getTopProducts,
 } from "../controllers/productController.js";
+import { compressImage, uploadMultiple } from "../utils/uploadImage.js";
 
 const router = express.Router();
 
-router.route("/").get(getAllProducts).post(createProduct);
+router
+  .route("/")
+  .get(getAllProducts)
+  .post(uploadMultiple, compressImage, createProduct);
 
 router.get("/get-top-products", getTopProducts);
 

@@ -1,17 +1,18 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import Input from "../../ui/Input";
 import uploadImg from "./../../../assets/upload.png";
 import styles from "./AdminProductImageForm.module.scss";
-import trash from './../../../assets/trash.png';
+import trash from "./../../../assets/trash.png";
 
-function AdminProductImageForm() {
+function AdminProductImageForm({ onImageUpdate }) {
   const [images, setImages] = useState([]);
 
   const handleFileChange = (event) => {
     const selectedFiles = Array.from(event.target.files);
 
     if (images.length + selectedFiles.length > 6) {
-      alert("You can only upload a maximum of 6 images.");
+      alert("You can upload a maximum of 6 images.");
       return;
     }
 
@@ -20,12 +21,15 @@ function AdminProductImageForm() {
       preview: URL.createObjectURL(file),
     }));
 
-    setImages((prevImages) => [...prevImages, ...newImages]);
+    const updatedImages = [...images, ...newImages];
+    setImages(updatedImages);
+    onImageUpdate(updatedImages); // Notify parent
   };
 
   const handleRemoveImage = (index) => {
     const updatedImages = images.filter((_, i) => i !== index);
     setImages(updatedImages);
+    onImageUpdate(updatedImages); // Notify parent
   };
 
   return (
@@ -36,7 +40,6 @@ function AdminProductImageForm() {
         type={"file"}
         fileIcon={uploadImg}
         multiple={true}
-        required
         seeImage={true}
         onChange={handleFileChange}
       />
