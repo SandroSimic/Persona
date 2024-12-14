@@ -13,13 +13,13 @@ const Input = ({
   required,
   className,
   seeImage,
-  multiple
+  name,
+  multiple,
 }) => {
   const [imagePreview, setImagePreview] = useState(null);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-
 
     if (file) {
       if (file.type.startsWith("image/")) {
@@ -36,13 +36,13 @@ const Input = ({
     }
   };
 
-
   return (
     <div className={styles.inputWrapper}>
       {type === "file" ? (
         <div className={styles.pictureWrapper}>
           <label className={styles.profileLabel}>
             <input
+              name={name}
               type="file"
               multiple={multiple}
               className={styles.fileInput}
@@ -75,6 +75,7 @@ const Input = ({
         <div style={{ position: "relative" }}>
           {required ? <div className={styles.required}>*</div> : null}
           <input
+            name={name}
             type={type}
             className={`${styles.input} ${className ? className : ""}`}
             placeholder={placeholder}

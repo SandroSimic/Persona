@@ -1,6 +1,5 @@
 import catchAsync from "../utils/catchAsync.js";
 import Product from "../models/productModel.js";
-import mongoose from "mongoose";
 import {
   getAll,
   getOne,
@@ -8,6 +7,7 @@ import {
   updateOne,
   deleteOne,
 } from "./../utils/handleFactory.js";
+import { s3Upload } from "../utils/s3Service.js";
 
 const getAllProducts = getAll(Product, [
   {
@@ -20,7 +20,95 @@ const getAllProducts = getAll(Product, [
   },
 ]);
 
-const createProduct = createOne(Product, Product.calculateTotalAmount);
+
+const createProduct = catchAsync(async (req, res, next) => {
+  const { title, price, priceDiscount, description, category, type, sizes } = req.body;
+
+  console.log("Request body:", req.body);
+  console.log("Request files:", req.files);
+
+  // Validate uploaded files
+  if (!req.files || req.files.length > 6) {
+    return res.status(400).json({
+      status: "error",
+      message: "You can only upload a maximum of 6 images.",
+    });
+  }
+
+  console.log("File upload validation passed");
+
+  // Upload images to S3
+  let uploadedImages;
+  try {
+    const imageUploadPromises = req.files.map((file) => s3Upload(file));
+    uploadedImages = await Promise.all(imageUploadPromises);
+    console.log("Images uploaded successfully:", uploadedImages);
+  } catch (error) {
+    console.error("Image upload failed:", error);
+    return res.status(500).json({
+      status: "error",
+      message: "Failed to upload images.",
+      error: error.message,
+    });
+  }
+
+  // Parse and validate `sizes` from the request body
+  let parsedSizes;
+  try {
+    parsedSizes = typeof sizes === "string" ? JSON.parse(sizes) : sizes; // Parse JSON if `sizes` is sent as a string
+    console.log("Parsed sizes:", parsedSizes);
+  } catch (error) {
+    console.error("Invalid sizes JSON:", error.message);
+    return res.status(400).json({
+      status: "error",
+      message: "Invalid sizes format. Ensure it is a valid JSON array.",
+    });
+  }
+
+  // Ensure `sizes` is valid and contains required fields
+  if (!Array.isArray(parsedSizes) || parsedSizes.some(size => !size.name || size.qty === undefined)) {
+    return res.status(400).json({
+      status: "error",
+      message: "Invalid sizes format. Each size must have a 'name' and 'qty'.",
+    });
+  }
+
+  // Calculate totalAmount from sizes
+  const totalAmount = parsedSizes.reduce((acc, size) => acc + size.qty, 0);
+
+  console.log("Calculated totalAmount:", totalAmount);
+
+  // Create product
+  try {
+    const product = await Product.create({
+      title,
+      price: parseFloat(price),
+      priceDiscount: parseFloat(priceDiscount),
+      description,
+      category,
+      type,
+      images: uploadedImages.map((img) => img.Location), // Extract URLs from uploaded images
+      sizes: parsedSizes,
+      totalAmount,
+    });
+
+    console.log("Product created successfully:", product);
+
+    res.status(201).json({
+      status: "success",
+      data: {
+        product,
+      },
+    });
+  } catch (error) {
+    console.error("Error creating product:", error);
+    return res.status(500).json({
+      status: "error",
+      message: "Failed to create product.",
+      error: error.message,
+    });
+  }
+});
 const updateProduct = updateOne(Product);
 const deleteProduct = deleteOne(Product);
 const getProductById = getOne(Product, [

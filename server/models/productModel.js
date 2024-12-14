@@ -1,5 +1,19 @@
 import mongoose from "mongoose";
 
+// Size Schema
+const sizeSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  qty: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
+});
+
+// Product Schema
 const productSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -8,6 +22,10 @@ const productSchema = new mongoose.Schema({
   price: {
     type: Number,
     required: [true, "Price is required"],
+  },
+  priceDiscount: {
+    type: Number,
+    default: 0,
   },
   description: {
     type: String,
@@ -24,23 +42,10 @@ const productSchema = new mongoose.Schema({
   images: {
     type: [String],
   },
-  stock: {
-    sizes: [
-      {
-        size: {
-          name: {
-            type: String,
-          },
-          qty: {
-            type: Number,
-          },
-        },
-      },
-    ],
-    totalAmount: {
-      type: Number,
-      default: 0,
-    },
+  sizes: [sizeSchema], // Array of size objects
+  totalAmount: {
+    type: Number,
+    default: 0, // Will be calculated dynamically
   },
   reviews: [
     {
@@ -67,16 +72,20 @@ productSchema.pre("save", function (next) {
   next();
 });
 
+// Middleware to calculate `totalAmount` from `sizes`
 productSchema.pre("save", function (next) {
-  const totalAmount = this.stock.sizes.reduce((acc, size) => {
-    return acc + size.size.qty;
-  }, 0);
-
-  this.stock.totalAmount = totalAmount;
-
+  this.totalAmount = this.sizes.reduce((acc, size) => acc + size.qty, 0);
   next();
 });
 
+// Middleware to calculate price after discount
+productSchema.pre("save", function (next) {
+  const discount = (this.price * this.priceDiscount) / 100;
+  this.discountedPrice = this.price - discount; // Optional: Save the discounted price directly
+  next();
+});
+
+// Static method to calculate average rating
 productSchema.statics.calculateAverageRating = async function (productId) {
   const product = await this.findById(productId).populate("reviews");
 
