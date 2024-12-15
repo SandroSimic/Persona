@@ -13,7 +13,7 @@ const router = express.Router();
 
 // router.route("/").get(getAllReviews).post(createReview);
 
-router.route("/").get(getAllReviews).post(protect, createReview);
+// router.route("/").get(getAllReviews).post(protect, createReview);
 
 
 router

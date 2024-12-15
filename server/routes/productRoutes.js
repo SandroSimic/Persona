@@ -19,11 +19,8 @@ router
 
 import { protect, isUserAdmin } from "../middleware/authMiddleware.js";
 
-const router = express.Router();
-
 // protected and admin for create delete update
-router.route("/").get(getAllProducts).post(protect, isUserAdmin, createProduct);
-
+router.route("/").get(getAllProducts).post(createProduct);
 
 router.get("/get-top-products", getTopProducts);
 

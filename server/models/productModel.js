@@ -4,11 +4,11 @@ import mongoose from "mongoose";
 const sizeSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+    // required: true,
   },
   qty: {
     type: Number,
-    required: true,
+    // required: true,
     default: 0,
   },
 });
@@ -42,7 +42,7 @@ const productSchema = new mongoose.Schema({
   images: {
     type: [String],
   },
-  sizes: [sizeSchema], // Array of size objects
+  sizes: [sizeSchema],
   totalAmount: {
     type: Number,
     default: 0, // Will be calculated dynamically
@@ -59,15 +59,9 @@ const productSchema = new mongoose.Schema({
   },
 });
 productSchema.pre("save", function (next) {
-  // Remove sizes with qty of 0 or negative
-  this.stock.sizes = this.stock.sizes.filter((size) => size.size.qty > 0);
+  this.sizes = this.sizes.filter((size) => size.qty > 0);
 
-  // Update totalAmount
-  const totalAmount = this.stock.sizes.reduce((acc, size) => {
-    return acc + size.size.qty;
-  }, 0);
-
-  this.stock.totalAmount = totalAmount;
+  this.totalAmount = this.sizes.reduce((acc, size) => acc + size.qty, 0);
 
   next();
 });
@@ -81,7 +75,7 @@ productSchema.pre("save", function (next) {
 // Middleware to calculate price after discount
 productSchema.pre("save", function (next) {
   const discount = (this.price * this.priceDiscount) / 100;
-  this.discountedPrice = this.price - discount; // Optional: Save the discounted price directly
+  this.discountedPrice = this.price - discount; // Save discounted price directly
   next();
 });
 
