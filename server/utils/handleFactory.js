@@ -51,19 +51,24 @@ export const getOne = (Model, popOptions) =>
     });
   });
 
-export const createOne = (Model, postCreateCallback) =>
-  catchAsync(async (req, res) => {
-    const doc = await Model.create(req.body);
+export const createOne = async (Model, data, postCreateCallback = null) => {
+  try {
+    const doc = await Model.create(data);
 
-    if (postCreateCallback) {
-      await postCreateCallback(req, doc);
+    if (!doc) {
+      throw new Error("Failed to create document.");
     }
 
-    res.status(201).json({
-      status: "success",
-      data: { data: doc },
-    });
-  });
+    if (postCreateCallback) {
+      await postCreateCallback(doc);
+    }
+
+    return doc;
+  } catch (error) {
+    console.error("Error creating document:", error.message);
+    throw new Error(`Error creating document: ${error.message}`);
+  }
+};
 
 export const updateOne = (Model) =>
   catchAsync(async (req, res, next) => {

@@ -1,8 +1,12 @@
-import catchAsync from "../utils/catchAsync.js";
+// import catchAsync from "../utils/catchAsync.js";
 import Order from "../models/orderModel.js";
+
+// import mongoose from "mongoose";
+
 import mongoose from "mongoose";
 import Cart from "../models/cartModel.js";
 import Product from "../models/productModel.js";
+
 
 import {
   getAll,
@@ -11,6 +15,7 @@ import {
   updateOne,
   deleteOne,
 } from "./../utils/handleFactory.js";
+
 
 const getAllOrders = getAll(Order, [
   {
@@ -36,6 +41,11 @@ const getOrderById = getOne(Order, [
   },
 ]);
 const deleteOrder = deleteOne(Order);
+
+
+// const createOrder = createOne(Order);
+
+export { getAllOrders,  };
 
 const updateOrderStatus = catchAsync(async (req, res) => {
   const { orderId, status } = req.body;
@@ -93,3 +103,4 @@ export {
   deleteOrder,
   updateOrderStatus,
 };
+

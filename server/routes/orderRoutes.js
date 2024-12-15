@@ -1,4 +1,11 @@
 import express from "express";
+
+// import { createOrder, getAllOrders } from "../controllers/orderController.js";
+
+const router = express.Router();
+
+// router.route("/").get(getAllOrders).post(createOrder);
+
 import {
   createOrder,
   deleteOrder,
@@ -23,5 +30,6 @@ router
   .delete(protect, isUserAdmin, deleteOrder);
 
 router.patch("/update-status", protect, isUserAdmin, updateOrderStatus);
+
 
 export default router;

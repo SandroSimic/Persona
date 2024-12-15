@@ -3,9 +3,9 @@ import Product from "../models/productModel.js";
 import {
   getAll,
   getOne,
-  createOne,
   updateOne,
   deleteOne,
+  createOne,
 } from "./../utils/handleFactory.js";
 import { s3Upload } from "../utils/s3Service.js";
 
@@ -20,12 +20,9 @@ const getAllProducts = getAll(Product, [
   },
 ]);
 
-
-const createProduct = catchAsync(async (req, res, next) => {
-  const { title, price, priceDiscount, description, category, type, sizes } = req.body;
-
-  console.log("Request body:", req.body);
-  console.log("Request files:", req.files);
+const createProduct = catchAsync(async (req, res) => {
+  const { title, price, priceDiscount, description, category, type, sizes } =
+    req.body;
 
   // Validate uploaded files
   if (!req.files || req.files.length > 6) {
@@ -34,8 +31,6 @@ const createProduct = catchAsync(async (req, res, next) => {
       message: "You can only upload a maximum of 6 images.",
     });
   }
-
-  console.log("File upload validation passed");
 
   // Upload images to S3
   let uploadedImages;
@@ -52,11 +47,9 @@ const createProduct = catchAsync(async (req, res, next) => {
     });
   }
 
-  // Parse and validate `sizes` from the request body
   let parsedSizes;
   try {
     parsedSizes = typeof sizes === "string" ? JSON.parse(sizes) : sizes; // Parse JSON if `sizes` is sent as a string
-    console.log("Parsed sizes:", parsedSizes);
   } catch (error) {
     console.error("Invalid sizes JSON:", error.message);
     return res.status(400).json({
@@ -65,8 +58,10 @@ const createProduct = catchAsync(async (req, res, next) => {
     });
   }
 
-  // Ensure `sizes` is valid and contains required fields
-  if (!Array.isArray(parsedSizes) || parsedSizes.some(size => !size.name || size.qty === undefined)) {
+  if (
+    !Array.isArray(parsedSizes) ||
+    parsedSizes.some((size) => !size.name || size.qty === undefined)
+  ) {
     return res.status(400).json({
       status: "error",
       message: "Invalid sizes format. Each size must have a 'name' and 'qty'.",
@@ -76,39 +71,29 @@ const createProduct = catchAsync(async (req, res, next) => {
   // Calculate totalAmount from sizes
   const totalAmount = parsedSizes.reduce((acc, size) => acc + size.qty, 0);
 
-  console.log("Calculated totalAmount:", totalAmount);
+  const productData = {
+    title,
+    price: parseFloat(price),
+    priceDiscount: parseFloat(priceDiscount),
+    description,
+    category,
+    type,
+    images: uploadedImages.map((img) => img.Location),
+    sizes: parsedSizes,
+    totalAmount,
+  };
 
-  // Create product
-  try {
-    const product = await Product.create({
-      title,
-      price: parseFloat(price),
-      priceDiscount: parseFloat(priceDiscount),
-      description,
-      category,
-      type,
-      images: uploadedImages.map((img) => img.Location), // Extract URLs from uploaded images
-      sizes: parsedSizes,
-      totalAmount,
-    });
+  const createdProduct = await createOne(Product, productData);
 
-    console.log("Product created successfully:", product);
-
-    res.status(201).json({
-      status: "success",
-      data: {
-        product,
-      },
-    });
-  } catch (error) {
-    console.error("Error creating product:", error);
-    return res.status(500).json({
-      status: "error",
-      message: "Failed to create product.",
-      error: error.message,
-    });
-  }
+  res.status(201).json({
+    status: "success",
+    data: {
+      product: createdProduct,
+    },
+  });
 });
+
+
 const updateProduct = updateOne(Product);
 const deleteProduct = deleteOne(Product);
 const getProductById = getOne(Product, [
