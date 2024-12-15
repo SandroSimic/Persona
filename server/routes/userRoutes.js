@@ -11,7 +11,7 @@ import passport from "passport";
 import generateToken from "../utils/generateToken.js";
 
 const router = express.Router();
-router.post("/logout", logoutUser);
+router.post("/logout", protect, logoutUser);
 router.get(
   "/google",
   passport.authenticate("google", { scope: ["profile", "email"] })

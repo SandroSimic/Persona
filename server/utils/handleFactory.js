@@ -1,12 +1,21 @@
+import { model } from "mongoose";
 import catchAsync from "./catchAsync.js";
+import APIFeatures from "./apiFeatures.js";
 
 export const getAll = (Model, popOptions) =>
   catchAsync(async (req, res) => {
     let query = Model.find();
+
     if (popOptions) {
       query = query.populate(popOptions);
     }
-    const docs = await query;
+
+    const features = new APIFeatures(query, req.query)
+      .filter()
+      .sort()
+      .paginate();
+
+    const docs = await features.query;
 
     res.status(200).json({
       status: "success",

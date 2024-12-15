@@ -24,6 +24,7 @@ const cartSchema = new mongoose.Schema({
       },
       fullPrice: {
         type: Number,
+        default: 0,
       },
     },
   ],
@@ -31,6 +32,14 @@ const cartSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+});
+
+cartSchema.pre("save", function (next) {
+  this.totalPrice = this.product.reduce((total, item) => {
+    return total + (item.fullPrice || 0);
+  }, 0);
+
+  next();
 });
 
 const Cart = mongoose.model("Cart", cartSchema);

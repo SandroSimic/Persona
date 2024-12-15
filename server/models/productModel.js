@@ -58,6 +58,19 @@ const productSchema = new mongoose.Schema({
     default: 0,
   },
 });
+productSchema.pre("save", function (next) {
+  // Remove sizes with qty of 0 or negative
+  this.stock.sizes = this.stock.sizes.filter((size) => size.size.qty > 0);
+
+  // Update totalAmount
+  const totalAmount = this.stock.sizes.reduce((acc, size) => {
+    return acc + size.size.qty;
+  }, 0);
+
+  this.stock.totalAmount = totalAmount;
+
+  next();
+});
 
 // Middleware to calculate `totalAmount` from `sizes`
 productSchema.pre("save", function (next) {

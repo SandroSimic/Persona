@@ -13,8 +13,7 @@ import mongoose from "mongoose";
 
 const addToCart = catchAsync(async (req, res, next) => {
   const { productId } = req.params;
-  const { selectedSize } = req.body;
-  const { selectedSizeQty } = req.body;
+  const { selectedSize, selectedSizeQty } = req.body;
   const userId = req.user._id;
 
   const product = await Product.findById(productId);
@@ -24,15 +23,15 @@ const addToCart = catchAsync(async (req, res, next) => {
 
   let cart = await Cart.findOne({ user: userId });
 
+  const fullPrice = product.price * selectedSizeQty;
+
   if (!cart) {
     cart = new Cart({
       user: userId,
       product: [{ productId, selectedSize, selectedSizeQty }],
-      totalPrice: product.price,
     });
   } else {
-    cart.product.push({ productId, selectedSize, selectedSizeQty });
-    cart.totalPrice = product.price * selectedSizeQty;
+    cart.product.push({ productId, selectedSize, selectedSizeQty, fullPrice });
   }
 
   await cart.save();
@@ -50,7 +49,7 @@ const getUserCart = catchAsync(async (req, res) => {
       select: "username userImage",
     })
     .populate({
-      path: "product.productId", // Reference to productId
+      path: "product.productId",
       select: "title price",
     });
 
@@ -58,8 +57,25 @@ const getUserCart = catchAsync(async (req, res) => {
     return res.status(404).json({ message: "Cart not found" });
   }
 
+  // Filter out products with no productId
+  cart.product = cart.product.filter((item) => item.productId);
+
+  // If the cart is empty after filtering, you may want to handle that case
+  if (cart.product.length === 0) {
+    return res.status(200).json({
+      status: "success",
+      message: "Your cart is empty.",
+      cart: {
+        _id: cart._id,
+        user: cart.user,
+        products: [],
+        totalPrice: 0,
+        fullPrice: cart.fullPrice,
+      },
+    });
+  }
+
   const formattedCart = cart.product.map((item) => {
-    //
     const formattedFullPrice = item.selectedSizeQty * item.productId.price;
 
     return {
