@@ -21,8 +21,17 @@ const getAllProducts = getAll(Product, [
 ]);
 
 const createProduct = catchAsync(async (req, res) => {
-  const { title, price, priceDiscount, description, category, type, sizes } =
-    req.body;
+  console.log("Incoming Request Body:", req.body);
+  console.log("Incoming Request Files:", req.files);
+
+  const { title, price, priceDiscount, description, category, type, sizes } = req.body;
+
+  if (!sizes) {
+    return res.status(400).json({
+      status: "error",
+      message: "'sizes' field is missing in the request body.",
+    });
+  }
 
   // Validate uploaded files
   if (!req.files || req.files.length > 6) {
@@ -37,9 +46,7 @@ const createProduct = catchAsync(async (req, res) => {
   try {
     const imageUploadPromises = req.files.map((file) => s3Upload(file));
     uploadedImages = await Promise.all(imageUploadPromises);
-    console.log("Images uploaded successfully:", uploadedImages);
   } catch (error) {
-    console.error("Image upload failed:", error);
     return res.status(500).json({
       status: "error",
       message: "Failed to upload images.",
@@ -49,9 +56,8 @@ const createProduct = catchAsync(async (req, res) => {
 
   let parsedSizes;
   try {
-    parsedSizes = typeof sizes === "string" ? JSON.parse(sizes) : sizes; // Parse JSON if `sizes` is sent as a string
+    parsedSizes = typeof sizes === "string" ? JSON.parse(sizes) : sizes;
   } catch (error) {
-    console.error("Invalid sizes JSON:", error.message);
     return res.status(400).json({
       status: "error",
       message: "Invalid sizes format. Ensure it is a valid JSON array.",
@@ -64,11 +70,10 @@ const createProduct = catchAsync(async (req, res) => {
   ) {
     return res.status(400).json({
       status: "error",
-      message: "Invalid sizes format. Each size must have a 'name' and 'qty'.",
+      message: "Each size must have a 'name' and 'qty'.",
     });
   }
 
-  // Calculate totalAmount from sizes
   const totalAmount = parsedSizes.reduce((acc, size) => acc + size.qty, 0);
 
   const productData = {
@@ -87,9 +92,7 @@ const createProduct = catchAsync(async (req, res) => {
 
   res.status(201).json({
     status: "success",
-    data: {
-      product: createdProduct,
-    },
+    data: { product: createdProduct },
   });
 });
 

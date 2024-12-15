@@ -1,29 +1,14 @@
-// import catchAsync from "../utils/catchAsync.js";
-import Order from "../models/orderModel.js";
 
-// import mongoose from "mongoose";
+import catchAsync from "../utils/catchAsync.js";
+import { deleteOne, getOne, updateOne } from "../utils/handleFactory.js";
+import Order from './../models/orderModel.js'
+// const getAllOrders = getAll(Order, [
+//   {
+//     path: "cart",
+//   },
+// ]);
 
-import mongoose from "mongoose";
-import Cart from "../models/cartModel.js";
-import Product from "../models/productModel.js";
-
-
-import {
-  getAll,
-  getOne,
-  createOne,
-  updateOne,
-  deleteOne,
-} from "./../utils/handleFactory.js";
-
-
-const getAllOrders = getAll(Order, [
-  {
-    path: "cart",
-  },
-]);
-
-const createOrder = createOne(Order);
+// const createOrder = createOne(Order);
 const updateOrder = updateOne(Order);
 const getOrderById = getOne(Order, [
   {
@@ -42,10 +27,8 @@ const getOrderById = getOne(Order, [
 ]);
 const deleteOrder = deleteOne(Order);
 
-
 // const createOrder = createOne(Order);
 
-export { getAllOrders,  };
 
 const updateOrderStatus = catchAsync(async (req, res) => {
   const { orderId, status } = req.body;
@@ -96,11 +79,10 @@ const updateOrderStatus = catchAsync(async (req, res) => {
 });
 
 export {
-  getAllOrders,
-  createOrder,
+  // getAllOrders,
+  // createOrder,
   getOrderById,
   updateOrder,
   deleteOrder,
   updateOrderStatus,
 };
-

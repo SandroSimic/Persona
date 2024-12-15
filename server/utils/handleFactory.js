@@ -53,8 +53,9 @@ export const getOne = (Model, popOptions) =>
 
 export const createOne = async (Model, data, postCreateCallback = null) => {
   try {
+    console.log("data from createOne", data);
     const doc = await Model.create(data);
-
+    console.log("doc from createOne", doc);
     if (!doc) {
       throw new Error("Failed to create document.");
     }
