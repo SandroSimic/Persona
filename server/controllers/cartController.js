@@ -3,13 +3,13 @@ import Cart from "../models/cartModel.js";
 import Product from "../models/productModel.js";
 import mongoose from "mongoose";
 
-import {
-  getAll,
-  getOne,
-  createOne,
-  updateOne,
-  deleteOne,
-} from "./../utils/handleFactory.js";
+// import {
+//   getAll,
+//   getOne,
+//   createOne,
+//   updateOne,
+//   deleteOne,
+// } from "./../utils/handleFactory.js";
 
 const addToCart = catchAsync(async (req, res, next) => {
   const { productId } = req.params;

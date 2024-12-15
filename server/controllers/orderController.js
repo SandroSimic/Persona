@@ -1,6 +1,6 @@
-import catchAsync from "../utils/catchAsync.js";
+// import catchAsync from "../utils/catchAsync.js";
 import Order from "../models/orderModel.js";
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 import {
   getAll,
   getOne,
@@ -9,7 +9,6 @@ import {
   deleteOne,
 } from "./../utils/handleFactory.js";
 
-// prvo klasican crud i onda modifikacije
 
 const getAllOrders = getAll(Order, [
   {
@@ -27,6 +26,6 @@ const getAllOrders = getAll(Order, [
   },
 ]);
 
-const createOrder = createOne(Order);
+// const createOrder = createOne(Order);
 
-export { getAllOrders, createOrder };
+export { getAllOrders,  };

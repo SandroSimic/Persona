@@ -1,10 +1,10 @@
-import catchAsync from "../utils/catchAsync.js";
+// import catchAsync from "../utils/catchAsync.js";
 import Review from "../models/reviewModel.js";
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 import {
   getAll,
   getOne,
-  createOne,
+  // createOne,
   updateOne,
   deleteOne,
 } from "./../utils/handleFactory.js";
@@ -32,7 +32,7 @@ const getAllReviews = getAll(Review, [
     select: "title price",
   },
 ]);
-const createReview = createOne(Review, addReviewToProduct);
+// const createReview = createOne(Review, addReviewToProduct);
 const updateReview = updateOne(Review);
 const getReviewById = getOne(Review, [
   {
@@ -48,7 +48,7 @@ const deleteReview = deleteOne(Review);
 
 export {
   getAllReviews,
-  createReview,
+  // createReview,
   updateReview,
   getReviewById,
   deleteReview,
