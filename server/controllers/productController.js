@@ -21,10 +21,10 @@ const getAllProducts = getAll(Product, [
 ]);
 
 const createProduct = catchAsync(async (req, res) => {
-  console.log("Incoming Request Body:", req.body);
-  console.log("Incoming Request Files:", req.files);
+  const { title, price, priceDiscount, description, category, type, sizes } =
+    req.body;
 
-  const { title, price, priceDiscount, description, category, type, sizes } = req.body;
+  console.log("REQUEST BODY", req.body);
 
   if (!sizes) {
     return res.status(400).json({
@@ -56,7 +56,10 @@ const createProduct = catchAsync(async (req, res) => {
 
   let parsedSizes;
   try {
-    parsedSizes = typeof sizes === "string" ? JSON.parse(sizes) : sizes;
+    parsedSizes =
+      typeof req.body.sizes === "string"
+        ? JSON.parse(req.body.sizes)
+        : req.body.sizes;
   } catch (error) {
     return res.status(400).json({
       status: "error",
@@ -74,12 +77,16 @@ const createProduct = catchAsync(async (req, res) => {
     });
   }
 
+  parsedSizes = parsedSizes.map((size) => ({
+    name: size.name,
+    qty: parseInt(size.qty, 10),
+  }));
+
   const totalAmount = parsedSizes.reduce((acc, size) => acc + size.qty, 0);
 
   const productData = {
     title,
     price: parseFloat(price),
-    priceDiscount: parseFloat(priceDiscount),
     description,
     category,
     type,
@@ -88,6 +95,12 @@ const createProduct = catchAsync(async (req, res) => {
     totalAmount,
   };
 
+  if (isNaN(priceDiscount)) {
+    productData.priceDiscount = null;
+  } else {
+    productData.priceDiscount = parseFloat(priceDiscount);
+  }
+
   const createdProduct = await createOne(Product, productData);
 
   res.status(201).json({
@@ -95,7 +108,6 @@ const createProduct = catchAsync(async (req, res) => {
     data: { product: createdProduct },
   });
 });
-
 
 const updateProduct = updateOne(Product);
 const deleteProduct = deleteOne(Product);

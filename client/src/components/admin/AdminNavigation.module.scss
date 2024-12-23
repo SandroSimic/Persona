@@ -1,3 +1,5 @@
+@import "../../styles/utils.scss";
+
 .adminNavigation {
   background-color: white;
   display: flex;
@@ -5,6 +7,12 @@
   justify-content: space-between;
   padding: 2rem;
   border-radius: 3rem;
+
+  @include tablet {
+    flex-direction: column;
+    padding: 1.5rem;
+    gap: 4rem;
+  }
 }
 
 .userProfile {
@@ -38,9 +46,17 @@
     }
 
     & a {
-      display: flex ;
+      display: flex;
       align-items: center;
       gap: 1rem;
+
+      @include tablet {
+        flex-direction: column;
+      }
+    }
+
+    @include tablet {
+      flex-direction: column;
     }
   }
 }

@@ -1,35 +1,26 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
 import Input from "../../ui/Input";
 import uploadImg from "./../../../assets/upload.png";
 import styles from "./AdminProductImageForm.module.scss";
 import trash from "./../../../assets/trash.png";
+import { useProduct } from "../../../context/ProductContext";
 
-function AdminProductImageForm({ onImageUpdate }) {
-  const [images, setImages] = useState([]);
+function AdminProductImageForm() {
+  const { productData, addImages, removeImage } = useProduct();
 
   const handleFileChange = (event) => {
     const selectedFiles = Array.from(event.target.files);
-
-    if (images.length + selectedFiles.length > 6) {
-      alert("You can upload a maximum of 6 images.");
-      return;
-    }
 
     const newImages = selectedFiles.map((file) => ({
       file,
       preview: URL.createObjectURL(file),
     }));
 
-    const updatedImages = [...images, ...newImages];
-    setImages(updatedImages);
-    onImageUpdate(updatedImages); // Notify parent
+    addImages(newImages);
   };
 
   const handleRemoveImage = (index) => {
-    const updatedImages = images.filter((_, i) => i !== index);
-    setImages(updatedImages);
-    onImageUpdate(updatedImages); // Notify parent
+    removeImage(index);
   };
 
   return (
@@ -45,10 +36,10 @@ function AdminProductImageForm({ onImageUpdate }) {
       />
 
       <div className={styles.imagesArray}>
-        {images.length === 0 && (
+        {productData.images.length === 0 && (
           <p className={styles.noImages}>No images uploaded</p>
         )}
-        {images.map((image, index) => (
+        {productData.images.map((image, index) => (
           <div className={styles.imagePreview} key={index}>
             <div className={styles.imageWrapper}>
               <img
