@@ -1,85 +1,77 @@
-/* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useProduct } from "../../../context/ProductContext";
 import Input from "../../ui/Input";
 import styles from "./AdminProductsInfoForm.module.scss";
 
-function AdminProductsInfoForm({ productData, setProductData }) {
-  const [isDiscountAdded, setIsDiscountAdded] = useState(false);
+const AdminProductsInfoForm = () => {
+  const {
+    productData,
+    handleAddSize,
+    setProductData,
+    handleSizeChange,
+    toggleDiscount,
+  } = useProduct();
 
-  // Handle size addition
-  const handleAddSize = () => {
-    setProductData([...productData.sizes, { name: "", quantity: "" }]);
-  };
-
-  // Handle size changes
-  const handleSizeChange = (index, field, value) => {
-    const updatedSizes = productData.sizes.map((size, i) =>
-      i === index ? { ...size, [field]: value } : size
-    );
-    setProductData(updatedSizes);
-  };
-
-  // Toggle discount field
-  const toggleDiscount = () => {
-    setIsDiscountAdded(!isDiscountAdded);
-    if (!isDiscountAdded) {
-      setProductData(""); // Clear discount if removed
+  const calculateDiscountedPrice = () => {
+    const price = parseFloat(productData.price);
+    const discount = parseFloat(productData.discount);
+    if (!isNaN(price) && !isNaN(discount)) {
+      return (price * (1 - discount / 100)).toFixed(2);
     }
+    return "";
   };
-
-  // Calculate discounted price
-  // const calculateDiscountedPrice = () => {
-  //   const numericPrice = parseFloat(productData.price);
-  //   const numericDiscount = parseFloat(productData.discount);
-  //   if (!isNaN(numericPrice) && !isNaN(numericDiscount)) {
-  //     return (numericPrice * (1 - numericDiscount / 100)).toFixed(2);
-  //   }
-  //   return "";
-  // };
 
   return (
     <div className={styles.productFormInfo}>
+      {/* Product Name */}
       <div>
         <h2>Product Name</h2>
         <Input
           type="text"
-          name="title"
           value={productData.title}
           onChange={(e) =>
-            setProductData({ ...productData, title: e.target.value })
+            setProductData((prev) => ({ ...prev, title: e.target.value }))
           }
         />
       </div>
+
+      {/* Category */}
       <div>
         <h2>Category</h2>
         <select
           name="category"
           value={productData.category}
           onChange={(e) =>
-            setProductData({ ...productData, category: e.target.value })
+            setProductData((prev) => ({ ...prev, category: e.target.value }))
           }
         >
           <option value="">Select Category</option>
-          <option value="Test">Test</option>
-          <option value="Category">Category</option>
-          <option value="AnotherCategory">Another Category</option>
+          <option value="man">Man</option>
+          <option value="woman">Woman</option>
+          <option value="kid">Kids</option>
         </select>
       </div>
+
+      {/* Type */}
       <div>
         <h2>Type</h2>
         <select
           name="type"
           value={productData.type}
           onChange={(e) =>
-            setProductData({ ...productData, type: e.target.value })
+            setProductData((prev) => ({ ...prev, type: e.target.value }))
           }
         >
           <option value="">Select Type</option>
-          <option value="Test">Test</option>
-          <option value="Type1">Type 1</option>
-          <option value="Type2">Type 2</option>
+          <option value="hoodie">Hoodie</option>
+          <option value="pants">Pants</option>
+          <option value="accessorie">Accessorie</option>
+          <option value="shirt">Shirt</option>
+          <option value="sneaker">Sneakers</option>
+          <option value="jacket">Jacket</option>
         </select>
       </div>
+
+      {/* Description */}
       <div>
         <h2>Description</h2>
         <textarea
@@ -88,32 +80,32 @@ function AdminProductsInfoForm({ productData, setProductData }) {
           rows={10}
           value={productData.description}
           onChange={(e) =>
-            setProductData({ ...productData, description: e.target.value })
+            setProductData((prev) => ({ ...prev, description: e.target.value }))
           }
         />
       </div>
+
+      {/* Sizes */}
       <div>
         <h2>Sizes</h2>
         <div className={styles.sizesWrapper}>
-          {productData.sizes.map((size, index) => (
-            <div className={styles.size} key={index}>
+          {productData.sizes.map((sizeObj, index) => (
+            <div key={index} className={styles.size}>
               <input
                 type="text"
+                value={sizeObj.name}
+                placeholder="Size Name"
                 className={styles.sizeName}
-                value={size.name}
-                placeholder="Size Name (e.g., MD)"
                 onChange={(e) =>
                   handleSizeChange(index, "name", e.target.value)
                 }
               />
               <input
                 type="number"
+                value={sizeObj.qty}
                 className={styles.sizeQuantity}
-                value={size.quantity}
                 placeholder="Quantity"
-                onChange={(e) =>
-                  handleSizeChange(index, "quantity", e.target.value)
-                }
+                onChange={(e) => handleSizeChange(index, "qty", e.target.value)}
               />
             </div>
           ))}
@@ -122,38 +114,53 @@ function AdminProductsInfoForm({ productData, setProductData }) {
           </div>
         </div>
       </div>
+
+      {/* Price and Discount */}
       <div className={styles.priceWrapper}>
         <div className={styles.prices}>
+          {/* Price */}
           <div>
             <h2>Price</h2>
             <Input
               type="number"
               value={productData.price}
               onChange={(e) =>
-                setProductData({ ...productData, price: e.target.value })
+                setProductData((prev) => ({ ...prev, price: e.target.value }))
               }
               className={styles.priceInput}
             />
           </div>
-          {isDiscountAdded && (
+
+          {/* Discount */}
+          {productData.hasDiscount && (
             <div className={styles.discountInput}>
               <h2>Discount (%)</h2>
               <Input
                 type="number"
                 value={productData.discount}
                 onChange={(e) =>
-                  setProductData({ ...productData, discount: e.target.value })
+                  setProductData((prev) => ({
+                    ...prev,
+                    discount: e.target.value,
+                  }))
                 }
               />
             </div>
           )}
+
+          {productData.hasDiscount && (
+            <div className={styles.discountedPrice}>
+              <h2>Discounted Price</h2>
+              <p>{calculateDiscountedPrice() || "N/A"}</p>
+            </div>
+          )}
         </div>
         <button type="button" onClick={toggleDiscount}>
-          {isDiscountAdded ? "Remove Discount" : "Add Discount"}
+          {productData.hasDiscount ? "Remove Discount" : "Add Discount"}
         </button>
       </div>
     </div>
   );
-}
+};
 
 export default AdminProductsInfoForm;

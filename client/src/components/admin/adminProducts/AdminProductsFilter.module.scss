@@ -1,8 +1,16 @@
+@import "../../../styles/utils.scss";
+
 .adminProductsFilter {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 5rem;
+
+  @include tablet {
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+  }
 }
 
 .adminProductsFilterSearch {
@@ -32,6 +40,18 @@
     &:hover {
       background-color: var(--primary-color);
     }
+
+    @include tablet {
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  @include tablet {
+    flex-direction: column;
+    gap: 2rem;
+    align-items: baseline;
   }
 }
 
@@ -39,7 +59,6 @@
   display: flex;
   align-items: center;
   gap: 2rem;
-
 
   & select {
     width: 15rem;

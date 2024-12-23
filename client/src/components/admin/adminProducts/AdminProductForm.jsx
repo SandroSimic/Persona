@@ -1,37 +1,17 @@
-import { useState } from "react";
 import styles from "./AdminProductForm.module.scss";
 import AdminProductImageForm from "./AdminProductImageForm";
 import AdminProductsInfoForm from "./AdminProductsInfoForm";
 import toast from "react-hot-toast";
 import { useCreateProduct } from "../adminQueries/useCreateProduct";
+import { useProduct } from "../../../context/ProductContext";
 
 const AdminProductForm = () => {
   const { createProductQuery } = useCreateProduct();
-
-  // State for product data
-  const [productData, setProductData] = useState({
-    title: "",
-    price: "",
-    description: "",
-    category: "",
-    type: "",
-    discount: "",
-    sizes: [{ name: "", qty: "" }],
-    stock: [],
-    images: [],
-  });
-
-  const handleImageUpdate = (images) => {
-    setProductData((prev) => ({ ...prev, images }));
-  };
-
-  const handleInfoUpdate = (info) => {
-    setProductData((prev) => ({ ...prev, ...info }));
-  };
+  const { productData, setProductData } = useProduct();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(productData);
+
     if (
       !productData.title ||
       !productData.price ||
@@ -44,21 +24,37 @@ const AdminProductForm = () => {
       return;
     }
 
+    // Prepare form data
     const formData = new FormData();
     formData.append("title", productData.title);
     formData.append("price", productData.price);
     formData.append("description", productData.description);
     formData.append("category", productData.category);
     formData.append("type", productData.type);
-    console.log(formData);
-    console.log(productData);
+
     productData.images.forEach((image) => {
       formData.append("images", image.file);
     });
 
-    formData.append("stock", JSON.stringify(productData.stock));
+    if (productData.discount) {
+      formData.append("priceDiscount", productData.discount); // Send only if discount is provided
+    }
 
+    formData.append("sizes", JSON.stringify(productData.sizes));
+
+    // Send form data
     createProductQuery(formData);
+    setProductData({
+      title: "",
+      price: "",
+      description: "",
+      category: "",
+      type: "",
+      discount: "",
+      sizes: [{ name: "", qty: "" }], // Default size structure
+      images: [],
+      hasDiscount: false,
+    });
   };
 
   return (
@@ -68,12 +64,8 @@ const AdminProductForm = () => {
         <button onClick={handleSubmit}>Publish Product</button>
       </div>
       <form className={styles.productsForm} onSubmit={handleSubmit}>
-        <AdminProductImageForm onImageUpdate={handleImageUpdate} />
-        <AdminProductsInfoForm
-          onInfoUpdate={handleInfoUpdate}
-          setProductData={setProductData}
-          productData={productData}
-        />
+        <AdminProductImageForm />
+        <AdminProductsInfoForm />
       </form>
     </div>
   );

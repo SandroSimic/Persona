@@ -27,6 +27,10 @@ const productSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  totalPrice: {
+    type: Number,
+    default: 0,
+  },
   description: {
     type: String,
     required: [true, "Description is required"],
@@ -66,16 +70,20 @@ productSchema.pre("save", function (next) {
   next();
 });
 
-// Middleware to calculate `totalAmount` from `sizes`
+//Calculate total price
 productSchema.pre("save", function (next) {
-  this.totalAmount = this.sizes.reduce((acc, size) => acc + size.qty, 0);
+  if (this.priceDiscount > 0) {
+    this.totalPrice = this.price - (this.priceDiscount / 100) * this.price;
+  } else {
+    this.totalPrice = this.price;
+  }
+
   next();
 });
 
-// Middleware to calculate price after discount
+// Middleware to calculate `totalAmount` from `sizes`
 productSchema.pre("save", function (next) {
-  const discount = (this.price * this.priceDiscount) / 100;
-  this.discountedPrice = this.price - discount; // Save discounted price directly
+  this.totalAmount = this.sizes.reduce((acc, size) => acc + size.qty, 0);
   next();
 });
 
