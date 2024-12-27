@@ -1,4 +1,4 @@
-@import "../../../styles/utils.scss";
+@import "../../../../styles/utils.scss";
 
 .productFormInfo {
   border: 1px solid var(--secondary-color);
@@ -85,11 +85,11 @@
   align-items: center;
   gap: 1rem;
 
-@include tablet {
-  flex-direction: column;
-  width: 100%;
-  align-items: baseline;
-}
+  @include tablet {
+    flex-direction: column;
+    width: 100%;
+    align-items: baseline;
+  }
 
   & button {
     padding: 2rem 3rem;
@@ -131,4 +131,31 @@
   font-size: 2rem;
   color: #a72828;
   font-weight: bold;
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.2rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+  }
+}
+
+.error input,
+.error select,
+.error textarea {
+  border-color: red;
+}
+
+.errorMessage {
+  color: red;
+  font-size: 1.5rem;
+  margin-top: 0.5rem;
 }

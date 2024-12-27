@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
-import Input from "../../ui/Input";
-import uploadImg from "./../../../assets/upload.png";
+import uploadImg from "./../../../../assets/upload.png";
 import styles from "./AdminProductImageForm.module.scss";
-import trash from "./../../../assets/trash.png";
-import { useProduct } from "../../../context/ProductContext";
+import trash from "./../../../../assets/trash.png";
+import Input from "../../../ui/Input";
+import { useProduct } from "../../../../context/ProductContext";
 
 function AdminProductImageForm() {
   const { productData, addImages, removeImage } = useProduct();
@@ -47,7 +47,7 @@ function AdminProductImageForm() {
                 alt={`Product ${index + 1}`}
                 className={styles.image}
               />
-              <p>{image.file.name}</p>
+              <p>{image.file?.name || "Existing Image"}</p>
             </div>
             <div className={styles.imageInfo}>
               <button

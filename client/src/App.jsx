@@ -9,7 +9,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AdminLayout from "./layout/AdminLayout";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import AdminProducts from "./components/admin/adminProducts/AdminProducts";
-import AdminProductForm from "./components/admin/adminProducts/AdminProductForm";
+import AdminProductForm from "./components/admin/adminProducts/addProductForm/AdminProductForm";
 
 const queryClient = new QueryClient();
 
@@ -34,7 +34,14 @@ function App() {
                   <Route path="/" element={<AdminLayout />}>
                     <Route index element={<AdminDashboard />} />
                     <Route path="products" element={<AdminProducts />} />
-                    <Route path="products/new" element={<AdminProductForm />} />
+                    <Route
+                      path="products/new"
+                      element={<AdminProductForm isEdit={false} />}
+                    />
+                    <Route
+                      path="products/edit/:productId"
+                      element={<AdminProductForm isEdit />}
+                    />
                     <Route
                       path="analytics"
                       element={<h1>Admin Analytics</h1>}

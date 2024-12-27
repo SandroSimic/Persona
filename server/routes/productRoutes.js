@@ -28,6 +28,6 @@ router
   .route("/:id")
   .get(getProductById)
   .delete(protect, isUserAdmin, deleteProduct)
-  .put(protect, isUserAdmin, updateProduct);
+  .patch(protect, isUserAdmin, updateProduct);
 
 export default router;
