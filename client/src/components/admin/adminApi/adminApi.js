@@ -14,4 +14,22 @@ export const createProduct = async (product) => {
   } catch (error) {
     return error.response.data;
   }
-}
+};
+
+export const updateProduct = async (productData, productId) => {
+  try {
+    console.log("prod data",productData);
+    console.log("prod id",productId);
+    const response = await axios.patch(
+      `${adminApiProducts}/${productId}`,
+      productData,
+      {
+        withCredentials: true,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};

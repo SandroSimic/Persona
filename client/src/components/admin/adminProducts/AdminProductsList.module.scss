@@ -6,6 +6,12 @@
     gap: 3rem;
     margin: 2rem 0rem;
 
+
+
+    @include giantDesktop {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
     @include tablet {
         grid-template-columns: repeat(2, 1fr);
     }

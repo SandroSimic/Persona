@@ -1,16 +1,16 @@
 /* eslint-disable react/prop-types */
 import styles from "./AdminProductCard.module.scss";
-function AdminProductCard({ product }) {
-  console.log(product);
+function AdminProductCard({ product, onClick }) {
   return (
-    <div className={styles.adminProductCard}>
+    <div className={styles.adminProductCard} onClick={onClick}>
       <div className={styles.imageWrapper}>
         <img src={product.images[0]} alt={product.title} />
       </div>
       <div className={styles.productInfo}>
         <h3>{product.title}</h3>
         <p>
-          <span>Price:</span> {product.totalPrice ? product.totalPrice : product.price}
+          <span>Price:</span>{" "}
+          {product.totalPrice ? product.totalPrice : product.price}
         </p>
         <div>
           <p>

@@ -1,5 +1,5 @@
-import { useProduct } from "../../../context/ProductContext";
-import Input from "../../ui/Input";
+import { useProduct } from "../../../../context/ProductContext";
+import Input from "../../../ui/Input";
 import styles from "./AdminProductsInfoForm.module.scss";
 
 const AdminProductsInfoForm = () => {
@@ -39,7 +39,8 @@ const AdminProductsInfoForm = () => {
         <h2>Category</h2>
         <select
           name="category"
-          value={productData.category}
+          defaultValue={productData.category || ""}
+          value={productData.category || ""}
           onChange={(e) =>
             setProductData((prev) => ({ ...prev, category: e.target.value }))
           }
