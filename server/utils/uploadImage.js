@@ -5,6 +5,7 @@ import sharp from "sharp";
 const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
+  console.log("file.mimetype", file);
   if (file.mimetype.split("/")[0] === "image") {
     cb(null, true);
   } else {
@@ -18,13 +19,11 @@ export const upload = multer({
   limits: { fieldSize: 5000000 },
 });
 
-
 export const uploadMultiple = multer({
   storage: storage,
   fileFilter: fileFilter,
   limits: { fieldSize: 5000000 },
 }).array("images", 6);
-
 
 export const compressImage = async (req, res, next) => {
   if (!req.files || req.files.length === 0) {

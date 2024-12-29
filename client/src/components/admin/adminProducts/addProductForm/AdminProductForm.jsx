@@ -7,49 +7,40 @@ import AdminProductsInfoForm from "./AdminProductsInfoForm";
 import { useProduct } from "../../../../context/ProductContext";
 import { useParams } from "react-router-dom";
 import { getProductDetail } from "../../../../hooks/product/useGetProduct";
-import { useUpdateProduct } from "../../adminQueries/useUpdateProduct";
-import { useCreateProduct } from "../../adminQueries/useCreateProduct";
 import { useEffect } from "react";
 
 const AdminProductForm = ({ isEdit = false }) => {
-  const { createProductQuery } = useCreateProduct();
-  const { updateProductQuery } = useUpdateProduct();
-  const { productData, setProductData } = useProduct();
+  const {
+    productData,
+    setProductData,
+    createProductCall,
+    updateProductCall,
+  } = useProduct();
 
   const { productId } = useParams();
   const { data } = getProductDetail(productId);
+
+  // Pre-fill form data for editing
   useEffect(() => {
-    if (data) {
-      if (isEdit) {
-        const product = data.data.doc;
-        console.log("product", product);
-        setProductData({
-          title: product.title || "",
-          price: product.price || "",
-          description: product.description || "",
-          category: product.category || "", // Map to "Clothing"
-          type: product.type || "", // Map to "Outerwear"
-          discount: productData.priceDiscount,
-          sizes: product.sizes.map((size) => ({
-            name: size.name,
-            qty: size.qty,
-          })),
-          images: product.images.map((url) => ({ file: null, preview: url })),
-          hasDiscount: !!product.priceDiscount,
-        });
-      }
+    if (data && isEdit) {
+      const product = data.data.doc;
+      setProductData({
+        title: product.title || "",
+        price: product.price || "",
+        description: product.description || "",
+        category: product.category || "",
+        type: product.type || "",
+        discount: product.priceDiscount,
+        sizes: product.sizes.map((size) => ({
+          name: size.name,
+          qty: size.qty,
+        })),
+        images: product.images.map((url) => ({ file: null, preview: url })),
+      });
     }
-  }, [data]);
+  }, [data, isEdit]);
 
-  // console.log(data);
-
-  // Pre-fill form data if editing
-  // useEffect(() => {
-  //   if (isEdit) {
-  //     setProductData(productToEdit);
-  //   }
-  // }, [isEdit, productToEdit, setProductData]);
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (
@@ -64,37 +55,32 @@ const AdminProductForm = ({ isEdit = false }) => {
       return;
     }
 
-    // Transform the images array to match the backend's expectation
-    const transformedImages = productData.images.map((image) => image.preview);
+    try {
+      if (isEdit) {
+        // Update product
+        await updateProductCall(productId);
+        toast.success("Product updated successfully!");
+      } else {
+        // Create product
+        await createProductCall();
+        toast.success("Product created successfully!");
+      }
 
-    const formData = {
-      title: productData.title,
-      price: productData.price,
-      description: productData.description,
-      category: productData.category,
-      type: productData.type,
-      priceDiscount: Number(productData.discount) || 0, // Send as priceDiscount and ensure it's a number
-      sizes: productData.sizes,
-      images: transformedImages,
-    };
-
-    if (isEdit) {
-      updateProductQuery({ productData: formData, productId });
-    } else {
-      createProductQuery(formData);
+      // Reset productData after successful operation
+      setProductData({
+        title: "",
+        price: "",
+        description: "",
+        category: "",
+        type: "",
+        discount: "",
+        sizes: [{ name: "", qty: "" }],
+        images: [],
+      });
+    } catch (error) {
+      console.error("Error submitting product:", error);
+      toast.error(`Failed to ${isEdit ? "update" : "create"} product.`);
     }
-
-    setProductData({
-      title: "",
-      price: "",
-      description: "",
-      category: "",
-      type: "",
-      priceDiscount: "",
-      sizes: [{ name: "", qty: "" }],
-      images: [],
-      hasDiscount: false,
-    });
   };
 
   return (
@@ -105,7 +91,7 @@ const AdminProductForm = ({ isEdit = false }) => {
           {isEdit ? "Update Product" : "Publish Product"}
         </button>
       </div>
-      <form className={styles.productsForm} onSubmit={handleSubmit}>
+      <form className={styles.productsForm} onSubmit={(e) => e.preventDefault()}>
         <AdminProductImageForm />
         <AdminProductsInfoForm />
       </form>

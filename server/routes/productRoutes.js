@@ -9,6 +9,7 @@ import {
 } from "../controllers/productController.js";
 
 import { compressImage, uploadMultiple } from "../utils/uploadImage.js";
+import { protect, isUserAdmin } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
@@ -16,11 +17,6 @@ router
   .route("/")
   .get(getAllProducts)
   .post(uploadMultiple, compressImage, createProduct);
-
-import { protect, isUserAdmin } from "../middleware/authMiddleware.js";
-
-// protected and admin for create delete update
-router.route("/").get(getAllProducts).post(createProduct);
 
 router.get("/get-top-products", getTopProducts);
 

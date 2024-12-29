@@ -18,8 +18,7 @@ export const createProduct = async (product) => {
 
 export const updateProduct = async (productData, productId) => {
   try {
-    console.log("prod data",productData);
-    console.log("prod id",productId);
+    console.log("productData", productData);
     const response = await axios.patch(
       `${adminApiProducts}/${productId}`,
       productData,

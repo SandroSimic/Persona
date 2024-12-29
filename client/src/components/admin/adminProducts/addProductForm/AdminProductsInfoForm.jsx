@@ -6,19 +6,12 @@ const AdminProductsInfoForm = () => {
   const {
     productData,
     handleAddSize,
+    handleRemoveSize,
     setProductData,
     handleSizeChange,
     toggleDiscount,
+    calculateDiscountedPrice,
   } = useProduct();
-
-  const calculateDiscountedPrice = () => {
-    const price = parseFloat(productData.price);
-    const discount = parseFloat(productData.discount);
-    if (!isNaN(price) && !isNaN(discount)) {
-      return (price * (1 - discount / 100)).toFixed(2);
-    }
-    return "";
-  };
 
   return (
     <div className={styles.productFormInfo}>
@@ -108,6 +101,9 @@ const AdminProductsInfoForm = () => {
                 placeholder="Quantity"
                 onChange={(e) => handleSizeChange(index, "qty", e.target.value)}
               />
+              <button onClick={() => handleRemoveSize(index)}>
+                <span>X</span>
+              </button>
             </div>
           ))}
           <div className={styles.addNewSize} onClick={handleAddSize}>

@@ -10,7 +10,6 @@ function AdminProductImageForm() {
 
   const handleFileChange = (event) => {
     const selectedFiles = Array.from(event.target.files);
-
     const newImages = selectedFiles.map((file) => ({
       file,
       preview: URL.createObjectURL(file),
