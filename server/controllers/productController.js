@@ -112,13 +112,12 @@ const updateProduct = catchAsync(async (req, res) => {
     req.body;
 
   console.log("Request body:", req.body);
-  console.log("Request files:", req.files);
 
   // Validate and parse `sizes`
   if (!sizes) {
     return res
       .status(400)
-      .json({ status: "error", message: "'sizes' is required." });
+      .json({ status: "error", message: "'sizes' field is required." });
   }
 
   let parsedSizes;
@@ -139,38 +138,39 @@ const updateProduct = catchAsync(async (req, res) => {
     qty: parseInt(size.qty, 10),
   }));
 
-  // Calculate totals
-  const totalAmount = parsedSizes.reduce((acc, size) => acc + size.qty, 0);
-  const totalPrice = price - (price * (priceDiscount || 0)) / 100;
-
-  // Process images
-  let uploadedImages;
-  try {
-    const imageUploadPromises = req.files.map((file) => s3Upload(file));
-    uploadedImages = await Promise.all(imageUploadPromises);
-  } catch (error) {
-    return res.status(500).json({
-      status: "error",
-      message: "Failed to upload images.",
-      error: error.message,
-    });
+  // Handle images
+  let existingImages = [];
+  if (req.body.images) {
+    try {
+      if (typeof req.body.images === "string") {
+        existingImages = req.body.images.includes("[")
+          ? JSON.parse(req.body.images) // Parse if it's a JSON string
+          : [req.body.images]; // Wrap single string into an array
+      } else if (Array.isArray(req.body.images)) {
+        existingImages = req.body.images;
+      }
+    } catch (error) {
+      return res
+        .status(400)
+        .json({ status: "error", message: "Invalid images format." });
+    }
   }
 
-  console.log("Uploaded images:", uploadedImages);
-  // Combine existing and new images
+  // Upload new images to S3 if files are provided
+  let uploadedImages = [];
+  if (req.files && req.files.length > 0) {
+    const imageUploadPromises = req.files.map((file) => s3Upload(file));
+    uploadedImages = await Promise.all(imageUploadPromises);
+  }
 
-  console.log("Request body images:", req.body.images);
-  const existingImages = req.body.images ? req.body.images : [];
-
-  console.log("Existing images:", existingImages);
   const allImages = [
-    existingImages,
-    ...uploadedImages.map((img) => img.Location), // Use S3 URLs
+    ...existingImages,
+    ...uploadedImages.map((img) => img.Location),
   ];
 
   console.log("All images:", allImages);
 
-  // Prepare data for update
+  // Prepare product data
   const productData = {
     title,
     price: parseFloat(price),
@@ -180,11 +180,9 @@ const updateProduct = catchAsync(async (req, res) => {
     type,
     sizes: parsedSizes,
     images: allImages,
-    totalAmount,
-    totalPrice,
+    totalAmount: parsedSizes.reduce((acc, size) => acc + size.qty, 0),
+    totalPrice: price - (price * (priceDiscount || 0)) / 100,
   };
-
-  console.log("Product data:", productData);
 
   // Update the product
   const updatedProduct = await updateOne(Product, productData, req.params.id);

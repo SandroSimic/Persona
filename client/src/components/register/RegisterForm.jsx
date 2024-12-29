@@ -30,14 +30,11 @@ const RegisterForm = () => {
 
   async function onSubmit(e) {
     e.preventDefault();
-    console.log("USER DATA", userData);
     const formData = new FormData();
     formData.append("username", userData.username);
     formData.append("email", userData.email);
     formData.append("password", userData.password);
     formData.append("userImage", userData.userImage);
-
-    console.log("USER DATA", userData);
 
     if (!formData) {
       return;

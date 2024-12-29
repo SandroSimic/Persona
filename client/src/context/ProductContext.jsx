@@ -3,6 +3,7 @@ import { createContext, useContext, useState } from "react";
 import toast from "react-hot-toast";
 import {
   createProduct,
+  deleteProduct,
   updateProduct,
 } from "./../components/admin/adminApi/adminApi";
 import { getProduct } from "../components/api/productApi";
@@ -109,9 +110,19 @@ export const ProductProvider = ({ children }) => {
       });
 
       createProduct(formData);
+      toast.success("Product created successfully!");
     } catch (error) {
-      console.error("Error creating product:", error);
       toast.error("Failed to create product.");
+      throw error;
+    }
+  };
+
+  const deleteProductCall = async (productId) => {
+    try {
+      deleteProduct(productId);
+      toast.success("Product deleted successfully!");
+    } catch (error) {
+      toast.error("Failed to delete product.");
       throw error;
     }
   };
@@ -120,24 +131,26 @@ export const ProductProvider = ({ children }) => {
   const updateProductCall = async (productId) => {
     try {
       const formData = new FormData();
-      formData.append("title", productData.title);
-      formData.append("price", productData.price);
-      formData.append("description", productData.description);
-      formData.append("category", productData.category);
-      formData.append("type", productData.type);
-      formData.append("priceDiscount", productData.discount || 0);
-      formData.append("sizes", JSON.stringify(productData.sizes));
 
-      // Append images to FormData
+      // Add all product data to FormData as strings
+      formData.append("title", productData.title || "");
+      formData.append("price", productData.price.toString() || "0");
+      formData.append("description", productData.description || "");
+      formData.append("category", productData.category || "");
+      formData.append("type", productData.type || "");
+      formData.append("priceDiscount", (productData.discount || 0).toString());
+      formData.append("sizes", JSON.stringify(productData.sizes || []));
+
+      // Add images
       productData.images.forEach((image) => {
         if (image.file) {
-          formData.append("images", image.file); // Add new images
+          formData.append("images", image.file); // New images
         } else {
-          formData.append("images", image.preview); // Retain existing images
+          formData.append("images", image.preview); // Existing images
         }
       });
 
-      // Calculate totals and append to FormData
+      // Calculate totals
       const totalAmount = productData.sizes.reduce(
         (acc, size) => acc + parseInt(size.qty || 0, 10),
         0
@@ -146,12 +159,26 @@ export const ProductProvider = ({ children }) => {
         productData.price -
         (productData.price * (productData.discount || 0)) / 100;
 
-      formData.append("totalAmount", totalAmount);
-      formData.append("totalPrice", totalPrice);
+      formData.append("totalAmount", totalAmount.toString());
+      formData.append("totalPrice", totalPrice.toString());
 
       // Call the updateProduct API
       await updateProduct(formData, productId);
-      toast.success("Product updated successfully.");
+
+      // Reset productData after successful update
+      setProductData({
+        title: "",
+        price: "",
+        description: "",
+        category: "",
+        type: "",
+        discount: "",
+        sizes: [{ name: "", qty: "" }],
+        images: [],
+        hasDiscount: false,
+      });
+
+      toast.success("Product updated successfully!");
     } catch (error) {
       console.error("Error updating product:", error);
       toast.error("Failed to update product.");
@@ -174,6 +201,7 @@ export const ProductProvider = ({ children }) => {
         createProductCall,
         updateProductCall,
         getProductDetail,
+        deleteProductCall,
       }}
     >
       {children}

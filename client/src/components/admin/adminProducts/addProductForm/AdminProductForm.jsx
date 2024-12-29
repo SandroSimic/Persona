@@ -10,12 +10,8 @@ import { getProductDetail } from "../../../../hooks/product/useGetProduct";
 import { useEffect } from "react";
 
 const AdminProductForm = ({ isEdit = false }) => {
-  const {
-    productData,
-    setProductData,
-    createProductCall,
-    updateProductCall,
-  } = useProduct();
+  const { productData, setProductData, createProductCall, updateProductCall } =
+    useProduct();
 
   const { productId } = useParams();
   const { data } = getProductDetail(productId);
@@ -59,24 +55,13 @@ const AdminProductForm = ({ isEdit = false }) => {
       if (isEdit) {
         // Update product
         await updateProductCall(productId);
-        toast.success("Product updated successfully!");
       } else {
         // Create product
+
         await createProductCall();
-        toast.success("Product created successfully!");
       }
 
       // Reset productData after successful operation
-      setProductData({
-        title: "",
-        price: "",
-        description: "",
-        category: "",
-        type: "",
-        discount: "",
-        sizes: [{ name: "", qty: "" }],
-        images: [],
-      });
     } catch (error) {
       console.error("Error submitting product:", error);
       toast.error(`Failed to ${isEdit ? "update" : "create"} product.`);
@@ -91,7 +76,10 @@ const AdminProductForm = ({ isEdit = false }) => {
           {isEdit ? "Update Product" : "Publish Product"}
         </button>
       </div>
-      <form className={styles.productsForm} onSubmit={(e) => e.preventDefault()}>
+      <form
+        className={styles.productsForm}
+        onSubmit={(e) => e.preventDefault()}
+      >
         <AdminProductImageForm />
         <AdminProductsInfoForm />
       </form>

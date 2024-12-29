@@ -11,7 +11,6 @@ export function useLogin() {
     mutationFn: loginUser,
     onSuccess: (user) => {
       if (user.error) {
-        console.log(user.message);
         toast.error(user.message);
         return;
       }

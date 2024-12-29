@@ -1,10 +1,11 @@
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import styles from "./AdminProductDetails.module.scss";
 import { getProductDetail } from "../../../../hooks/product/useGetProduct";
 import { useEffect, useState } from "react";
 import AdminProductDescription from "./AdminProductDescription";
 import AdminProductInventory from "./AdminProductInventory";
 import AdminProductPricing from "./AdminProductPricing";
+import { useDeleteProduct } from "../../adminQueries/useDeleteProduct";
 
 // eslint-disable-next-line react/prop-types
 function AdminProductDetails({ productId }) {
@@ -12,6 +13,8 @@ function AdminProductDetails({ productId }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
   const product = data?.data?.doc;
+  const { deleteProductQuery } = useDeleteProduct();
+  const navigate = useNavigate();
   const selectedTab = searchParams.get("tab") || "description";
 
   useEffect(() => {
@@ -51,6 +54,11 @@ function AdminProductDetails({ productId }) {
       </div>
     );
   }
+
+  const handleDelete = async () => {
+    deleteProductQuery(productId);
+    navigate("/admin/products");
+  };
 
   return (
     <div className={styles.productInfo}>
@@ -114,8 +122,15 @@ function AdminProductDetails({ productId }) {
       {selectedTab === "pricing" && <AdminProductPricing product={product} />}
 
       <div className={styles.productActions}>
-        <button className={styles.deleteBtn}>Delete</button>
-        <Link className={styles.updateBtn} to={`${"/admin/products/edit/"}${productId}`}>Update product</Link>
+        <button className={styles.deleteBtn} onClick={handleDelete}>
+          Delete
+        </button>
+        <Link
+          className={styles.updateBtn}
+          to={`${"/admin/products/edit/"}${productId}`}
+        >
+          Update product
+        </Link>
       </div>
     </div>
   );
