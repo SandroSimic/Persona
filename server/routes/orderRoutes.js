@@ -9,7 +9,7 @@ import {
   deleteOrder,
   // getAllOrders,
   getOrderById,
-  updateOrder,
+  // updateOrder,
   updateOrderStatus,
 } from "../controllers/orderController.js";
 import { protect, isUserAdmin } from "../middleware/authMiddleware.js";
@@ -23,7 +23,7 @@ const router = express.Router();
 
 router
   .route("/:id")
-  .put(protect, updateOrder)
+  // .put(protect, updateOrder)
   .get(protect, getOrderById)
   .delete(protect, isUserAdmin, deleteOrder);
 

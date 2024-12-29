@@ -119,17 +119,25 @@ export const ProductProvider = ({ children }) => {
   // Update product
   const updateProductCall = async (productId) => {
     try {
-      const updatedProductData = {
-        title: productData.title,
-        price: productData.price,
-        description: productData.description,
-        category: productData.category,
-        type: productData.type,
-        priceDiscount: productData.discount || 0,
-        sizes: productData.sizes,
-        images: productData.images.map((image) => image.preview),
-      };
+      const formData = new FormData();
+      formData.append("title", productData.title);
+      formData.append("price", productData.price);
+      formData.append("description", productData.description);
+      formData.append("category", productData.category);
+      formData.append("type", productData.type);
+      formData.append("priceDiscount", productData.discount || 0);
+      formData.append("sizes", JSON.stringify(productData.sizes));
 
+      // Append images to FormData
+      productData.images.forEach((image) => {
+        if (image.file) {
+          formData.append("images", image.file); // Add new images
+        } else {
+          formData.append("images", image.preview); // Retain existing images
+        }
+      });
+
+      // Calculate totals and append to FormData
       const totalAmount = productData.sizes.reduce(
         (acc, size) => acc + parseInt(size.qty || 0, 10),
         0
@@ -138,10 +146,12 @@ export const ProductProvider = ({ children }) => {
         productData.price -
         (productData.price * (productData.discount || 0)) / 100;
 
-      updatedProductData.totalAmount = totalAmount;
-      updatedProductData.totalPrice = totalPrice;
+      formData.append("totalAmount", totalAmount);
+      formData.append("totalPrice", totalPrice);
 
-      updateProduct(updatedProductData, productId);
+      // Call the updateProduct API
+      await updateProduct(formData, productId);
+      toast.success("Product updated successfully.");
     } catch (error) {
       console.error("Error updating product:", error);
       toast.error("Failed to update product.");

@@ -71,34 +71,24 @@ export const createOne = async (Model, data, postCreateCallback = null) => {
   }
 };
 
-export const updateOne = (Model) =>
-  catchAsync(async (req, res) => {
-    console.log("Received req.body:", req.body);
-
-    // Transform images field if it exists
-    if (req.body.images) {
-      req.body.images = req.body.images.map((image) =>
-        typeof image === "object" ? image.preview : image
-      );
-    }
-
-    console.log("Transformed req.body:", req.body);
-
-    const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
+export const updateOne = async (Model, data, id) => {
+  try {
+    const doc = await Model.findByIdAndUpdate(id, data, {
+      new: true,
       runValidators: true,
     });
 
     if (!doc) {
-      return res.status(404).json({
-        message: "No document found with that ID",
-      });
+      throw new Error("No document found with that ID");
     }
 
-    res.status(200).json({
-      status: "success",
-      data: { data: doc },
-    });
-  });
+    return doc;
+  } catch (error) {
+    console.error("Error updating document:", error.message);
+    throw new Error(`Error updating document: ${error.message}`);
+  }
+};
+
 
 export const deleteOne = (Model) =>
   catchAsync(async (req, res) => {

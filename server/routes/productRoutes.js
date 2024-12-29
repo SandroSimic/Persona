@@ -24,6 +24,6 @@ router
   .route("/:id")
   .get(getProductById)
   .delete(protect, isUserAdmin, deleteProduct)
-  .patch(protect, isUserAdmin, updateProduct);
+  .patch(protect, isUserAdmin, uploadMultiple, compressImage, updateProduct);
 
 export default router;
