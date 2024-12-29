@@ -1,17 +1,19 @@
+/* eslint-disable react/prop-types */
+import { useState, useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import styles from "./AdminProductDetails.module.scss";
 import { getProductDetail } from "../../../../hooks/product/useGetProduct";
-import { useEffect, useState } from "react";
 import AdminProductDescription from "./AdminProductDescription";
 import AdminProductInventory from "./AdminProductInventory";
 import AdminProductPricing from "./AdminProductPricing";
 import { useDeleteProduct } from "../../adminQueries/useDeleteProduct";
+import Modal from "../../../ui/Modal";
 
-// eslint-disable-next-line react/prop-types
 function AdminProductDetails({ productId }) {
   const { data, isLoading, error } = getProductDetail(productId);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const product = data?.data?.doc;
   const { deleteProductQuery } = useDeleteProduct();
   const navigate = useNavigate();
@@ -39,6 +41,14 @@ function AdminProductDetails({ productId }) {
     );
   };
 
+  const handleDelete = async () => {
+    deleteProductQuery(productId);
+    navigate("/admin/products");
+  };
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   if (isLoading) {
     return (
       <div className={styles.productInfo}>
@@ -55,11 +65,6 @@ function AdminProductDetails({ productId }) {
     );
   }
 
-  const handleDelete = async () => {
-    deleteProductQuery(productId);
-    navigate("/admin/products");
-  };
-
   return (
     <div className={styles.productInfo}>
       <div className={styles.productHeader}>
@@ -69,30 +74,25 @@ function AdminProductDetails({ productId }) {
 
       <div className={styles.productFilters}>
         <button
-          onClick={() => {
-            handleTabChange("description");
-          }}
+          onClick={() => handleTabChange("description")}
           className={selectedTab === "description" ? styles.active : ""}
         >
           Description
         </button>
         <button
-          onClick={() => {
-            handleTabChange("inventory");
-          }}
+          onClick={() => handleTabChange("inventory")}
           className={selectedTab === "inventory" ? styles.active : ""}
         >
           Inventory
         </button>
         <button
-          onClick={() => {
-            handleTabChange("pricing");
-          }}
+          onClick={() => handleTabChange("pricing")}
           className={selectedTab === "pricing" ? styles.active : ""}
         >
           Pricing
         </button>
       </div>
+
       <div className={styles.carousel}>
         {product?.images?.length > 0 && (
           <div className={styles.carouselWrapper}>
@@ -111,18 +111,16 @@ function AdminProductDetails({ productId }) {
         )}
       </div>
 
-      {/* INFORMATION BASED ON BUTTON CLICKED */}
       {selectedTab === "description" && (
         <AdminProductDescription product={product} />
       )}
       {selectedTab === "inventory" && (
         <AdminProductInventory product={product} />
       )}
-
       {selectedTab === "pricing" && <AdminProductPricing product={product} />}
 
       <div className={styles.productActions}>
-        <button className={styles.deleteBtn} onClick={handleDelete}>
+        <button className={styles.deleteBtn} onClick={openModal}>
           Delete
         </button>
         <Link
@@ -132,6 +130,16 @@ function AdminProductDetails({ productId }) {
           Update product
         </Link>
       </div>
+
+      <Modal
+        isOpen={isModalOpen}
+        title="Are you sure?"
+        message="Do you really want to delete this product? This action cannot be undone."
+        onClose={closeModal}
+        onConfirm={handleDelete}
+        confirmText="Delete"
+        cancelText="Cancel"
+      />
     </div>
   );
 }

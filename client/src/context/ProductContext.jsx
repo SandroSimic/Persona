@@ -25,7 +25,6 @@ export const ProductProvider = ({ children }) => {
     discount: "",
     sizes: [{ name: "", qty: "" }], // Default size structure
     images: [],
-    hasDiscount: false,
   });
 
   const calculateDiscountedPrice = () => {
@@ -63,7 +62,7 @@ export const ProductProvider = ({ children }) => {
   const toggleDiscount = () => {
     setProductData((prev) => ({
       ...prev,
-      hasDiscount: !prev.hasDiscount,
+      discount: prev.discount ? "" : 10,
     }));
   };
 
