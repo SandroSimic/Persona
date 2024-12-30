@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./AdminProductDetails.module.scss";
 import { getProductDetail } from "../../../../hooks/product/useGetProduct";
 import AdminProductDescription from "./AdminProductDescription";
@@ -12,22 +12,17 @@ import Modal from "../../../ui/Modal";
 function AdminProductDetails({ productId }) {
   const { data, isLoading, error } = getProductDetail(productId);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [selectedTab, setSelectedTab] = useState("description"); // Use state for tabs
   const [isModalOpen, setIsModalOpen] = useState(false);
   const product = data?.data?.doc;
   const { deleteProductQuery } = useDeleteProduct();
   const navigate = useNavigate();
-  const selectedTab = searchParams.get("tab") || "description";
 
   useEffect(() => {
     if (product) {
       setCurrentImageIndex(0);
     }
   }, [product]);
-
-  const handleTabChange = (tab) => {
-    setSearchParams({ id: product._id, tab });
-  };
 
   const handleNext = () => {
     setCurrentImageIndex(
@@ -74,19 +69,19 @@ function AdminProductDetails({ productId }) {
 
       <div className={styles.productFilters}>
         <button
-          onClick={() => handleTabChange("description")}
+          onClick={() => setSelectedTab("description")}
           className={selectedTab === "description" ? styles.active : ""}
         >
           Description
         </button>
         <button
-          onClick={() => handleTabChange("inventory")}
+          onClick={() => setSelectedTab("inventory")}
           className={selectedTab === "inventory" ? styles.active : ""}
         >
           Inventory
         </button>
         <button
-          onClick={() => handleTabChange("pricing")}
+          onClick={() => setSelectedTab("pricing")}
           className={selectedTab === "pricing" ? styles.active : ""}
         >
           Pricing

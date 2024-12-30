@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import AdminProductImageForm from "./AdminProductImageForm";
 import AdminProductsInfoForm from "./AdminProductsInfoForm";
 import { useProduct } from "../../../../context/ProductContext";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getProductDetail } from "../../../../hooks/product/useGetProduct";
 import { useEffect } from "react";
 
@@ -15,7 +15,7 @@ const AdminProductForm = ({ isEdit = false }) => {
 
   const { productId } = useParams();
   const { data } = getProductDetail(productId);
-
+  const navigate = useNavigate();
   // Pre-fill form data for editing
   useEffect(() => {
     if (data && isEdit) {
@@ -55,10 +55,12 @@ const AdminProductForm = ({ isEdit = false }) => {
       if (isEdit) {
         // Update product
         await updateProductCall(productId);
+        navigate("/admin/products");
       } else {
         // Create product
 
         await createProductCall();
+        navigate("/admin/products");
       }
 
       // Reset productData after successful operation

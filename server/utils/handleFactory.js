@@ -10,16 +10,21 @@ export const getAll = (Model, popOptions) =>
       query = query.populate(popOptions);
     }
 
+    // Create a new instance of APIFeatures for counting total documents
+    const featuresForCount = new APIFeatures(Model.find(), req.query).filter();
+    const totalDocuments = await featuresForCount.query.countDocuments();
+
+    // Use another APIFeatures instance for fetching paginated results
     const features = new APIFeatures(query, req.query)
       .filter()
       .sort()
       .paginate();
-
     const docs = await features.query;
 
     res.status(200).json({
       status: "success",
       results: docs.length,
+      totalItems: totalDocuments, // Return total document count
       data: { data: docs },
     });
   });
@@ -88,7 +93,6 @@ export const updateOne = async (Model, data, id) => {
     throw new Error(`Error updating document: ${error.message}`);
   }
 };
-
 
 export const deleteOne = (Model) =>
   catchAsync(async (req, res) => {

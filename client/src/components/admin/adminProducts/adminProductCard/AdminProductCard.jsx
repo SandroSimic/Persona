@@ -3,6 +3,8 @@ import styles from "./AdminProductCard.module.scss";
 function AdminProductCard({ product, onClick }) {
   return (
     <div className={styles.adminProductCard} onClick={onClick}>
+      {product.priceDiscount ? <div className={styles.saleCard}>SALE</div> : null}
+
       <div className={styles.imageWrapper}>
         <img src={product.images[0]} alt={product.title} />
       </div>
