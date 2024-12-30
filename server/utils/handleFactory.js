@@ -16,15 +16,17 @@ export const getAll = (Model, popOptions) =>
 
     // Use another APIFeatures instance for fetching paginated results
     const features = new APIFeatures(query, req.query)
-      .filter()
+      .paginate()
       .sort()
-      .paginate();
+      .filter();
     const docs = await features.query;
 
     res.status(200).json({
       status: "success",
       results: docs.length,
       totalItems: totalDocuments, // Return total document count
+      limit: features.queryString.limit * 1 || 12, // Return limit
+      page: features.queryString.page * 1 || 1, // Return page
       data: { data: docs },
     });
   });

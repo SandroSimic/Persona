@@ -10,11 +10,13 @@ class APIFeatures {
     excludedFilter.forEach((el) => delete queryObj[el]);
 
     if (queryObj.search) {
+      // Case-insensitive filtering for title
       queryObj.title = { $regex: queryObj.search, $options: "i" };
       delete queryObj.search;
     }
 
     if (this.queryString.sort === "sale") {
+      // Filter for items with a discount
       this.query = this.query.find({ priceDiscount: { $gt: 0 } });
     } else {
       let queryStr = JSON.stringify(queryObj);
@@ -54,12 +56,16 @@ class APIFeatures {
           sortBy = "-totalAmount"; // Sort by stock descending
           break;
         default:
-          sortBy = "-createdAt"; // Default sorting by newest
+          sortBy = "createdAt"; // Default sorting by newest
       }
 
-      this.query = this.query.sort(sortBy);
+      // Apply sorting and case-insensitive collation
+      this.query = this.query
+        .sort(sortBy)
+        .collation({ locale: "en", strength: 2 }); // Case-insensitive sorting
     } else {
-      this.query = this.query.sort("-createdAt"); // Default sorting
+      // Default sorting by newest
+      this.query = this.query.sort("-createdAt");
     }
 
     return this;

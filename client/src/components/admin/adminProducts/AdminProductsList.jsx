@@ -13,6 +13,8 @@ const AdminProductsList = ({ products }) => {
     navigate(`/admin/products?${searchParams.toString()}`);
   };
 
+  console.log(products);
+
   return (
     <div className={styles.adminProductsList}>
       {products?.map((product) => {
