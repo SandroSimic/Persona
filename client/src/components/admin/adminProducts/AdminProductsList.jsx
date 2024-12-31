@@ -1,17 +1,19 @@
-import { useProducts } from "../adminQueries/useGetProduct";
+/* eslint-disable react/prop-types */
 import AdminProductCard from "./adminProductCard/AdminProductCard";
 import styles from "./AdminProductsList.module.scss";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
-const AdminProductsList = () => {
-  const { data } = useProducts();
+const AdminProductsList = ({ products }) => {
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const products = data?.data?.data;
-
   const handleProductClick = (id) => {
-    navigate(`/admin/products?id=${id}`);
+    searchParams.delete("id");
+    searchParams.set("id", id);
+    navigate(`/admin/products?${searchParams.toString()}`);
   };
+
+  console.log(products);
 
   return (
     <div className={styles.adminProductsList}>

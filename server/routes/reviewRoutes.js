@@ -2,7 +2,7 @@ import express from "express";
 import {
   // getAllReviews,
   // createReview,
-  updateReview,
+  // updateReview,
   getReviewById,
   deleteReview,
 } from "../controllers/reviewController.js";
@@ -18,7 +18,7 @@ const router = express.Router();
 
 router
   .route("/:id")
-  .put(protect, updateReview)
+  // .put(protect, updateReview)
   .get(getReviewById)
   .delete(protect, deleteReview);
 

@@ -1,5 +1,4 @@
 const products = [
-  // Product 1
   {
     title: "Stylish Winter Jacket",
     price: 120,
@@ -15,8 +14,9 @@ const products = [
       { name: "S", qty: 10 },
       { name: "M", qty: 15 },
     ],
+    totalPrice: 96, // 120 - (20% of 120)
+    totalAmount: 25, // 10 + 15
   },
-  // Product 2
   {
     title: "Casual Sneakers",
     price: 80,
@@ -33,8 +33,9 @@ const products = [
       { name: "8", qty: 5 },
       { name: "9", qty: 10 },
     ],
+    totalPrice: 72, // 80 - (10% of 80)
+    totalAmount: 15, // 5 + 10
   },
-  // Product 3
   {
     title: "Formal Shirt",
     price: 50,
@@ -49,8 +50,9 @@ const products = [
       { name: "M", qty: 10 },
       { name: "L", qty: 12 },
     ],
+    totalPrice: 47.5, // 50 - (5% of 50)
+    totalAmount: 22, // 10 + 12
   },
-  // Product 4
   {
     title: "Leather Boots",
     price: 150,
@@ -66,8 +68,9 @@ const products = [
       { name: "9", qty: 8 },
       { name: "10", qty: 12 },
     ],
+    totalPrice: 112.5, // 150 - (25% of 150)
+    totalAmount: 20, // 8 + 12
   },
-  // Product 5
   {
     title: "Denim Jeans",
     price: 60,
@@ -83,8 +86,9 @@ const products = [
       { name: "32", qty: 10 },
       { name: "34", qty: 15 },
     ],
+    totalPrice: 51, // 60 - (15% of 60)
+    totalAmount: 25, // 10 + 15
   },
-  // Product 6
   {
     title: "Graphic T-Shirt",
     price: 30,
@@ -99,8 +103,9 @@ const products = [
       { name: "S", qty: 8 },
       { name: "M", qty: 10 },
     ],
+    totalPrice: 30, // 30 - (0% of 30)
+    totalAmount: 18, // 8 + 10
   },
-  // Product 7
   {
     title: "Woolen Scarf",
     price: 20,
@@ -111,9 +116,12 @@ const products = [
     images: [
       "https://plus.unsplash.com/premium_photo-1718913936342-eaafff98834b",
     ],
-    sizes: [{ name: "One Size", qty: 20 }],
+    sizes: [
+      { name: "One Size", qty: 20 },
+    ],
+    totalPrice: 18, // 20 - (10% of 20)
+    totalAmount: 20, // 20
   },
-  // Product 8
   {
     title: "Leather Belt",
     price: 25,
@@ -128,8 +136,9 @@ const products = [
       { name: "M", qty: 15 },
       { name: "L", qty: 12 },
     ],
+    totalPrice: 23.75, // 25 - (5% of 25)
+    totalAmount: 27, // 15 + 12
   },
-  // Product 9
   {
     title: "Cotton Shorts",
     price: 40,
@@ -144,8 +153,9 @@ const products = [
       { name: "S", qty: 10 },
       { name: "M", qty: 15 },
     ],
+    totalPrice: 36, // 40 - (10% of 40)
+    totalAmount: 25, // 10 + 15
   },
-  // Product 10
   {
     title: "Sports Cap",
     price: 15,
@@ -157,9 +167,12 @@ const products = [
       "https://plus.unsplash.com/premium_photo-1718913936342-eaafff98834b",
       "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab",
     ],
-    sizes: [{ name: "One Size", qty: 30 }],
+    sizes: [
+      { name: "One Size", qty: 30 },
+    ],
+    totalPrice: 14.25, // 15 - (5% of 15)
+    totalAmount: 30, // 30
   },
-  // Product 11
   {
     title: "Classic Watch",
     price: 150,
@@ -170,9 +183,12 @@ const products = [
     images: [
       "https://plus.unsplash.com/premium_photo-1679056835084-7f21e64a3402",
     ],
-    sizes: [{ name: "One Size", qty: 25 }],
+    sizes: [
+      { name: "One Size", qty: 25 },
+    ],
+    totalPrice: 120, // 150 - (20% of 150)
+    totalAmount: 25, // 25
   },
-  // Product 12
   {
     title: "Leather Gloves",
     price: 35,
@@ -188,8 +204,9 @@ const products = [
       { name: "M", qty: 10 },
       { name: "L", qty: 15 },
     ],
+    totalPrice: 33.25, // 35 - (5% of 35)
+    totalAmount: 25, // 10 + 15
   },
-  // Product 13
   {
     title: "Summer Sandals",
     price: 45,
@@ -205,8 +222,9 @@ const products = [
       { name: "7", qty: 10 },
       { name: "8", qty: 12 },
     ],
+    totalPrice: 40.5, // 45 - (10% of 45)
+    totalAmount: 22, // 10 + 12
   },
-  // Product 14
   {
     title: "Formal Tie",
     price: 20,
@@ -217,9 +235,12 @@ const products = [
     images: [
       "https://plus.unsplash.com/premium_photo-1718913936342-eaafff98834b",
     ],
-    sizes: [{ name: "One Size", qty: 40 }],
+    sizes: [
+      { name: "One Size", qty: 40 },
+    ],
+    totalPrice: 19, // 20 - (5% of 20)
+    totalAmount: 40, // 40
   },
-  // Product 15
   {
     title: "Hiking Backpack",
     price: 85,
@@ -231,9 +252,12 @@ const products = [
       "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab",
       "https://plus.unsplash.com/premium_photo-1679056835084-7f21e64a3402",
     ],
-    sizes: [{ name: "One Size", qty: 30 }],
+    sizes: [
+      { name: "One Size", qty: 30 },
+    ],
+    totalPrice: 72.25, // 85 - (15% of 85)
+    totalAmount: 30, // 30
   },
-  // Product 16
   {
     title: "Winter Beanie",
     price: 18,
@@ -244,9 +268,12 @@ const products = [
     images: [
       "https://plus.unsplash.com/premium_photo-1718913936342-eaafff98834b",
     ],
-    sizes: [{ name: "One Size", qty: 50 }],
+    sizes: [
+      { name: "One Size", qty: 50 },
+    ],
+    totalPrice: 17.46, // 18 - (3% of 18)
+    totalAmount: 50, // 50
   },
-  // Product 17
   {
     title: "Formal Shoes",
     price: 110,
@@ -262,8 +289,9 @@ const products = [
       { name: "9", qty: 10 },
       { name: "10", qty: 8 },
     ],
+    totalPrice: 88, // 110 - (20% of 110)
+    totalAmount: 18, // 10 + 8
   },
-  // Product 18
   {
     title: "Casual Hoodie",
     price: 60,
@@ -281,8 +309,9 @@ const products = [
       { name: "M", qty: 12 },
       { name: "L", qty: 8 },
     ],
+    totalPrice: 54, // 60 - (10% of 60)
+    totalAmount: 30, // 10 + 12 + 8
   },
-  // Product 19
   {
     title: "Yoga Pants",
     price: 50,
@@ -298,8 +327,9 @@ const products = [
       { name: "S", qty: 15 },
       { name: "M", qty: 20 },
     ],
+    totalPrice: 47.5, // 50 - (5% of 50)
+    totalAmount: 35, // 15 + 20
   },
-  // Product 20
   {
     title: "Raincoat",
     price: 70,
@@ -315,6 +345,8 @@ const products = [
       { name: "M", qty: 10 },
       { name: "L", qty: 12 },
     ],
+    totalPrice: 59.5, // 70 - (15% of 70)
+    totalAmount: 22, // 10 + 12
   },
 ];
 

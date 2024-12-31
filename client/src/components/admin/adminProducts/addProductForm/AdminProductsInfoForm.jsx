@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useProduct } from "../../../../context/ProductContext";
 import Input from "../../../ui/Input";
 import styles from "./AdminProductsInfoForm.module.scss";
@@ -12,6 +13,14 @@ const AdminProductsInfoForm = () => {
     toggleDiscount,
     calculateDiscountedPrice,
   } = useProduct();
+
+  console.log("Product Data", productData);
+
+  useEffect(() => {
+    if (productData.discount > 0) {
+      setProductData((prev) => ({ ...prev, hasDiscount: true }));
+    }
+  });
 
   return (
     <div className={styles.productFormInfo}>
@@ -129,7 +138,7 @@ const AdminProductsInfoForm = () => {
           </div>
 
           {/* Discount */}
-          {productData.hasDiscount && (
+          {productData.discount && (
             <div className={styles.discountInput}>
               <h2>Discount (%)</h2>
               <Input
@@ -145,7 +154,7 @@ const AdminProductsInfoForm = () => {
             </div>
           )}
 
-          {productData.hasDiscount && (
+          {productData.discount && (
             <div className={styles.discountedPrice}>
               <h2>Discounted Price</h2>
               <p>{calculateDiscountedPrice() || "N/A"}</p>
@@ -153,7 +162,7 @@ const AdminProductsInfoForm = () => {
           )}
         </div>
         <button type="button" onClick={toggleDiscount}>
-          {productData.hasDiscount ? "Remove Discount" : "Add Discount"}
+          {productData.discount ? "Remove Discount" : "Add Discount"}
         </button>
       </div>
     </div>

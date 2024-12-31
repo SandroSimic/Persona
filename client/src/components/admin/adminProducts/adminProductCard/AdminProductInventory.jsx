@@ -3,7 +3,6 @@
 import styles from "./AdminProductInventory.module.scss";
 
 const AdminProductInventory = ({ product }) => {
-  console.log(product);
   return (
     <div className={styles.adminProductInventory}>
       <h2>Inventory</h2>

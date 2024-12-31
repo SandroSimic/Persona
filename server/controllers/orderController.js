@@ -1,6 +1,6 @@
 
 import catchAsync from "../utils/catchAsync.js";
-import { deleteOne, getOne, updateOne } from "../utils/handleFactory.js";
+import { deleteOne, getOne } from "../utils/handleFactory.js";
 import Order from './../models/orderModel.js'
 // const getAllOrders = getAll(Order, [
 //   {
@@ -9,7 +9,7 @@ import Order from './../models/orderModel.js'
 // ]);
 
 // const createOrder = createOne(Order);
-const updateOrder = updateOne(Order);
+// const updateOrder = updateOne(Order);
 const getOrderById = getOne(Order, [
   {
     path: "cart",
@@ -82,7 +82,7 @@ export {
   // getAllOrders,
   // createOrder,
   getOrderById,
-  updateOrder,
+  // updateOrder,
   deleteOrder,
   updateOrderStatus,
 };

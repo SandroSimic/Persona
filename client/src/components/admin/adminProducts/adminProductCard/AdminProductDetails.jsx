@@ -1,28 +1,28 @@
-import { Link, useSearchParams } from "react-router-dom";
+/* eslint-disable react/prop-types */
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./AdminProductDetails.module.scss";
 import { getProductDetail } from "../../../../hooks/product/useGetProduct";
-import { useEffect, useState } from "react";
 import AdminProductDescription from "./AdminProductDescription";
 import AdminProductInventory from "./AdminProductInventory";
 import AdminProductPricing from "./AdminProductPricing";
+import { useDeleteProduct } from "../../adminQueries/useDeleteProduct";
+import Modal from "../../../ui/Modal";
 
-// eslint-disable-next-line react/prop-types
 function AdminProductDetails({ productId }) {
   const { data, isLoading, error } = getProductDetail(productId);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [selectedTab, setSelectedTab] = useState("description"); // Use state for tabs
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const product = data?.data?.doc;
-  const selectedTab = searchParams.get("tab") || "description";
+  const { deleteProductQuery } = useDeleteProduct();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (product) {
       setCurrentImageIndex(0);
     }
   }, [product]);
-
-  const handleTabChange = (tab) => {
-    setSearchParams({ id: product._id, tab });
-  };
 
   const handleNext = () => {
     setCurrentImageIndex(
@@ -35,6 +35,14 @@ function AdminProductDetails({ productId }) {
       prevIndex === 0 ? product?.images.length - 1 : prevIndex - 1
     );
   };
+
+  const handleDelete = async () => {
+    deleteProductQuery(productId);
+    navigate("/admin/products");
+  };
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   if (isLoading) {
     return (
@@ -61,30 +69,25 @@ function AdminProductDetails({ productId }) {
 
       <div className={styles.productFilters}>
         <button
-          onClick={() => {
-            handleTabChange("description");
-          }}
+          onClick={() => setSelectedTab("description")}
           className={selectedTab === "description" ? styles.active : ""}
         >
           Description
         </button>
         <button
-          onClick={() => {
-            handleTabChange("inventory");
-          }}
+          onClick={() => setSelectedTab("inventory")}
           className={selectedTab === "inventory" ? styles.active : ""}
         >
           Inventory
         </button>
         <button
-          onClick={() => {
-            handleTabChange("pricing");
-          }}
+          onClick={() => setSelectedTab("pricing")}
           className={selectedTab === "pricing" ? styles.active : ""}
         >
           Pricing
         </button>
       </div>
+
       <div className={styles.carousel}>
         {product?.images?.length > 0 && (
           <div className={styles.carouselWrapper}>
@@ -103,20 +106,35 @@ function AdminProductDetails({ productId }) {
         )}
       </div>
 
-      {/* INFORMATION BASED ON BUTTON CLICKED */}
       {selectedTab === "description" && (
         <AdminProductDescription product={product} />
       )}
       {selectedTab === "inventory" && (
         <AdminProductInventory product={product} />
       )}
-
       {selectedTab === "pricing" && <AdminProductPricing product={product} />}
 
       <div className={styles.productActions}>
-        <button className={styles.deleteBtn}>Delete</button>
-        <Link className={styles.updateBtn} to={`${"/admin/products/edit/"}${productId}`}>Update product</Link>
+        <button className={styles.deleteBtn} onClick={openModal}>
+          Delete
+        </button>
+        <Link
+          className={styles.updateBtn}
+          to={`${"/admin/products/edit/"}${productId}`}
+        >
+          Update product
+        </Link>
       </div>
+
+      <Modal
+        isOpen={isModalOpen}
+        title="Are you sure?"
+        message="Do you really want to delete this product? This action cannot be undone."
+        onClose={closeModal}
+        onConfirm={handleDelete}
+        confirmText="Delete"
+        cancelText="Cancel"
+      />
     </div>
   );
 }

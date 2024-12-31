@@ -2,8 +2,6 @@
 import styles from "./AdminProductPricing.module.scss";
 
 const AdminProductPricing = ({ product }) => {
-  console.log(product);
-
   return (
     <div className={styles.adminProductPrice}>
       <h2>Pricing</h2>

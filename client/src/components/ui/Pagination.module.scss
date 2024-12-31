@@ -57,3 +57,16 @@
     font-weight: 700;
   }
 }
+
+.activePage {
+  background-color: black; /* Highlight color for active page */
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.ellipsis {
+  margin: 0 5px;
+  color: #666;
+  font-size: 16px;
+  cursor: default;
+}

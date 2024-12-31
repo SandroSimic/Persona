@@ -14,54 +14,59 @@ const sizeSchema = new mongoose.Schema({
 });
 
 // Product Schema
-const productSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: [true, "Title is required"],
-  },
-  price: {
-    type: Number,
-    required: [true, "Price is required"],
-  },
-  priceDiscount: {
-    type: Number,
-    default: 0,
-  },
-  totalPrice: {
-    type: Number,
-    default: 0,
-  },
-  description: {
-    type: String,
-    required: [true, "Description is required"],
-  },
-  category: {
-    type: String,
-    required: [true, "Category is required"],
-  },
-  type: {
-    type: String,
-    required: [true, "Type is required"],
-  },
-  images: {
-    type: [String],
-  },
-  sizes: [sizeSchema],
-  totalAmount: {
-    type: Number,
-    default: 0, // Will be calculated dynamically
-  },
-  reviews: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Review",
+const productSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: [true, "Title is required"],
     },
-  ],
-  averageRating: {
-    type: Number,
-    default: 0,
+    price: {
+      type: Number,
+      required: [true, "Price is required"],
+    },
+    priceDiscount: {
+      type: Number,
+      default: 0,
+    },
+    totalPrice: {
+      type: Number,
+      default: 0,
+    },
+    description: {
+      type: String,
+      required: [true, "Description is required"],
+    },
+    category: {
+      type: String,
+      required: [true, "Category is required"],
+    },
+    type: {
+      type: String,
+      required: [true, "Type is required"],
+    },
+    images: {
+      type: [String],
+    },
+    sizes: [sizeSchema],
+    totalAmount: {
+      type: Number,
+      default: 0, // Will be calculated dynamically
+    },
+    reviews: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Review",
+      },
+    ],
+    averageRating: {
+      type: Number,
+      default: 0,
+    },
   },
-});
+  {
+    timestamps: true,
+  }
+);
 productSchema.pre("save", function (next) {
   this.sizes = this.sizes.filter((size) => size.qty > 0);
 
