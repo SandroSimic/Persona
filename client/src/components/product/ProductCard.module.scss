@@ -1,0 +1,107 @@
+.productCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem;
+  border-radius: 1rem;
+  background-color: var(--color-white);
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  gap: 1rem;
+}
+
+.saleTag {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  background-color: red;
+  color: white;
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.productCardImage {
+  border-radius: 1rem;
+  object-fit: cover;
+  overflow: hidden;
+  height: 30rem;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  & img {
+    width: 100%;
+    object-fit: cover;
+    height: 100%;
+    border-radius: 1rem;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
+
+.productCardDetails {
+  padding: 1rem;
+}
+
+.productCardDetailsContainer {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.productCardTitle {
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: var(--color-black);
+
+  cursor: pointer;
+}
+
+.productCardPriceContainer {
+  display: flex;
+  flex-direction: column;
+
+  .productCardPrice {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--color-black);
+  }
+
+  .productCardPriceLine {
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--color-gray);
+    text-decoration: line-through;
+  }
+
+  .productCardPriceDiscount {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--color-black);
+  }
+}
+
+.btnView {
+  align-self: flex-start;
+  padding: 0.5rem 3rem;
+  border-radius: .5rem;
+  background-color: none;
+  background: none;
+  color: black;
+  font-size: 1.4rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid #000;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #000;
+    color: white;
+  }
+}

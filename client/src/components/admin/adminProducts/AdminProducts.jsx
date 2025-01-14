@@ -17,12 +17,17 @@ const AdminProducts = () => {
     limit,
     search: searchParams.get("search"),
     sort: searchParams.get("sort"),
+    "totalPrice[gt]": searchParams.get("totalPrice[gt]"),
+    "totalPrice[lt]": searchParams.get("totalPrice[lt]"),
+    "priceDiscount[gt]": searchParams.get("priceDiscount[gt]"),
+    "priceDiscount[lt]": searchParams.get("priceDiscount[lt]"),
+    category: searchParams.get("category"),
+    type: searchParams.get("type"),
   });
 
   const totalItems = data?.totalItems || 0; // Total items from API
   const totalPages = Math.ceil(totalItems / limit); // Calculate total pages
 
-  console.log(data);
 
   return (
     <div

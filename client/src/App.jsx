@@ -10,6 +10,8 @@ import AdminLayout from "./layout/AdminLayout";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import AdminProducts from "./components/admin/adminProducts/AdminProducts";
 import AdminProductForm from "./components/admin/adminProducts/addProductForm/AdminProductForm";
+import AllProducts from "./pages/AllProducts";
+import ProductDetailsPage from "./pages/ProductDetailsPage";
 
 const queryClient = new QueryClient();
 
@@ -21,8 +23,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<MainPage />} />
-            <Route path="products" element={<h1>allProducts</h1>} />
-            <Route path="product/:productId" element={<h1>productsId</h1>} />
+            <Route path="products" element={<AllProducts />} />
+            <Route path="product/:productId" element={<ProductDetailsPage />} />
           </Route>
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<LoginPage register={true} />} />

@@ -1,13 +1,12 @@
 import { useSearchParams } from "react-router-dom";
-import advanceFilters from "./../../../assets/advanceFilters.png";
-import styles from "./AdminProductsFilter.module.scss";
 import { useEffect, useState } from "react";
-import Modal from "../../ui/Modal";
+import styles from './ProductsFilter.module.scss';
+import Modal from "../ui/Modal";
 
-const AdminProductsFilter = () => {
+const ProductsFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState(
+  const [searchTerm, setSearchTerm] = useState(-
     searchParams.get("search") || ""
   );
   const [sortOption, setSortOption] = useState(
@@ -125,7 +124,6 @@ const AdminProductsFilter = () => {
           </select>
           <button onClick={() => setModalIsOpen(true)}>
             Advance Filters
-            <img src={advanceFilters} alt="Advance Filters" />
           </button>
         </div>
       </div>
@@ -221,4 +219,4 @@ const AdminProductsFilter = () => {
   );
 };
 
-export default AdminProductsFilter;
+export default ProductsFilter;

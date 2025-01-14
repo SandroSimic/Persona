@@ -1,4 +1,5 @@
 import styles from "./HeroSection.module.scss";
+import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   return (
@@ -6,8 +7,7 @@ const HeroSection = () => {
       <div className={styles.textWrapper}>
         <h1>IN THE RIGHT OUTFIT ANYTHING IS POSSIBLE</h1>
         <div className={styles.buttons}>
-          <button className={styles.collectionsBtn}>collections</button>
-          <button className={styles.shopNowBtn}>shop now</button>
+          <Link to="/products" className={styles.shopNowBtn}>shop now</Link>
         </div>
       </div>
     </section>

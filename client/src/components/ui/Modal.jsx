@@ -1,30 +1,22 @@
 /* eslint-disable react/prop-types */
 import styles from "./Modal.module.scss";
 
-function Modal({
-  isOpen,
-  title,
-  message,
-  onClose,
-  onConfirm,
-  confirmText = "Confirm",
-  cancelText = "Cancel",
-}) {
+function Modal({ isOpen, onClose, children }) {
   if (!isOpen) return null;
 
+  const handleBackdropClick = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
-    <div className={styles.modalBackdrop}>
+    <div className={styles.modalBackdrop} onClick={handleBackdropClick}>
       <div className={styles.modalContent}>
-        {title && <h2>{title}</h2>}
-        {message && <p>{message}</p>}
-        <div className={styles.modalActions}>
-          <button className={styles.cancelBtn} onClick={onClose}>
-            {cancelText}
-          </button>
-          <button className={styles.confirmBtn} onClick={onConfirm}>
-            {confirmText}
-          </button>
-        </div>
+        <button className={styles.closeBtn} onClick={onClose} aria-label="Close">
+          &times;
+        </button>
+        {children}
       </div>
     </div>
   );

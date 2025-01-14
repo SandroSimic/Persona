@@ -134,3 +134,58 @@
   background-color: #727272 !important;
   color: white !important;
 }
+
+.modalContent {
+  text-align: center;
+  padding: 2rem; // 20px
+  background-color: #fff;
+  border-radius: 0.8rem; // 8px
+}
+
+.modalContent h2 {
+  font-size: 1.8rem; // 18px
+  margin-bottom: 1rem; // 10px
+}
+
+.modalContent p {
+  font-size: 1.4rem; // 14px
+  color: #555;
+  margin-bottom: 2rem; // 20px
+}
+
+.modalActions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem; // 10px
+}
+
+.cancelBtn {
+  padding: 1rem 2rem; // 10px 20px
+  font-size: 1.4rem; // 14px
+  background-color: #f0f0f0;
+  color: #333;
+  border: none;
+  border-radius: 0.4rem; // 4px
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+}
+
+.confirmBtn {
+  padding: 1rem 2rem; // 10px 20px
+  font-size: 1.4rem; // 14px
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 0.4rem; // 4px
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #d63c2c;
+  }
+}
+

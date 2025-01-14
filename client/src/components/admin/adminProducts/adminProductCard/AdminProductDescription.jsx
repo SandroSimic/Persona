@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import styles from './AdminProductDescription.module.scss'
+import styles from "./AdminProductDescription.module.scss";
 
 function AdminProductDescription({ product }) {
   return (
@@ -9,6 +9,14 @@ function AdminProductDescription({ product }) {
         <div>
           <p>Product Name</p>
           <span>{product.title}</span>
+        </div>
+        <div>
+          <p>Category</p>
+          <span>{product.category}</span>
+        </div>
+        <div>
+          <p>Type</p>
+          <span>{product.type}</span>
         </div>
         <div>
           <p>Description</p>

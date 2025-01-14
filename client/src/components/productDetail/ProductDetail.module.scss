@@ -1,0 +1,207 @@
+@import "./../../styles/utils.scss";
+
+.productDetail {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+
+  @include mobile {
+    gap: 1.5rem;
+  }
+}
+
+.title {
+  font-size: 2.4rem;
+  font-weight: 700;
+
+  @include mobile {
+    font-size: 1.8rem;
+  }
+}
+
+.productPrice {
+  margin-bottom: 3rem;
+  font-size: 2rem;
+  font-weight: 700;
+  display: flex;
+
+  @include mobile {
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.priceWithDiscount {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  @include mobile {
+    align-items: flex-start;
+  }
+}
+
+.line {
+  width: 100%;
+  height: 1px;
+  background-color: #d9d9d9;
+  margin: 1rem 0;
+
+  @include mobile {
+    margin: 0.5rem 0;
+  }
+}
+
+.sizesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 3rem 0rem;
+
+  @include mobile {
+    gap: 0.5rem;
+    margin: 1.5rem 0rem;
+  }
+}
+
+.sizeInfo {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.6rem;
+  font-weight: 700;
+
+  @include mobile {
+    font-size: 1.2rem;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+.sizes {
+  display: flex;
+  gap: 1rem;
+
+  @include mobile {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+}
+
+.size {
+  font-size: 1.6rem;
+  font-weight: 700;
+  border-radius: 1rem;
+  border: 1px solid #d9d9d9;
+  background-color: white;
+
+  transition: all 0.3s;
+
+  &:hover {
+    cursor: pointer;
+    color: white;
+    background-color: #000;
+  }
+
+  height: 5rem;
+  width: 5rem;
+
+  @include mobile {
+    height: 4rem;
+    width: 4rem;
+    font-size: 1.4rem;
+  }
+}
+
+.cta {
+  display: flex;
+  gap: 2rem;
+
+  & select {
+    width: 5rem;
+    height: 5rem;
+    font-size: 1.6rem;
+    font-weight: 700;
+    border: 1px solid #d9d9d9;
+    border-radius: 1rem;
+    padding-left: 1rem;
+
+    @include mobile {
+      width: 100%;
+      font-size: 1.4rem;
+    }
+  }
+
+  @include mobile {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+
+  & button {
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 5rem;
+    font-size: 1.6rem;
+    font-weight: 700;
+    border-radius: 1rem;
+    border: none;
+    transition: all 0.2s;
+
+    @include mobile {
+      height: 4rem;
+      font-size: 1.4rem;
+    }
+  }
+
+  .addToCart {
+    background-color: #303030;
+    color: white;
+    border: 1px solid #303030;
+
+    &:hover {
+      cursor: pointer;
+      border: 1px solid #303030;
+      background-color: #545454;
+      color: white;
+    }
+  }
+
+  .addToWhishList {
+    display: flex;
+    gap: 1rem;
+    background-color: white;
+    color: #303030;
+    border: 1px solid #303030;
+    transition: all 0.2s;
+
+    &:hover {
+      cursor: pointer;
+      border: 3px solid #303030;
+    }
+  }
+}
+
+.selectedSize {
+  border: 2px solid #000;
+  font-weight: bold;
+
+  @include mobile {
+    border-width: 1.5px;
+  }
+}
+
+.normalPrice {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: red;
+  text-decoration: line-through;
+}

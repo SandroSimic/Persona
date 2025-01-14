@@ -10,11 +10,10 @@ import { useDeleteProduct } from "../../adminQueries/useDeleteProduct";
 import Modal from "../../../ui/Modal";
 
 function AdminProductDetails({ productId }) {
-  const { data, isLoading, error } = getProductDetail(productId);
+  const { data:product, isLoading, error } = getProductDetail(productId);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedTab, setSelectedTab] = useState("description"); // Use state for tabs
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const product = data?.data?.doc;
   const { deleteProductQuery } = useDeleteProduct();
   const navigate = useNavigate();
 
@@ -126,15 +125,23 @@ function AdminProductDetails({ productId }) {
         </Link>
       </div>
 
-      <Modal
-        isOpen={isModalOpen}
-        title="Are you sure?"
-        message="Do you really want to delete this product? This action cannot be undone."
-        onClose={closeModal}
-        onConfirm={handleDelete}
-        confirmText="Delete"
-        cancelText="Cancel"
-      />
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <div className={styles.modalContent}>
+          <h2>Are you sure?</h2>
+          <p>
+            Do you really want to delete this product? This action cannot be
+            undone.
+          </p>
+          <div className={styles.modalActions}>
+            <button className={styles.cancelBtn} onClick={closeModal}>
+              Cancel
+            </button>
+            <button className={styles.confirmBtn} onClick={handleDelete}>
+              Delete
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }

@@ -1,0 +1,91 @@
+@import "../../styles/utils.scss";
+
+.productBanner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #727272;
+  padding: 2rem 5rem 0rem 5rem;
+  border-radius: 5rem;
+
+  @include tablet {
+    flex-direction: column;
+    gap: 5rem;
+    padding: 2rem 2rem 0rem 2rem;
+  }
+}
+
+.textWrapper {
+  display: flex;
+  flex-direction: column;
+  gap:5rem;
+  align-items: flex-start;
+
+  @include tablet {
+    align-items: center;
+    padding: 5rem 5rem 0rem 5rem;
+    text-align: center;
+  }
+
+  @include mobile {
+    padding: 2rem 2rem 0rem 2rem;
+  }
+
+  & h1 {
+    font-size: 3.6rem;
+    color: #fff;
+
+    @include tablet {
+      font-size: 3rem;
+    }
+
+    @include mobile {
+      font-size: 2.4rem;
+    }
+  }
+
+  & button {
+    padding: 1.5rem 5rem;
+    background-color: #303030;
+    color: white;
+    font-weight: bold;
+    font-size: 1.6rem;
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    @include tablet {
+      padding: 1.5rem 3rem;
+    }
+
+    @include mobile {
+      padding: 1.5rem 2rem;
+      font-size: 1.4rem;
+    }
+
+    &:hover {
+      background-color: #000;
+    }
+  }
+}
+
+.imageWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @include tablet {
+    margin-top: 5rem;
+  }
+
+  @include mobile {
+    margin-top: 2rem;
+  }
+
+  & img {
+    width: 100%;
+    height: auto;
+    border-radius: 1rem;
+  }
+}
