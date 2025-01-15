@@ -89,16 +89,18 @@
 
 .btnView {
   align-self: flex-start;
-  padding: 0.5rem 3rem;
+  padding: 1.5rem;
   border-radius: .5rem;
+  width: 100%;
   background-color: none;
   background: none;
   color: black;
-  font-size: 1.4rem;
-  font-weight: 700;
+  font-size: 1.6rem;
+  font-weight: 500;
   cursor: pointer;
   border: 1px solid #000;
   transition: all 0.2s ease-in-out;
+  text-transform: uppercase;
 
   &:hover {
     background-color: #000;

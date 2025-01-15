@@ -3,6 +3,7 @@ import { getProductDetail } from "../hooks/product/useGetProduct";
 import styles from "./ProductDetailsPage.module.scss";
 import ImageGrid from "../components/productDetail/ImageGrid";
 import ProductDetail from "../components/productDetail/productDetail";
+import ProductDescription from "../components/productDetail/ProductDescription";
 
 function ProductDetailsPage() {
   const { productId } = useParams();
@@ -24,6 +25,7 @@ function ProductDetailsPage() {
       <div className={styles.productDetailContainer}>
         <ImageGrid images={data.images} />
         <ProductDetail data={data} />
+        <ProductDescription description={data.description} />
       </div>
     </div>
   );

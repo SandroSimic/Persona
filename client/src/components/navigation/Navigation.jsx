@@ -6,10 +6,12 @@ import cartIcon from "../../assets/cart.png";
 import userIcon from "../../assets/user.png";
 import { useLoggedInUser } from "../login/useGetLoggedInUser";
 import { useLogout } from "../login/useLogout";
+import Drawer from "../ui/Drawer";
 
 const Navigation = () => {
   const [isOpenRes, setIsOpenRes] = useState(false);
   const [openUserMenu, setOpenUserMenu] = useState(false);
+  const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
   const { data, isLoading } = useLoggedInUser();
   const userMenuRef = useRef(null);
   const { logout } = useLogout();
@@ -26,6 +28,14 @@ const Navigation = () => {
     if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
       setOpenUserMenu(false);
     }
+  };
+
+  const handleCartClick = () => {
+    setIsCartDrawerOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setIsCartDrawerOpen(false);
   };
 
   useEffect(() => {
@@ -60,10 +70,10 @@ const Navigation = () => {
         <img src={logo} alt="Logo" />
       </Link>
       <div className={styles.navActions}>
-        <Link to="#">
+        <button onClick={handleCartClick} className={styles.cartButton}>
           <img src={cartIcon} alt="Cart" />
           CART
-        </Link>
+        </button>
         {isLoading ? (
           <SkeletonLoader />
         ) : data?.user ? (
@@ -75,22 +85,22 @@ const Navigation = () => {
               onClick={handleOpenUserMenu}
             />
             {openUserMenu && (
-            <div className={styles.userOptions} ref={userMenuRef}>
-              <Link to='/profile' className={styles.profileBtn}>
-                <span>Profile</span>
-              </Link>
-              {data
-                ? data.user?.isAdmin && (
-                    <Link to='/admin' className={styles.profileBtn}>
-                      <span>Admin</span>
-                    </Link>
-                  )
-                : null}
+              <div className={styles.userOptions} ref={userMenuRef}>
+                <Link to="/profile" className={styles.profileBtn}>
+                  <span>Profile</span>
+                </Link>
+                {data
+                  ? data.user?.isAdmin && (
+                      <Link to="/admin" className={styles.profileBtn}>
+                        <span>Admin</span>
+                      </Link>
+                    )
+                  : null}
 
-              <button className={styles.logoutBtn} onClick={logout}>
-                Logout
-              </button>
-            </div>
+                <button className={styles.logoutBtn} onClick={logout}>
+                  Logout
+                </button>
+              </div>
             )}
           </div>
         ) : (
@@ -108,6 +118,14 @@ const Navigation = () => {
         <div />
         <div />
       </div>
+
+      <Drawer
+        isOpen={isCartDrawerOpen}
+        onClose={handleDrawerClose}
+        position="right"
+      >
+        <h1 style={{ padding: "10px 100px 0px 10px" }}>test</h1>
+      </Drawer>
     </div>
   );
 };

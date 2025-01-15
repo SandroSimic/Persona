@@ -3,7 +3,7 @@ import styles from "./ProductCard.module.scss";
 
 const ProductCard = ({ product, onClick }) => {
   return (
-    <div className={styles.productCard}>
+    <div className={styles.productCard} >
       <div
         className={styles.productCardImage}
         onClick={() => onClick(product._id)}
@@ -44,7 +44,7 @@ const ProductCard = ({ product, onClick }) => {
         <p>RATING</p>
       </div>
       <button className={styles.btnView} onClick={() => onClick(product._id)}>
-        View Product
+        Add to Cart
       </button>
     </div>
   );
