@@ -1,0 +1,20 @@
+.imageGrid {
+  & button {
+    background: none;
+    border: none;
+    font-size: 6rem;
+    padding: 0rem 2rem;
+    color: white;
+    cursor: pointer;
+    z-index: 10;
+
+    &:hover {
+      color: #555;
+    }
+  }
+
+  & img {
+    transition: transform 0.3s ease-in-out;
+    object-fit: cover;
+  }
+}

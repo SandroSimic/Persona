@@ -1,0 +1,22 @@
+@import "../../styles/utils.scss";
+
+.productsList {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3rem;
+  margin: 2rem 0rem;
+
+
+
+  @include giantDesktop {
+      grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include tablet {
+      grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include mobile {
+      grid-template-columns: repeat(1, 1fr);
+  }
+}

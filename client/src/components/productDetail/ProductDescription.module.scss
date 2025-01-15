@@ -1,0 +1,36 @@
+@import "../../styles/utils.scss";
+
+.productDescription {
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  grid-column: 1 / -1;
+
+  @include mobile {
+    margin-top: 3rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    width: 100%;
+
+    @include mobile {
+      font-size: 1.8rem;
+    }
+  }
+
+  p {
+    width: 100%;
+    width: 100%;
+    font-size: 1.8rem;
+    line-height: 1.5;
+
+    @include mobile {
+      font-size: 1.6rem;
+    }
+  }
+}

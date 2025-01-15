@@ -62,7 +62,7 @@ const PopularProducts = () => {
   const settings = {
     infinite: true,
     autoplay: true,
-    autoplaySpeed: 4000,
+    autoplaySpeed: 2000,
     speed: 1000,
     slidesToShow: 4,
     slidesToScroll: 1,

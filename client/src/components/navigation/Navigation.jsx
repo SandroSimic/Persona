@@ -6,10 +6,12 @@ import cartIcon from "../../assets/cart.png";
 import userIcon from "../../assets/user.png";
 import { useLoggedInUser } from "../login/useGetLoggedInUser";
 import { useLogout } from "../login/useLogout";
+import Drawer from "../ui/Drawer";
 
 const Navigation = () => {
   const [isOpenRes, setIsOpenRes] = useState(false);
   const [openUserMenu, setOpenUserMenu] = useState(false);
+  const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
   const { data, isLoading } = useLoggedInUser();
   const userMenuRef = useRef(null);
   const { logout } = useLogout();
@@ -28,6 +30,14 @@ const Navigation = () => {
     }
   };
 
+  const handleCartClick = () => {
+    setIsCartDrawerOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setIsCartDrawerOpen(false);
+  };
+
   useEffect(() => {
     if (openUserMenu) {
       document.addEventListener("mousedown", handleClickOutside);
@@ -44,35 +54,55 @@ const Navigation = () => {
     <div className={styles.header}>
       <ul className={`${styles.navList} ${isOpenRes ? styles.open : ""}`}>
         <li>
-          <Link to="#">HOME</Link>
+          <Link to="/">HOME</Link>
         </li>
         <li>
-          <Link to="#">MENS</Link>
+          <Link to="/products?category=Man">MENS</Link>
         </li>
         <li>
-          <Link to="#">WOMANS</Link>
+          <Link to="/products?category=Woman">WOMANS</Link>
         </li>
         <li>
-          <Link to="#">ACCESSORIES</Link>
+          <Link to="/products?category=Kids">KIDS</Link>
         </li>
       </ul>
-      <div className={styles.logo}>
+      <Link to={"/"} className={styles.logo}>
         <img src={logo} alt="Logo" />
-      </div>
+      </Link>
       <div className={styles.navActions}>
-        <Link to="#">
+        <button onClick={handleCartClick} className={styles.cartButton}>
           <img src={cartIcon} alt="Cart" />
           CART
-        </Link>
+        </button>
         {isLoading ? (
           <SkeletonLoader />
         ) : data?.user ? (
-          <img
-            src={data?.user?.userImage}
-            className={styles.userProfile}
-            alt="User Profile"
-            onClick={handleOpenUserMenu}
-          />
+          <div style={{ position: "relative" }}>
+            <img
+              src={data?.user?.userImage}
+              className={styles.userProfile}
+              alt="User Profile"
+              onClick={handleOpenUserMenu}
+            />
+            {openUserMenu && (
+              <div className={styles.userOptions} ref={userMenuRef}>
+                <Link to="/profile" className={styles.profileBtn}>
+                  <span>Profile</span>
+                </Link>
+                {data
+                  ? data.user?.isAdmin && (
+                      <Link to="/admin" className={styles.profileBtn}>
+                        <span>Admin</span>
+                      </Link>
+                    )
+                  : null}
+
+                <button className={styles.logoutBtn} onClick={logout}>
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
         ) : (
           <Link to="/login">
             <img src={userIcon} alt="User" />
@@ -89,22 +119,13 @@ const Navigation = () => {
         <div />
       </div>
 
-      {openUserMenu && (
-        <div className={styles.userOptions} ref={userMenuRef}>
-          <button className={styles.profileBtn}>Profile</button>
-          {data
-            ? data.user?.isAdmin && (
-                <button className={styles.profileBtn}>
-                  <Link to="/admin">Admin</Link>
-                </button>
-              )
-            : null}
-
-          <button className={styles.logoutBtn} onClick={logout}>
-            Logout
-          </button>
-        </div>
-      )}
+      <Drawer
+        isOpen={isCartDrawerOpen}
+        onClose={handleDrawerClose}
+        position="right"
+      >
+        <h1 style={{ padding: "10px 100px 0px 10px" }}>test</h1>
+      </Drawer>
     </div>
   );
 };

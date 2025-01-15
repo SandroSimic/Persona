@@ -1,0 +1,58 @@
+$transition-duration: 0.1s;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background-color: black;
+  transition: opacity #{$transition-duration};
+  opacity: 0.5;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  z-index: 150;
+  height: 100%;
+  transition: transform #{$transition-duration};
+  transform: translateX(0);
+  background-color: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  &.left {
+    left: 0;
+  }
+  &.right {
+    right: 0;
+  }
+  &.open {
+    transform: translateX(0);
+  }
+  &.closed {
+    &.left {
+      transform: translateX(-100%);
+    }
+    &.right {
+      transform: translateX(100%);
+    }
+  }
+}
+
+.modalBody {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.closeButton {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 5rem;
+  color: #4a5568;
+  border: none;
+  background-color: transparent;
+
+  &:hover {
+    color: #1a202c;
+  }
+}

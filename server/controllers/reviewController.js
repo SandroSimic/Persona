@@ -5,7 +5,7 @@ import {
   getAll,
   getOne,
   // createOne,
-  updateOne,
+  // updateOne,
   deleteOne,
 } from "./../utils/handleFactory.js";
 import Product from "../models/productModel.js";
@@ -33,7 +33,7 @@ const getAllReviews = getAll(Review, [
   },
 ]);
 // const createReview = createOne(Review, addReviewToProduct);
-const updateReview = updateOne(Review);
+// const updateReview = updateOne(Review);
 const getReviewById = getOne(Review, [
   {
     path: "user",
@@ -49,7 +49,7 @@ const deleteReview = deleteOne(Review);
 export {
   getAllReviews,
   // createReview,
-  updateReview,
+  // updateReview,
   getReviewById,
   deleteReview,
 };
