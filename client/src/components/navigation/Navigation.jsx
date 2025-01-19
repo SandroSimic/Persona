@@ -124,7 +124,13 @@ const Navigation = () => {
         onClose={handleDrawerClose}
         position="right"
       >
-        <h1 style={{ padding: "10px 100px 0px 10px" }}>test</h1>
+        <div className={styles.cartDrawer}>
+          <div className={styles.cartHeader}>
+            <h2>Your Cart</h2>
+            <div>Items</div>
+          </div>
+          <div className={styles.cartFooter}>Details</div>
+        </div>
       </Drawer>
     </div>
   );

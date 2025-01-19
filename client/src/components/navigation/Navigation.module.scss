@@ -234,3 +234,22 @@
     }
   }
 }
+
+.cartDrawer {
+  padding: 1.5rem 10rem 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+}
+
+.cartHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  flex-direction: column;
+
+  & h2 {
+    font-size: 2rem;
+  }
+}

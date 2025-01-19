@@ -5,12 +5,13 @@ import ProductsList from "../components/products/ProductsList";
 import styles from "./AllProducts.module.scss";
 import { useProducts } from "../components/admin/adminQueries/useGetProduct";
 import Pagination from "../components/ui/Pagination";
+import Spinner from "../components/ui/Spinner";
 
 const AllProducts = () => {
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
   const limit = 12;
-  const { data } = useProducts({
+  const { data, isLoading } = useProducts({
     page,
     limit,
     search: searchParams.get("search"),
@@ -30,7 +31,13 @@ const AllProducts = () => {
     <div className={styles.allProductsPage}>
       <ProductsBanner />
       <ProductsFilter />
-      <ProductsList  products={data?.data?.data}/>
+      {isLoading ? (
+        <div className={styles.spinnerContainer}>
+          <Spinner />
+        </div>
+      ) : (
+        <ProductsList products={data?.data?.data} />
+      )}
       {totalItems > 0 && totalPages > 1 && (
         <Pagination
           totalItems={totalItems}

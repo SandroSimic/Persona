@@ -1,17 +1,8 @@
 import catchAsync from "../utils/catchAsync.js";
 import Cart from "../models/cartModel.js";
 import Product from "../models/productModel.js";
-import mongoose from "mongoose";
 
-// import {
-//   getAll,
-//   getOne,
-//   createOne,
-//   updateOne,
-//   deleteOne,
-// } from "./../utils/handleFactory.js";
-
-const addToCart = catchAsync(async (req, res, next) => {
+const addToCart = catchAsync(async (req, res) => {
   const { productId } = req.params;
   const { selectedSize, selectedSizeQty } = req.body;
   const userId = req.user._id;
@@ -42,6 +33,49 @@ const addToCart = catchAsync(async (req, res, next) => {
   });
 });
 
+const clearCart = catchAsync(async (req, res) => {
+  const cart = await Cart.findOne({ user: req.user._id });
+
+  if (!cart) {
+    return res.status(404).json({ message: "Cart not found" });
+  }
+
+  cart.product = [];
+
+  await cart.save();
+
+  res.status(200).json({
+    message: "Cart has been cleared.",
+    cart,
+  });
+});
+
+const removeProductFromCart = catchAsync(async (req, res) => {
+  const { productId } = req.params;
+  const cart = await Cart.findOne({ user: req.user._id });
+
+  if (!cart) {
+    return res.status(404).json({ message: "Cart not found" });
+  }
+
+  const productIndex = cart.product.findIndex(
+    (item) => item.productId.toString() === productId
+  );
+
+  if (productIndex === -1) {
+    return res.status(404).json({ message: "Product not found in cart" });
+  }
+
+  cart.product.splice(productIndex, 1);
+
+  await cart.save();
+
+  res.status(200).json({
+    message: "Product has been removed from the cart.",
+    cart,
+  });
+});
+
 const getUserCart = catchAsync(async (req, res) => {
   const cart = await Cart.findOne({ user: req.user._id })
     .populate({
@@ -50,17 +84,14 @@ const getUserCart = catchAsync(async (req, res) => {
     })
     .populate({
       path: "product.productId",
-      select: "title price",
     });
 
   if (!cart) {
     return res.status(404).json({ message: "Cart not found" });
   }
 
-  // Filter out products with no productId
   cart.product = cart.product.filter((item) => item.productId);
 
-  // If the cart is empty after filtering, you may want to handle that case
   if (cart.product.length === 0) {
     return res.status(200).json({
       status: "success",
@@ -75,29 +106,18 @@ const getUserCart = catchAsync(async (req, res) => {
     });
   }
 
-  const formattedCart = cart.product.map((item) => {
-    const formattedFullPrice = item.selectedSizeQty * item.productId.price;
-
-    return {
-      title: item.productId.title,
-      price: item.productId.price,
-      selectedSize: item.selectedSize,
-      selectedSizeQty: item.selectedSizeQty,
-      fullPrice: formattedFullPrice,
-    };
-  });
-
-  const totalPrice = formattedCart.reduce(
+  const totalPrice = cart.product.reduce(
     (acc, item) => acc + item.fullPrice,
     0
   );
+
   res.status(200).json({
     status: "success",
     data: {
       cart: {
         _id: cart._id,
         user: cart.user,
-        products: formattedCart,
+        products: cart.product,
         totalPrice: totalPrice,
         fullPrice: cart.fullPrice,
       },
@@ -105,4 +125,4 @@ const getUserCart = catchAsync(async (req, res) => {
   });
 });
 
-export { addToCart, getUserCart };
+export { addToCart, getUserCart, removeProductFromCart, clearCart };
