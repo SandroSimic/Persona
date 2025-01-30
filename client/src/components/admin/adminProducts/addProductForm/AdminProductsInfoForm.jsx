@@ -14,13 +14,12 @@ const AdminProductsInfoForm = () => {
     calculateDiscountedPrice,
   } = useProduct();
 
-  console.log("Product Data", productData);
 
   useEffect(() => {
     if (productData.discount > 0) {
       setProductData((prev) => ({ ...prev, hasDiscount: true }));
     }
-  });
+  }, []);
 
   return (
     <div className={styles.productFormInfo}>

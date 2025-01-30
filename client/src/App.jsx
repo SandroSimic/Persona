@@ -42,7 +42,7 @@ function App() {
                     />
                     <Route
                       path="products/edit/:productId"
-                      element={<AdminProductForm isEdit />}
+                      element={<AdminProductForm isEdit={true} />}
                     />
                     <Route
                       path="analytics"

@@ -205,3 +205,13 @@
   color: red;
   text-decoration: line-through;
 }
+
+.errorBorder {
+  border: 2px solid red;
+}
+
+.errorMessage {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}

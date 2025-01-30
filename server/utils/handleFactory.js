@@ -81,7 +81,6 @@ export const createOne = async (Model, data, postCreateCallback = null) => {
 export const updateOne = async (Model, data, id) => {
   try {
     const doc = await Model.findByIdAndUpdate(id, data, {
-      new: true,
       runValidators: true,
     });
 
