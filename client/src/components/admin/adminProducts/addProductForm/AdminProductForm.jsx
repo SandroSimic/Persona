@@ -16,10 +16,14 @@ const AdminProductForm = ({ isEdit = false }) => {
   const { productId } = useParams();
   const { data } = getProductDetail(productId);
   const navigate = useNavigate();
-  // Pre-fill form data for editing
+
+  console.log(data);
   useEffect(() => {
     if (data && isEdit) {
-      const product = data.data.doc;
+      const product = data?.data?.doc;
+
+      console.log("product", product);
+
       setProductData({
         title: product.title || "",
         price: product.price || "",
@@ -34,7 +38,7 @@ const AdminProductForm = ({ isEdit = false }) => {
         images: product.images.map((url) => ({ file: null, preview: url })),
       });
     }
-  }, [data, isEdit]);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

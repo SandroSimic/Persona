@@ -2,12 +2,29 @@
 import { useState } from "react";
 import styles from "./ProductDetail.module.scss";
 import { FaRegHeart } from "react-icons/fa";
+import { useAddToCart } from "../../hooks/cart/useAddToCart";
 
 function ProductDetail({ data }) {
   const [selectedSize, setSelectedSize] = useState(null);
-  console.log(selectedSize);
+  const [quantity, setQuantity] = useState(1);
+  const [sizeError, setSizeError] = useState(false); // State to track size selection error
+  const { mutate, isPending } = useAddToCart();
+
+  console.log(data);
+
   const handleSizeClick = (size) => {
     setSelectedSize(size);
+    setSizeError(false); // Clear the error if a size is selected
+  };
+
+  const handleAddToCart = () => {
+    if (!selectedSize) {
+      setSizeError(true); // Trigger error if no size is selected
+      return;
+    }
+
+    // Add product to the cart
+    mutate({ productId: data._id, selectedSize: selectedSize.name, quantity });
   };
 
   return (
@@ -44,22 +61,30 @@ function ProductDetail({ data }) {
             </span>
           </div>
           <div className={styles.sizes}>
-            {data.sizes.map((size) => (
+            {data?.sizes?.map((size) => (
               <button
                 key={size.name}
                 className={`${styles.size} ${
                   selectedSize?._id === size._id ? styles.selectedSize : ""
-                }`}
+                } ${sizeError ? styles.errorBorder : ""}`} // Add error style if sizeError is true
                 onClick={() => handleSizeClick(size)}
               >
                 {size.name}
               </button>
             ))}
           </div>
+          {sizeError && (
+            <div className={styles.errorMessage}>
+              Please select a size before adding to cart.
+            </div>
+          )}
         </div>
         <div className={styles.line} />
         <div className={styles.cta}>
-          <select>
+          <select
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
+          >
             {Array.from({ length: 10 }, (_, i) => (
               <option key={i} value={i + 1}>
                 {i + 1}
@@ -67,7 +92,13 @@ function ProductDetail({ data }) {
             ))}
           </select>
           <div className={styles.buttons}>
-            <button className={styles.addToCart}>ADD TO CART</button>
+            <button
+              className={styles.addToCart}
+              onClick={handleAddToCart}
+              disabled={isPending}
+            >
+              {isPending ? "Adding to Cart..." : "Add To Cart"}
+            </button>
             <button className={styles.addToWhishList}>
               <FaRegHeart />
               <span>Add To WishList</span>

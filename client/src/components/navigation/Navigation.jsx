@@ -7,6 +7,9 @@ import userIcon from "../../assets/user.png";
 import { useLoggedInUser } from "../login/useGetLoggedInUser";
 import { useLogout } from "../login/useLogout";
 import Drawer from "../ui/Drawer";
+import { getCart } from "../../hooks/cart/useGetCart";
+import ProductCardDrawer from "../product/ProductCardDrawer";
+import { useClearCart } from "../../hooks/cart/useClearCart";
 
 const Navigation = () => {
   const [isOpenRes, setIsOpenRes] = useState(false);
@@ -15,6 +18,8 @@ const Navigation = () => {
   const { data, isLoading } = useLoggedInUser();
   const userMenuRef = useRef(null);
   const { logout } = useLogout();
+  const { data: cartData } = getCart();
+  const clearCart = useClearCart();
 
   const handleOpenRes = () => {
     setIsOpenRes(!isOpenRes);
@@ -50,6 +55,8 @@ const Navigation = () => {
     };
   }, [openUserMenu]);
 
+  const cartProducts = cartData?.data?.cart?.products;
+
   return (
     <div className={styles.header}>
       <ul className={`${styles.navList} ${isOpenRes ? styles.open : ""}`}>
@@ -72,7 +79,11 @@ const Navigation = () => {
       <div className={styles.navActions}>
         <button onClick={handleCartClick} className={styles.cartButton}>
           <img src={cartIcon} alt="Cart" />
-          CART
+          {cartData?.data?.cart.totalAmountOfProducts > 0 && (
+            <div className={styles.cartCount}>
+              <span>{cartData?.data?.cart.totalAmountOfProducts}</span>
+            </div>
+          )}
         </button>
         {isLoading ? (
           <SkeletonLoader />
@@ -127,9 +138,38 @@ const Navigation = () => {
         <div className={styles.cartDrawer}>
           <div className={styles.cartHeader}>
             <h2>Your Cart</h2>
-            <div>Items</div>
+            {cartProducts?.length === 0 || cartProducts === undefined ? (
+              <div className={styles.emptyCart}>Your cart is empty</div>
+            ) : (
+              <div className={styles.cartItems}>
+                {cartProducts?.map((product) => (
+                  <ProductCardDrawer product={product} key={product._id} />
+                ))}
+              </div>
+            )}
           </div>
-          <div className={styles.cartFooter}>Details</div>
+          {cartProducts?.length > 0 && (
+            <div className={styles.cartFooter}>
+              <div className={styles.cartTotal}>
+                <div className={styles.totalPrice}>
+                  <p>Amount Price:</p>
+                  <span>${cartData?.data?.cart.totalPrice.toFixed(2)}</span>
+                </div>
+                <button className={styles.checkoutBtn}>
+                  <p>Checkout</p>
+                  <span>{cartData?.data?.cart.totalAmountOfProducts}</span>
+                </button>
+              </div>
+              <div className={styles.cartActions}>
+                <button
+                  className={styles.emptyCartBtn}
+                  onClick={clearCart.mutate}
+                >
+                  Empty Cart
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </Drawer>
     </div>

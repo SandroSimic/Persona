@@ -2,9 +2,9 @@ import { useParams } from "react-router-dom";
 import { getProductDetail } from "../hooks/product/useGetProduct";
 import styles from "./ProductDetailsPage.module.scss";
 import ImageGrid from "../components/productDetail/ImageGrid";
-import ProductDetail from "../components/productDetail/productDetail";
 import ProductDescription from "../components/productDetail/ProductDescription";
 import Spinner from "../components/ui/Spinner";
+import ProductDetail from "../components/productDetail/ProductDetail";
 
 function ProductDetailsPage() {
   const { productId } = useParams();
@@ -19,9 +19,9 @@ function ProductDetailsPage() {
         </div>
       ) : (
         <div className={styles.productDetailContainer}>
-          <ImageGrid images={data.images} />
-          <ProductDetail data={data} />
-          <ProductDescription description={data.description} />
+          <ImageGrid images={data?.data?.doc.images} />
+          <ProductDetail data={data?.data?.doc} />
+          <ProductDescription description={data?.data?.doc.description} />
         </div>
       )}
     </div>

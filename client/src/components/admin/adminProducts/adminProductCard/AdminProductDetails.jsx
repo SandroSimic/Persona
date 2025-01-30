@@ -17,6 +17,8 @@ function AdminProductDetails({ productId }) {
   const { deleteProductQuery } = useDeleteProduct();
   const navigate = useNavigate();
 
+  console.log("PRODIUCT DETAILS", product);
+
   useEffect(() => {
     if (product) {
       setCurrentImageIndex(0);
@@ -25,13 +27,13 @@ function AdminProductDetails({ productId }) {
 
   const handleNext = () => {
     setCurrentImageIndex(
-      (prevIndex) => (prevIndex + 1) % product?.images.length
+      (prevIndex) => (prevIndex + 1) % product?.data?.doc.images.length
     );
   };
 
   const handlePrev = () => {
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? product?.images.length - 1 : prevIndex - 1
+      prevIndex === 0 ? product?.data?.doc.images.length - 1 : prevIndex - 1
     );
   };
 
@@ -62,8 +64,8 @@ function AdminProductDetails({ productId }) {
   return (
     <div className={styles.productInfo}>
       <div className={styles.productHeader}>
-        <h1>{product.title}</h1>
-        <Link to={`/product/${product._id}`}>See Full View</Link>
+        <h1>{product.data.doc.title}</h1>
+        <Link to={`/product/${product.data.doc._id}`}>See Full View</Link>
       </div>
 
       <div className={styles.productFilters}>
@@ -88,13 +90,13 @@ function AdminProductDetails({ productId }) {
       </div>
 
       <div className={styles.carousel}>
-        {product?.images?.length > 0 && (
+        {product?.data?.doc.images?.length > 0 && (
           <div className={styles.carouselWrapper}>
             <button className={styles.carouselButton} onClick={handlePrev}>
               &#8249;
             </button>
             <img
-              src={product.images[currentImageIndex]}
+              src={product.data?.doc.images[currentImageIndex]}
               alt={`Product Image ${currentImageIndex + 1}`}
               className={styles.carouselImage}
             />
@@ -106,12 +108,12 @@ function AdminProductDetails({ productId }) {
       </div>
 
       {selectedTab === "description" && (
-        <AdminProductDescription product={product} />
+        <AdminProductDescription product={product.data?.doc} />
       )}
       {selectedTab === "inventory" && (
-        <AdminProductInventory product={product} />
+        <AdminProductInventory product={product.data?.doc} />
       )}
-      {selectedTab === "pricing" && <AdminProductPricing product={product} />}
+      {selectedTab === "pricing" && <AdminProductPricing product={product.data?.doc} />}
 
       <div className={styles.productActions}>
         <button className={styles.deleteBtn} onClick={openModal}>

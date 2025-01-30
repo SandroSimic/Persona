@@ -1,0 +1,91 @@
+.productCardDrawer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-bottom: 5rem;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #bcbcbc;
+  }
+}
+
+.productCardDrawerHeader {
+  display: flex;
+  gap: 1rem;
+  & img {
+    width: 10rem;
+    height: 10rem;
+  }
+}
+
+.productCardDrawerInfo {
+  flex-direction: column;
+  display: flex;
+  justify-content: space-between;
+
+  & > span {
+    color: #949494;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+}
+
+.productCardDrawerTitle {
+  display: flex;
+  gap: 1rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.productCardDrawerPrice {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  & > p {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #004e1a;
+  }
+  & > div {
+    height: 2px;
+    width: 1rem;
+    background-color: #bcbcbc;
+  }
+
+  & > span {
+    font-size: 1.2rem;
+    color: #949494;
+  }
+}
+
+.productCardDrawerCounter {
+  display: flex;
+  width: 10rem;
+  border: 1px solid #bcbcbc;
+  border-radius: 0.5rem;
+  height: 3.5rem;
+
+  & > button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    border: none;
+    font-size: 1.6rem;
+    font-weight: 600;
+    cursor: pointer;
+    background-color: transparent;
+  }
+
+  & > span {
+    display: flex;
+    align-items: center;
+    padding: 0rem 1rem;
+    border-right: 1px solid #bcbcbc;
+    border-left: 1px solid #bcbcbc;
+    font-size: 1.6rem;
+    font-weight: 600;
+  }
+}

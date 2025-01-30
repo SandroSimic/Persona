@@ -111,8 +111,6 @@ const updateProduct = catchAsync(async (req, res) => {
   const { title, price, priceDiscount, description, category, type, sizes } =
     req.body;
 
-  console.log("Request body:", req.body);
-
   // Validate and parse `sizes`
   if (!sizes) {
     return res

@@ -4,7 +4,9 @@ import {
   addToCart,
   getUserCart,
   removeProductFromCart,
-  clearCart
+  clearCart,
+  decreaseQuantity,
+  increaseQuantity,
 } from "../controllers/cartController.js";
 
 const router = express.Router();
@@ -15,6 +17,10 @@ router
   .post(protect, addToCart)
   .delete(protect, removeProductFromCart);
 
-router.route("/clear").delete(protect, clearCart);
+router.route("/clear").patch(protect, clearCart);
+
+router.route("/:productId/increase").patch(protect, increaseQuantity);
+
+router.route("/:productId/decrease").patch(protect, decreaseQuantity);
 
 export default router;
