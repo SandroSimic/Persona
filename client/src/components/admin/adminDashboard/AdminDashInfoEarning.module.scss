@@ -1,0 +1,78 @@
+@import "../../../styles/utils.scss";
+
+.adminDashInfoEarning {
+  display: flex;
+  gap: 4rem;
+
+  @include tablet {
+    flex-direction: column;
+    gap: 2rem;
+  }
+}
+
+.adminDashInfoEarningPrice {
+  width: 47%;
+  background-color: #fff;
+  border: 1px solid #bcbcbc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+
+  @include tablet {
+    width: 100%;
+  }
+}
+
+.adminDashGraph {
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #bcbcbc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  @include tablet {
+    height: 200px;
+  }
+}
+
+.yearlyIncome {
+  display: flex;
+  flex-direction: column;
+  height: 50%;
+  gap: 3rem;
+  padding: 2rem;
+  & p {
+    font-size: 1.8rem;
+    font-weight: 500;
+  }
+
+  & span {
+    font-size: 3.2rem;
+    font-weight: 500;
+  }
+}
+
+.monthlyIncome {
+  display: flex;
+  height: 50%;
+  border-radius: 0px 0px 10px 10px;
+  flex-direction: column;
+  background-color: #303030;
+  gap: 3rem;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  color: white;
+  & p {
+    font-size: 1.8rem;
+    font-weight: 500;
+  }
+
+  & span {
+    font-size: 3.2rem;
+    font-weight: 500;
+  }
+}

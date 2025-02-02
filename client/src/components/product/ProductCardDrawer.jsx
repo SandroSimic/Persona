@@ -33,11 +33,11 @@ const ProductCardDrawer = ({ product }) => {
           </div>
           <span>{product.productId.category}</span>
           <div className={styles.productCardDrawerPrice}>
-            <p>${product.fullPrice}</p>
+            <p>${product.fullPrice.toFixed(2)}</p>
             {product.fullPrice !== product.productId.totalPrice && (
               <>
                 <div />
-                <span>${product.productId.totalPrice} per unit</span>
+                <span>${product.productId.totalPrice.toFixed(2)} per unit</span>
               </>
             )}
           </div>

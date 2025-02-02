@@ -215,3 +215,23 @@
   font-size: 0.875rem;
   margin-top: 0.5rem;
 }
+
+.disabledButton {
+  background-color: #d9d9d9 !important;
+  color: white !important;
+  border: 1px solid #d9d9d9 !important;
+
+  &:hover {
+    cursor: not-allowed !important;
+  }
+}
+
+.outOfStock {
+  border: 1px solid #afafaf;
+  background-color: #dadada;
+  color: #aaaaaa;
+
+  &:hover {
+    cursor: not-allowed;
+  }
+}

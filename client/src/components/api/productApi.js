@@ -15,7 +15,5 @@ export const getProduct = async (id) => {
   const { data } = await axios.get(`${productApi}/${id}`, id, {
     withCredentials: true,
   });
-
-  console.log("DATA", data);
   return data;
 };

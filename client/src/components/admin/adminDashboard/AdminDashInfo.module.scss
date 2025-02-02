@@ -1,0 +1,30 @@
+@import "../../../styles/utils.scss";
+
+.blue {
+  background-color: #00c8ff;
+}
+
+.orange {
+  background-color: #ffae00;
+}
+
+.green {
+  background-color: #34a853;
+}
+
+.adminDashInfo {
+  display: flex;
+  justify-content: space-between;
+  gap: 4rem;
+
+  @include tablet {
+    flex-direction: column;
+    gap: 2rem;
+  }
+}
+
+.adminDashInfoContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
