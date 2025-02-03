@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import styles from "./Navigation.module.scss";
 import logo from "../../assets/logo.png";
@@ -15,11 +15,14 @@ const Navigation = () => {
   const [isOpenRes, setIsOpenRes] = useState(false);
   const [openUserMenu, setOpenUserMenu] = useState(false);
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
+
   const { data, isLoading } = useLoggedInUser();
-  const userMenuRef = useRef(null);
-  const { logout } = useLogout();
   const { data: cartData } = getCart();
+  const { logout } = useLogout();
+
   const clearCart = useClearCart();
+  const navigate = useNavigate();
+  const userMenuRef = useRef(null);
 
   const handleOpenRes = () => {
     setIsOpenRes(!isOpenRes);
@@ -43,6 +46,11 @@ const Navigation = () => {
     setIsCartDrawerOpen(false);
   };
 
+  const handleNavigateToOrder = () => {
+    navigate("/order");
+    setIsCartDrawerOpen(false);
+  };
+
   useEffect(() => {
     if (openUserMenu) {
       document.addEventListener("mousedown", handleClickOutside);
@@ -62,6 +70,9 @@ const Navigation = () => {
       <ul className={`${styles.navList} ${isOpenRes ? styles.open : ""}`}>
         <li>
           <Link to="/">HOME</Link>
+        </li>
+        <li>
+          <Link to="/products">PRODUCTS</Link>
         </li>
         <li>
           <Link to="/products?category=Man">MENS</Link>
@@ -155,7 +166,10 @@ const Navigation = () => {
                   <p>Amount Price:</p>
                   <span>${cartData?.data?.cart.totalPrice.toFixed(2)}</span>
                 </div>
-                <button className={styles.checkoutBtn}>
+                <button
+                  onClick={handleNavigateToOrder}
+                  className={styles.checkoutBtn}
+                >
                   <p>Checkout</p>
                   <span>{cartData?.data?.cart.totalAmountOfProducts}</span>
                 </button>

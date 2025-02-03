@@ -1,5 +1,8 @@
 .adminDashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  padding: 4rem;
   background-color: white;
-  height: 100vh;
   border-radius: 3rem;
 }

@@ -18,11 +18,13 @@ const AdminNavigation = () => {
       <div className={styles.navigation}>
         <ul className={styles.navItems}>
           <li>
-            <img src={dashboardIcon} alt="dashboard" />
-            <span>Dashboard</span>
+            <Link to={"/admin"}>
+              <img src={dashboardIcon} alt="dashboard" />
+              <span>Dashboard</span>
+            </Link>
           </li>
           <li>
-            <Link to={'/admin/products'}>
+            <Link to={"/admin/products"}>
               <img src={productsIcon} alt="products" />
               <span>Products</span>
             </Link>

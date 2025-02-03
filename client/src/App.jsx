@@ -12,6 +12,7 @@ import AdminProducts from "./components/admin/adminProducts/AdminProducts";
 import AdminProductForm from "./components/admin/adminProducts/addProductForm/AdminProductForm";
 import AllProducts from "./pages/AllProducts";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
+import OrderPage from "./pages/OrderPage";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ function App() {
             <Route index element={<MainPage />} />
             <Route path="products" element={<AllProducts />} />
             <Route path="product/:productId" element={<ProductDetailsPage />} />
+            <Route path="order" element={<OrderPage />} />
           </Route>
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<LoginPage register={true} />} />

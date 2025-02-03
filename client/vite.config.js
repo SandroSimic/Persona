@@ -10,4 +10,11 @@ export default defineConfig({
       "~": "/node_modules/",
     },
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: "modern"
+      },
+    },
+  }
 });

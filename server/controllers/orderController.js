@@ -1,7 +1,7 @@
-
 import catchAsync from "../utils/catchAsync.js";
 import { deleteOne, getOne } from "../utils/handleFactory.js";
-import Order from './../models/orderModel.js'
+import Order from "./../models/orderModel.js";
+import Cart from "./../models/cartModel.js";
 // const getAllOrders = getAll(Order, [
 //   {
 //     path: "cart",
@@ -28,7 +28,6 @@ const getOrderById = getOne(Order, [
 const deleteOrder = deleteOne(Order);
 
 // const createOrder = createOne(Order);
-
 
 const updateOrderStatus = catchAsync(async (req, res) => {
   const { orderId, status } = req.body;
@@ -78,9 +77,42 @@ const updateOrderStatus = catchAsync(async (req, res) => {
   res.status(200).json({ status: "success", data: { order } });
 });
 
+const createOrder = catchAsync(async (req, res) => {
+  const { cart, name, surname, zipCode, email, phone, country, city, address } =
+    req.body;
+
+  const cartDoc = await Cart.findById(cart);
+  if (!cartDoc) {
+    return res.status(404).json({ status: "fail", message: "Cart not found" });
+  }
+
+  const order = await Order.create({
+    cart,
+    orderItems: cartDoc.products,
+    name,
+    surname,
+    zipCode,
+    email,
+    phone,
+    country,
+    city,
+    address,
+  });
+
+  if (order) {
+    const cart = await Cart.findById(order.cart);
+    cart.products = [];
+    cart.totalPrice = 0;
+    cart.totalAmountOfProducts = 0;
+    await cart.save();
+  }
+
+  res.status(201).json({ status: "success", data: { order } });
+});
+
 export {
   // getAllOrders,
-  // createOrder,
+  createOrder,
   getOrderById,
   // updateOrder,
   deleteOrder,
