@@ -56,6 +56,9 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: [true, "Country is required"],
     },
+    totalPrice: {
+      type: Number,
+    },
     city: {
       type: String,
       required: [true, "City is required"],
@@ -72,6 +75,15 @@ const orderSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+orderSchema.pre("save", function (next) {
+  this.totalPrice = this.orderItems.reduce(
+    (acc, item) => acc + item.fullPrice,
+    0
+  );
+  next();
+});
+
 
 const Order = mongoose.model("Order", orderSchema);
 export default Order;

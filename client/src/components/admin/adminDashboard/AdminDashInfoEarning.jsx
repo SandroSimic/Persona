@@ -76,16 +76,16 @@ function AdminDashInfoEarning({
       <div className={styles.adminDashInfoEarningPrice}>
         <div className={styles.yearlyIncome}>
           <p>Estimated Yearly Income</p>
-          <span>${yearlyIncome}</span>
+          <span>${yearlyIncome.toFixed(2)}</span>
         </div>
         <div className={styles.monthlyIncome}>
           <p>Estimated Monthly Income</p>
-          <span>${monthlyIncome}</span>
+          <span>${monthlyIncome.toFixed(2)}</span>
         </div>
       </div>
       <div className={styles.adminDashGraph}>
         <Chart
-        className={styles.adminDashGraphBar}
+          className={styles.adminDashGraphBar}
           options={{
             data,
             primaryAxis,

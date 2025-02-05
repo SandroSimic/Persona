@@ -3,6 +3,7 @@ import express from "express";
 import {
   createOrder,
   deleteOrder,
+  getAllOrders,
   getOrderById,
   updateOrderStatus,
 } from "../controllers/orderController.js";
@@ -10,7 +11,10 @@ import { protect, isUserAdmin } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.route("/").post(protect, createOrder);
+router
+  .route("/")
+  .post(protect, createOrder)
+  .get(protect, isUserAdmin, getAllOrders);
 router
   .route("/:id")
   // .put(protect, updateOrder)

@@ -1,0 +1,132 @@
+@import "../../../styles/utils.scss";
+
+.tableContainer {
+  margin: 20px auto;
+  max-width: 100%;
+  overflow-x: auto;
+
+  @include mobile {
+    padding: 5px;
+  }
+
+  @include tablet {
+    padding: 8px;
+  }
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+
+  @include mobile {
+    font-size: 1.2rem;
+  }
+
+  @include tablet {
+    font-size: 1.4rem;
+  }
+}
+
+.table th {
+  text-align: left;
+  padding: 5px 25px;
+  font-size: 1.6rem;
+  color: #bcbcbc !important;
+  border-bottom: 1px solid #ddd;
+  font-weight: 700;
+
+  @include mobile {
+    font-size: 1.4rem;
+    padding: 5px 15px;
+  }
+
+  @include tablet {
+    font-size: 1.5rem;
+    padding: 5px 20px;
+  }
+}
+
+.table td {
+  padding: 2.5rem;
+  text-align: left;
+  font-size: 1.6rem;
+  border-bottom: 1px solid #ddd;
+  font-weight: bold;
+
+  @include mobile {
+    font-size: 1.4rem;
+    padding: 15px;
+  }
+
+  @include tablet {
+    font-size: 1.5rem;
+    padding: 20px;
+  }
+}
+
+.button {
+  margin-right: 5px;
+  padding: 6px 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 0.9rem;
+
+  @include mobile {
+    padding: 4px 8px;
+    font-size: 0.8rem;
+  }
+
+  @include tablet {
+    padding: 5px 10px;
+    font-size: 0.85rem;
+  }
+}
+
+.button.edit {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.button.delete {
+  background-color: #f44336;
+  color: #fff;
+}
+
+.icon {
+  font-size: 1.6rem;
+  cursor: pointer;
+  text-align: center;
+  margin-left: 2rem;
+  @include mobile {
+    font-size: 1.4rem;
+  }
+
+  @include tablet {
+    font-size: 1.5rem;
+  }
+}
+
+.order {
+  & span {
+    background-color: #d9d9d9;
+    color: white;
+
+    padding: .5rem 2rem;
+    border-radius: 3rem;
+
+  }
+}
+
+.green {
+  & span {
+    background-color: #4caf50;
+  }
+}
+
+.red {
+  & span {
+    background-color: #f44336;
+  }
+}
