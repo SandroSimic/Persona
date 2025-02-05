@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createOrder } from "../../components/api/oderApi";
+import { createOrder } from "../../components/api/orderApi";
 import toast from "react-hot-toast";
 
 export const useCreateOrder = () => {

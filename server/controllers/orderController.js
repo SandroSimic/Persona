@@ -1,15 +1,13 @@
 import catchAsync from "../utils/catchAsync.js";
-import { deleteOne, getOne } from "../utils/handleFactory.js";
+import { deleteOne, getAll, getOne } from "../utils/handleFactory.js";
 import Order from "./../models/orderModel.js";
 import Cart from "./../models/cartModel.js";
-// const getAllOrders = getAll(Order, [
-//   {
-//     path: "cart",
-//   },
-// ]);
+const getAllOrders = getAll(Order, [
+  {
+    path: "cart",
+  },
+]);
 
-// const createOrder = createOne(Order);
-// const updateOrder = updateOne(Order);
 const getOrderById = getOne(Order, [
   {
     path: "cart",
@@ -25,6 +23,7 @@ const getOrderById = getOne(Order, [
     ],
   },
 ]);
+
 const deleteOrder = deleteOne(Order);
 
 // const createOrder = createOne(Order);
@@ -111,7 +110,7 @@ const createOrder = catchAsync(async (req, res) => {
 });
 
 export {
-  // getAllOrders,
+  getAllOrders,
   createOrder,
   getOrderById,
   // updateOrder,

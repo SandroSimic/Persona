@@ -14,3 +14,16 @@ export const createOrder = async (orderData) => {
     return error.response.data;
   }
 };
+
+export const getAllOrders = async (params) => {
+  try {
+    const response = await axios.get(`${orderApi}`, {
+      withCredentials: true,
+      params,
+    });
+
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
