@@ -16,7 +16,7 @@ const AdminProductsInfoForm = () => {
 
 
   useEffect(() => {
-    if (productData.discount > 0) {
+    if (productData.discount >= 0) {
       setProductData((prev) => ({ ...prev, hasDiscount: true }));
     }
   }, []);
