@@ -1,0 +1,85 @@
+.AdminModalProductContainer {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #C2C2C2;
+  padding: 3rem 0rem;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.productHeader {
+  display: flex;
+  gap: 2rem;
+}
+
+.productImage {
+  width: 15rem;
+  height: 15rem;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.productDetails {
+  align-self: flex-end;
+}
+
+.productInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.productInfoText {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+
+  & div {
+    & p {
+      color: #333333;
+      font-size: 1.4rem;
+    }
+  }
+}
+
+
+.productInfoPrice {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+
+  & p {
+    font-size: 1.4rem;
+    color: #333333;
+    font-weight: 500;
+  }
+
+  .productInfoTotalPrice {
+    font-size: 1.8rem;
+    color: #333333;
+    font-weight: 600;
+  }
+}
+
+.productDetails {
+  display: flex;
+  flex-direction: column;
+
+  & p {
+    font-size: 1.4rem;
+    color: #333333;
+    font-weight: 500;
+  }
+
+  .productDetailsAfterAccept {
+    font-size: 1.8rem;
+    color: #333333;
+    font-weight: 600;
+  }
+}

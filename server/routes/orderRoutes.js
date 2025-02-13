@@ -10,6 +10,7 @@ import {
 import { protect, isUserAdmin } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
+router.patch("/update-status", protect, isUserAdmin, updateOrderStatus);
 
 router
   .route("/")
@@ -21,6 +22,5 @@ router
   .get(protect, getOrderById)
   .delete(protect, isUserAdmin, deleteOrder);
 
-router.patch("/update-status", protect, isUserAdmin, updateOrderStatus);
 
 export default router;

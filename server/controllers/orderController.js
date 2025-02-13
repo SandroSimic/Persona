@@ -2,6 +2,7 @@ import catchAsync from "../utils/catchAsync.js";
 import { deleteOne, getAll, getOne } from "../utils/handleFactory.js";
 import Order from "./../models/orderModel.js";
 import Cart from "./../models/cartModel.js";
+import Product from "./../models/productModel.js";
 const getAllOrders = getAll(Order, [
   {
     path: "cart",
@@ -38,9 +39,8 @@ const updateOrderStatus = catchAsync(async (req, res) => {
   }
 
   if (status === "approved") {
-    for (const item of order.cart.product) {
+    for (const item of order.orderItems) {
       const { productId, selectedSizeQty, selectedSize } = item;
-
       const product = await Product.findById(productId);
 
       if (!product) {
@@ -49,26 +49,21 @@ const updateOrderStatus = catchAsync(async (req, res) => {
           .json({ status: "fail", message: "Product not found" });
       }
 
-      const size = product.stock.sizes.find(
-        (s) => s.size.name === selectedSize
-      );
+      const size = product.sizes.find((s) => s.name === selectedSize);
 
       if (size) {
-        size.size.qty -= selectedSizeQty;
+        size.qty -= selectedSizeQty;
         await product.save();
       }
     }
-    order.cart.product = [];
-    order.cart.products = [];
-    await order.cart.save();
-
     order.status = "approved";
     await order.save();
   } else if (status === "rejected") {
-    await Order.findByIdAndDelete(orderId);
+    order.status = "rejected";
+    await order.save();
     return res
       .status(200)
-      .json({ status: "success", message: "Order rejected and deleted" });
+      .json({ status: "success", message: "Order rejected" });
   } else {
     return res.status(400).json({ status: "fail", message: "Invalid status" });
   }

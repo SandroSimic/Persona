@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import styles from "./Modal.module.scss";
 
-function Modal({ isOpen, onClose, children }) {
+function Modal({ isOpen, onClose, children, big }) {
   if (!isOpen) return null;
 
   const handleBackdropClick = (e) => {
@@ -12,8 +12,12 @@ function Modal({ isOpen, onClose, children }) {
 
   return (
     <div className={styles.modalBackdrop} onClick={handleBackdropClick}>
-      <div className={styles.modalContent}>
-        <button className={styles.closeBtn} onClick={onClose} aria-label="Close">
+      <div className={`${styles.modalContent} ${big ? styles.big : ""}`}>
+        <button
+          className={styles.closeBtn}
+          onClick={onClose}
+          aria-label="Close"
+        >
           &times;
         </button>
         {children}

@@ -27,3 +27,43 @@ export const getAllOrders = async (params) => {
     return error.response.data;
   }
 };
+
+export const getOrderById = async (params) => {
+  try {
+    const response = await axios.get(`${orderApi}/${params}`, {
+      withCredentials: true,
+    });
+
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const updateOrderStatus = async ({ orderId, status }) => {
+  try {
+    const response = await axios.patch(
+      `${orderApi}/update-status`,
+      { orderId, status },
+      {
+        withCredentials: true,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const deleteOrder = async (orderId) => {
+  try {
+    const response = await axios.delete(`${orderApi}/${orderId}`, {
+      withCredentials: true,
+    });
+
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};

@@ -1,16 +1,19 @@
 @import "../../../styles/utils.scss";
 
 .tableContainer {
-  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin: 2rem auto;
   max-width: 100%;
   overflow-x: auto;
 
   @include mobile {
-    padding: 5px;
+    padding: 0.5rem;
   }
 
   @include tablet {
-    padding: 8px;
+    padding: 0.8rem;
   }
 }
 
@@ -30,7 +33,7 @@
 
 .table th {
   text-align: left;
-  padding: 5px 25px;
+  padding: 0.5rem 2.5rem;
   font-size: 1.6rem;
   color: #bcbcbc !important;
   border-bottom: 1px solid #ddd;
@@ -38,12 +41,12 @@
 
   @include mobile {
     font-size: 1.4rem;
-    padding: 5px 15px;
+    padding: 0.5rem 1.5rem;
   }
 
   @include tablet {
     font-size: 1.5rem;
-    padding: 5px 20px;
+    padding: 0.5rem 2rem;
   }
 }
 
@@ -61,37 +64,8 @@
 
   @include tablet {
     font-size: 1.5rem;
-    padding: 20px;
+    padding: 2rem;
   }
-}
-
-.button {
-  margin-right: 5px;
-  padding: 6px 12px;
-  border: none;
-  cursor: pointer;
-  border-radius: 4px;
-  font-size: 0.9rem;
-
-  @include mobile {
-    padding: 4px 8px;
-    font-size: 0.8rem;
-  }
-
-  @include tablet {
-    padding: 5px 10px;
-    font-size: 0.85rem;
-  }
-}
-
-.button.edit {
-  background-color: #4caf50;
-  color: #fff;
-}
-
-.button.delete {
-  background-color: #f44336;
-  color: #fff;
 }
 
 .icon {
@@ -113,9 +87,8 @@
     background-color: #d9d9d9;
     color: white;
 
-    padding: .5rem 2rem;
+    padding: 0.5rem 2rem;
     border-radius: 3rem;
-
   }
 }
 
@@ -128,5 +101,96 @@
 .red {
   & span {
     background-color: #f44336;
+  }
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.6rem;
+}
+
+.modalHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  gap: 1.5rem;
+
+  & h1 {
+    font-size: 2.4rem;
+    color: #333333;
+  }
+
+  & p {
+    font-size: 1.6rem;
+    color: #c2c2c2;
+  }
+}
+
+.modalSubheader {
+  display: flex;
+  justify-content: space-between;
+  padding: 3rem 0rem;
+}
+
+.modalInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  & p {
+    font-size: 1.6rem;
+    color: #c2c2c2;
+  }
+
+  & span {
+    font-weight: 600;
+    color: #333333;
+  }
+}
+
+.modalProducts {
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  height: 60rem;
+  padding: 10rem 0rem;
+
+  & h3 {
+    font-size: 1.8rem;
+    color: #333333;
+  }
+}
+
+.modalFooter {
+  align-self: flex-end;
+  justify-self: flex-end;
+  display: flex;
+  gap: 1rem;
+  margin-top: 5rem;
+  & button {
+    cursor: pointer;
+    font-size: 1.8rem;
+    font-weight: 600;
+    padding: 1rem 4rem;
+  }
+
+  .approveBtn {
+    background-color: #004e1a;
+    color: white;
+    border: none;
+    &:hover {
+      background-color: #003d15;
+    }
+  }
+
+  .rejectBtn {
+    background-color: #b30000;
+    color: white;
+    border: none;
+    &:hover {
+      background-color: #8c0000;
+    }
   }
 }
