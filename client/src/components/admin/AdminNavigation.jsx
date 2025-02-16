@@ -1,4 +1,3 @@
-import analyticsIcon from "../../assets/analyticsIcon.png";
 import productsIcon from "../../assets/productIcon.png";
 import dashboardIcon from "../../assets/dashboardIcon.png";
 import logo from "../../assets/logo.png";
@@ -28,10 +27,6 @@ const AdminNavigation = () => {
               <img src={productsIcon} alt="products" />
               <span>Products</span>
             </Link>
-          </li>
-          <li>
-            <img src={analyticsIcon} alt="analytics" />
-            <span>Analytics</span>
           </li>
         </ul>
       </div>
