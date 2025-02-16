@@ -1,5 +1,5 @@
 // u headingWrapper stavi da je flex i da image gap 1rem i stavi da je flex-direction: column
-@import "../../styles/utils.scss";
+@use "../../styles/utils.scss" as *;
 
 .headingWrapper {
   display: flex;

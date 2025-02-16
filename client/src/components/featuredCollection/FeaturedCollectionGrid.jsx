@@ -1,10 +1,5 @@
-import styles from "./featuredCollectionGrid.module.scss";
-// import hoodieImg from "../../assets/hoodie.png";
-// import pantsImg from "../../assets/pants.png";
-// import accessoriesImg from "../../assets/accessories.png";
-// import shirtsImg from "../../assets/shirts.png";
-// import sneakersImg from "../../assets/sneakers.png";
-// import jacketImg from "../../assets/jacket.png";
+import styles from "./FeaturedCollectionGrid.module.scss";
+
 
 const FeaturedCollectionGrid = () => {
   return (

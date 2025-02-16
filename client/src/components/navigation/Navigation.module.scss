@@ -1,4 +1,4 @@
-@import "../../styles/globals.scss";
+@use "../../styles/utils.scss" as *;
 .header {
   display: flex;
   align-items: center;
@@ -95,7 +95,7 @@
   gap: 2rem;
   font-size: 1.8rem;
 
-  & button {
+  & button, a {
     border: none;
     background-color: transparent;
     display: flex;

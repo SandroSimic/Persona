@@ -1,4 +1,4 @@
-@import "../../../styles/utils.scss";
+@use "../../../styles/utils.scss" as *;
 
 .blue {
   background-color: #00c8ff;
