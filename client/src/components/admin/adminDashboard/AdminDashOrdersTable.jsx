@@ -29,7 +29,10 @@ function AdminDashOrdersTable() {
 
   const handleUpdateOrderStatus = async (orderId, status) => {
     await updateOrderStatusMutation({ orderId, status });
+    setShowModal(false);
   };
+
+  console.log("selectredf ordeer", selectedOrder);
 
   return (
     <div className={styles.tableContainer}>
@@ -74,7 +77,11 @@ function AdminDashOrdersTable() {
                   }}
                 />
                 {order.status === "approved" || order.status === "rejected" ? (
-                  <FaTrash className={styles.icon} size={25} onClick={() => deleteOrderQuery(order._id)}/>
+                  <FaTrash
+                    className={styles.icon}
+                    size={25}
+                    onClick={() => deleteOrderQuery(order._id)}
+                  />
                 ) : null}
               </td>
             </tr>
@@ -140,22 +147,30 @@ function AdminDashOrdersTable() {
             </div>
 
             <div className={styles.modalFooter}>
-              <button
-                className={styles.approveBtn}
-                onClick={() =>
-                  handleUpdateOrderStatus(selectedOrder._id, "approved")
-                }
-              >
-                Approve
-              </button>
-              <button
-                className={styles.rejectBtn}
-                onClick={() =>
-                  handleUpdateOrderStatus(selectedOrder._id, "rejected")
-                }
-              >
-                Reject
-              </button>
+              {selectedOrder.status !== "approved" && selectedOrder.status !== "rejected" ? (
+                  <>
+                    <button
+                      className={styles.approveBtn}
+                      onClick={() =>
+                        handleUpdateOrderStatus(selectedOrder._id, "approved")
+                      }
+                    >
+                      Approve
+                    </button>
+                    <button
+                      className={styles.rejectBtn}
+                      disabled={
+                        selectedOrder.status === "rejected" ||
+                        selectedOrder.status === "approved"
+                      }
+                      onClick={() =>
+                        handleUpdateOrderStatus(selectedOrder._id, "rejected")
+                      }
+                    >
+                      Reject
+                    </button>
+                  </>
+                ) : <span>Oder is {selectedOrder.status}</span>}
             </div>
           </div>
         </Modal>
