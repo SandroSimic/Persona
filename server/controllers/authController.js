@@ -6,6 +6,9 @@ import { s3Upload, s3UploadFromUrl } from "../utils/s3Service.js";
 import passport from "passport";
 import dotenv from "dotenv";
 import crypto from "crypto";
+import bcrypt from "bcryptjs";
+import nodemailer from "nodemailer";
+
 dotenv.config();
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 
@@ -63,7 +66,11 @@ const registerUser = catchAsync(async (req, res, next) => {
   const { username, email, password } = req.body;
 
   if (!username || !email || !password) {
-    return next(new AppError("Please provide all field", 400));
+    return next(new AppError("Please provide all fields", 400));
+  }
+
+  if (!req.file) {
+    return next(new AppError("Please provide an image", 400));
   }
 
   const data = await s3Upload(req.file);
@@ -140,4 +147,129 @@ const logoutUser = async (req, res, next) => {
   });
 };
 
-export { registerUser, loginUser, getLoggedInUser, logoutUser };
+const forgotPassword = catchAsync(async (req, res) => {
+  const { email } = req.body;
+
+  console.log("email", email);
+
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    return res.status(404).json({
+      message: "User not found",
+    });
+  }
+
+  const resetCode = crypto.randomInt(100000, 999999).toString();
+
+  user.passwordResetToken = resetCode;
+  user.passwordResetExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
+
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL_USERNAME,
+      pass: process.env.EMAIL_PASSWORD,
+    },
+  });
+
+  const mailOptions = {
+    from: process.env.EMAIL_USERNAME,
+    to: email,
+    subject: "Password Reset Code",
+    text: `Your password reset code is ${resetCode}. It will expire in 10 minutes.`,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    await user.save();
+
+    res.status(200).json({
+      message: "Password reset code sent to your email",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Error sending email",
+    });
+  }
+});
+
+const verifyResetCode = catchAsync(async (req, res) => {
+  const { email, code } = req.body;
+
+  const user = await User.findOne({
+    email,
+    passwordResetToken: code,
+    passwordResetExpires: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    return res.status(404).json({
+      message: "Invalid code",
+    });
+  }
+
+  res.status(200).json({
+    message: "Code verified",
+  });
+});
+
+const resetPassword = catchAsync(async (req, res) => {
+  const { email, code, password } = req.body;
+
+  const user = await User.findOne({
+    email,
+    passwordResetToken: code,
+    passwordResetExpires: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    return res.status(404).json({
+      message: "Invalid code",
+    });
+  }
+
+  user.password = password;
+  user.passwordResetToken = undefined;
+  user.passwordResetExpires = undefined;
+
+  await user.save();
+
+  res.status(200).json({
+    message: "Password reset successfully",
+  });
+});
+
+const updatePassword = catchAsync(async (req, res, next) => {
+  const { newPassword } = req.body;
+
+  if (!newPassword) {
+    return next(new AppError("Please provide a new password", 400));
+  }
+
+  const user = await User.findById(req.user._id);
+
+  if (!user) {
+    return next(new AppError("User not found", 404));
+  }
+
+  user.password = newPassword;
+
+  await user.save();
+
+  res.status(200).json({
+    message: "Password updated successfully",
+  });
+});
+
+export {
+  registerUser,
+  loginUser,
+  getLoggedInUser,
+  logoutUser,
+  forgotPassword,
+  verifyResetCode,
+  resetPassword,
+  updatePassword,
+};

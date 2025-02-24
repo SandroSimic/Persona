@@ -72,6 +72,10 @@ const orderSchema = new mongoose.Schema(
       enum: ["pending", "approved", "rejected"],
       default: "pending",
     },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
   { timestamps: true }
 );
@@ -83,7 +87,6 @@ orderSchema.pre("save", function (next) {
   );
   next();
 });
-
 
 const Order = mongoose.model("Order", orderSchema);
 export default Order;

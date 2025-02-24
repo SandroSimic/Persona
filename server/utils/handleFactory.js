@@ -1,4 +1,3 @@
-import { model } from "mongoose";
 import catchAsync from "./catchAsync.js";
 import APIFeatures from "./apiFeatures.js";
 
@@ -14,11 +13,11 @@ export const getAll = (Model, popOptions) =>
     const featuresForCount = new APIFeatures(Model.find(), req.query).filter();
     const totalDocuments = await featuresForCount.query.countDocuments();
 
-    // Use another APIFeatures instance for fetching paginated results
+    // Chain in the order: filter, sort, then paginate
     const features = new APIFeatures(query, req.query)
-      .paginate()
+      .filter()
       .sort()
-      .filter();
+      .paginate();
     const docs = await features.query;
 
     res.status(200).json({

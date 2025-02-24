@@ -8,10 +8,6 @@ export const useAddToCart = () => {
   // Define the mutation
   const mutation = useMutation({
     mutationFn: async ({ productId, selectedSize, quantity }) => {
-        console.log("productId", productId);
-        console.log("selectedSize", selectedSize);
-        console.log("quantity", quantity);
-
       return await addToCart(productId, selectedSize, quantity);
     },
 

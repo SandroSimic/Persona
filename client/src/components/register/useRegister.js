@@ -19,7 +19,7 @@ export function useRegister() {
       queryClient.setQueryData(["user"], user);
     },
     onError: (error) => {
-      console.log("ERROR", error);
+      toast.error(error.response.data.message);
     },
   });
   return { registerUserQuery };

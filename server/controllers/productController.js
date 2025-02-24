@@ -212,6 +212,31 @@ const getTopProducts = catchAsync(async (req, res, next) => {
   res.status(200).json({ topProducts });
 });
 
+const addToFavorite = catchAsync(async (req, res) => {
+  const { productId } = req.body;
+  const { user } = req;
+
+  const favoriteIndex = user.favorites.indexOf(productId);
+
+  if (favoriteIndex !== -1) {
+    user.favorites.splice(favoriteIndex, 1);
+    await user.save();
+    return res.status(200).json({
+      status: "success",
+      message: "Product removed from favorites",
+    });
+  }
+
+  // If product is not in favorites, add it
+  user.favorites.push(productId);
+  await user.save();
+
+  res.status(200).json({
+    status: "success",
+    message: "Product added to favorites",
+  });
+});
+
 export {
   getAllProducts,
   createProduct,
@@ -219,4 +244,5 @@ export {
   getProductById,
   deleteProduct,
   getTopProducts,
+  addToFavorite,
 };

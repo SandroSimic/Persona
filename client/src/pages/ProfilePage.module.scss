@@ -1,3 +1,5 @@
+@use "../styles/utils.scss" as *;
+
 .profile {
   display: flex;
   font-size: 2rem;
@@ -5,6 +7,11 @@
 
   & > div {
     padding: 2rem;
+  }
+
+  @include mobile {
+    flex-direction: column;
+    padding: 1rem;
   }
 }
 
@@ -15,9 +22,16 @@
   border: 1px solid black;
   border-right: none;
   gap: 2rem;
+  height: 30rem;
+
+  @include mobile {
+    border: 1px solid black;
+    border-bottom: none;
+  }
 }
 
 .profileContent {
+  width: 100%;
   border: 1px solid black;
 }
 
@@ -39,8 +53,11 @@
     align-content: center;
     justify-content: center;
   }
-}
 
+  @include mobile {
+    width: 100%;
+  }
+}
 
 .active {
   background-color: #333333;

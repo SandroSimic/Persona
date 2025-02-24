@@ -1,12 +1,17 @@
 @use "../styles/utils.scss" as *;
 
 .loginPage {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100%;
+
+  @include tablet {
+    grid-template-columns: 1fr;
+  }
 }
 
 .loginPageImage {
-  width: 50%;
+  background-color: red;
   height: 100vh;
 
   & img {

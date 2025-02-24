@@ -1,8 +1,10 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect, useRef } from "react";
 import styles from "./ProductDetail.module.scss";
-import { FaRegHeart } from "react-icons/fa";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { useAddToCart } from "../../hooks/cart/useAddToCart";
+import { useAddToFavorite } from "../../hooks/product/useAddToFavorite";
+import { useLoggedInUser } from "../login/useGetLoggedInUser";
 
 function ProductDetail({ data, cartData }) {
   const [sizes, setSizes] = useState(
@@ -12,8 +14,11 @@ function ProductDetail({ data, cartData }) {
   const [selectedSize, setSelectedSize] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [sizeError, setSizeError] = useState(false);
+  const { data: user } = useLoggedInUser();
 
   const { mutate, isPending } = useAddToCart();
+  const { mutate: mutateFavorite } = useAddToFavorite();
+
   const debounceRef = useRef(false);
 
   useEffect(() => {
@@ -67,7 +72,6 @@ function ProductDetail({ data, cartData }) {
   };
 
   const handleAddToCart = () => {
-    // If we're debouncing, do nothing.
     if (debounceRef.current) return;
 
     if (!selectedSize) {
@@ -94,10 +98,17 @@ function ProductDetail({ data, cartData }) {
     }, 400);
   };
 
-  // Limit the quantity dropdown to the lesser of availableQty or 10.
+  const handleAddToFavorite = () => {
+    mutateFavorite(data._id);
+  };
+
   const maxQuantity = selectedSize
     ? Math.min(selectedSize.availableQty, 10)
     : 10;
+
+  const isFavorite = user?.user?.favorites?.some(
+    (product) => product === data._id
+  );
 
   return (
     <div className={styles.productDetail}>
@@ -186,9 +197,16 @@ function ProductDetail({ data, cartData }) {
             >
               {isPending ? "Adding to Cart..." : "Add To Cart"}
             </button>
-            <button className={styles.addToWhishList}>
-              <FaRegHeart />
-              <span>Add To WhishList</span>
+            <button
+              className={`${styles.addToWhishList} ${
+                isFavorite ? styles.favorite : ""
+              }`}
+              onClick={handleAddToFavorite}
+            >
+              {isFavorite ? <FaHeart size={20} /> : <FaRegHeart size={20} />}
+              <span>
+                {isFavorite ? "Remove from Wishlist" : "Add to Wishlist"}
+              </span>
             </button>
           </div>
         </div>

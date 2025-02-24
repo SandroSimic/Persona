@@ -6,12 +6,15 @@ import {
   getProductById,
   deleteProduct,
   getTopProducts,
+  addToFavorite,
 } from "../controllers/productController.js";
 
 import { compressImage, uploadMultiple } from "../utils/uploadImage.js";
 import { protect, isUserAdmin } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
+
+router.put("/add-to-favorite", protect, addToFavorite);
 
 router
   .route("/")

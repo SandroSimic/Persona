@@ -4,6 +4,7 @@ import {
   createOrder,
   deleteOrder,
   getAllOrders,
+  getMyOrders,
   getOrderById,
   updateOrderStatus,
 } from "../controllers/orderController.js";
@@ -11,6 +12,7 @@ import { protect, isUserAdmin } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 router.patch("/update-status", protect, isUserAdmin, updateOrderStatus);
+router.get("/my-orders", protect, getMyOrders);
 
 router
   .route("/")
@@ -21,6 +23,5 @@ router
   // .put(protect, updateOrder)
   .get(protect, getOrderById)
   .delete(protect, isUserAdmin, deleteOrder);
-
 
 export default router;

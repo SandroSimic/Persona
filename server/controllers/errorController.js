@@ -6,6 +6,7 @@ const handleCastErrorDB = (err) => {
 };
 
 const handleValidationErrorDB = (err) => {
+  console.log("VALIDATION ERROR", err);
   const errors = Object.values(err.errors).map((el) => el.message);
 
   const message = `Invalid input data: ${errors.join(". ")}`;
@@ -37,21 +38,28 @@ const sendErrorDev = (err, req, res) => {
   }
 };
 
-const sendErrorProd = (err, req, res) => {
-  if (err.isOperional) {
+const sendErrorProd = (err, _, res) => {
+  if (err.isOperational) {
     return res.status(err.statusCode).json({
       status: err.status,
       message: err.message,
     });
   } else {
-    return res.status(500).json({
-      status: "error",
-      message: "Something went very wrong",
-    });
+    if (err.message) {
+      return res.status(400).json({
+        status: "error",
+        message: err.message,
+      });
+    } else {
+      return res.status(500).json({
+        status: "error",
+        message: "Something went very wrong",
+      });
+    }
   }
 };
 
-export default (err, req, res, next) => {
+export default (err, req, res, _) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
 
@@ -60,6 +68,8 @@ export default (err, req, res, next) => {
   } else if (process.env.NODE_ENV === "production") {
     let error = { ...err };
     error.message = err.message;
+
+    console.log("error prod", error);
 
     if (error.name === "CastError") error = handleCastErrorDB(error);
     if (error.name === "ValidationError")

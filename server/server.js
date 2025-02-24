@@ -52,8 +52,9 @@ app.use("/api/order", orderRoutes);
 app.use("/api/admin", adminRoutes);
 
 app.use(globalErrorHandler);
+
 const port = process.env.PORT || 8000;
 
-app.listen(port, (req, res) => {
+app.listen(port, () => {
   console.log(`server running on port ${port}`);
 });

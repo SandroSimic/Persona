@@ -1,14 +1,22 @@
 import express from "express";
 import {
+  forgotPassword,
   getLoggedInUser,
   loginUser,
   logoutUser,
   registerUser,
+  resetPassword,
+  updatePassword,
+  verifyResetCode,
 } from "../controllers/authController.js";
 import { protect } from "../middleware/authMiddleware.js";
 import { compressImage, upload } from "../utils/uploadImage.js";
 import passport from "passport";
 import generateToken from "../utils/generateToken.js";
+import {
+  getProfileStats,
+  updateEmailUsername,
+} from "../controllers/userController.js";
 
 const router = express.Router();
 router.post("/logout", protect, logoutUser);
@@ -27,11 +35,26 @@ router.get(
   }
 );
 
+router.put(
+  "/update-email-username",
+  upload.single("userImage"),
+  compressImage,
+  protect,
+  updateEmailUsername
+);
+
 router
   .route("/register")
   .post(upload.single("userImage"), compressImage, registerUser);
 router.route("/login").post(loginUser);
 router.get("/profile", protect, getLoggedInUser);
+
+router.get("/profile-stats", protect, getProfileStats);
+
+router.post("/forgot-password", forgotPassword);
+router.post("/verify-reset-code", verifyResetCode);
+router.post("/reset-password", resetPassword);
+router.put("/update-password", protect, updatePassword);
 
 // router.get("/", getAllProducts);
 // router.post("/create-product", createProduct);

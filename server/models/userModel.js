@@ -1,3 +1,4 @@
+import Order from "../models/orderModel.js";
 import mongoose from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
@@ -25,6 +26,12 @@ const userSchema = new mongoose.Schema({
       message: "Password must contain an uppercase letter",
     },
   },
+  favorites: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product",
+    },
+  ],
   userImage: {
     type: String,
   },
@@ -35,6 +42,8 @@ const userSchema = new mongoose.Schema({
   googleId: {
     type: String,
   },
+  passwordResetToken: String,
+  passwordResetExpires: Date,
 });
 
 userSchema.methods.matchPassword = async function (enteredPassword) {

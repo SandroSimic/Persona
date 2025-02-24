@@ -67,3 +67,12 @@ export const deleteOrder = async (orderId) => {
     return error.response.data;
   }
 };
+
+export const myOrders = async (params) => {
+  const response = await axios.get(`${orderApi}/my-orders`, {
+    withCredentials: true,
+    params,
+  });
+
+  return response.data;
+};

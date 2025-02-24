@@ -7,21 +7,28 @@ import { useState } from "react";
 import openedEyeImg from "../../assets/openEye.png";
 import closedEyeImg from "../../assets/closedEye.png";
 import { useLogin } from "./useLogin";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { loginUserQuery } = useLogin();
+  const { loginUserQuery, isPending } = useLogin();
+  const navigate = useNavigate();
 
   const togglePassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    loginUserQuery({ email, password });
+
+    try {
+      await loginUserQuery({ email, password });
+      navigate("/");
+    } catch (error) {
+      console.log("ERROR", error);
+    }
   };
 
   return (
@@ -57,14 +64,19 @@ const LoginForm = () => {
               required
             />
           </div>
+          <div>
+            <Link to={"/forgot-password"} className={styles.forgotPassword}>
+              Forgot Password?
+            </Link>
+          </div>
         </div>
-        <button className={styles.loginBtn} type="submit">
-          Login
+        <button className={styles.loginBtn} disabled={isPending} type="submit">
+          {isPending ? "Loading..." : "Login"}
         </button>
       </form>
       <Line or={true} />
       <div>
-      <a href={`http://localhost:8000/api/auth/google`}>
+        <a href={`http://localhost:8000/api/auth/google`}>
           <button className={styles.googleBtn}>
             <img src={googleImg} alt="google logo" />
           </button>

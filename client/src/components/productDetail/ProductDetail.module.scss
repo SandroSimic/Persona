@@ -235,3 +235,10 @@
     cursor: not-allowed;
   }
 }
+
+.favorite {
+  background-color: #303030 !important;
+  font-size: 2rem;
+  color: white !important;
+  transition: all 0.2s;
+}
