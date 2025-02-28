@@ -67,6 +67,7 @@ const productSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
 productSchema.pre("save", function (next) {
   this.sizes = this.sizes.filter((size) => size.qty > 0);
 
