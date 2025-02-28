@@ -6,6 +6,7 @@ import Product from "../models/productModel.js";
 
 export const getDashboardStats = catchAsync(async (req, res) => {
   const overallStats = await Order.aggregate([
+    { $match: { status: "approved" } },
     {
       $addFields: {
         orderTotal: { $sum: "$orderItems.fullPrice" },
@@ -30,6 +31,7 @@ export const getDashboardStats = catchAsync(async (req, res) => {
   ]);
 
   const monthlyBreakdown = await Order.aggregate([
+    { $match: { status: "approved" } },
     {
       $addFields: {
         orderTotal: { $sum: "$orderItems.fullPrice" },

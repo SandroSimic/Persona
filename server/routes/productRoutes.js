@@ -7,6 +7,7 @@ import {
   deleteProduct,
   getTopProducts,
   addToFavorite,
+  getFavorites,
 } from "../controllers/productController.js";
 
 import { compressImage, uploadMultiple } from "../utils/uploadImage.js";
@@ -15,6 +16,7 @@ import { protect, isUserAdmin } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 router.put("/add-to-favorite", protect, addToFavorite);
+router.get("/get-favorites", protect, getFavorites);
 
 router
   .route("/")

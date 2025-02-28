@@ -86,30 +86,25 @@ productSchema.pre("save", function (next) {
   next();
 });
 
+// Middleware to calculate `averageRating` from `reviews`
+productSchema.pre("save", function (next) {
+  if (this.reviews.length === 0) {
+    this.averageRating = 0;
+  } else {
+    this.averageRating = this.reviews.reduce(
+      (acc, review) => acc + review.rating,
+      0
+    );
+    this.averageRating = this.averageRating / this.reviews.length;
+  }
+  next();
+});
+
 // Middleware to calculate `totalAmount` from `sizes`
 productSchema.pre("save", function (next) {
   this.totalAmount = this.sizes.reduce((acc, size) => acc + size.qty, 0);
   next();
 });
-
-// Static method to calculate average rating
-productSchema.statics.calculateAverageRating = async function (productId) {
-  const product = await this.findById(productId).populate("reviews");
-
-  if (!product || product.reviews.length === 0) {
-    return 0;
-  }
-
-  const totalRating = product.reviews.reduce(
-    (acc, review) => acc + review.rating,
-    0
-  );
-  const averageRating = (totalRating / product.reviews.length).toFixed(1);
-
-  await this.findByIdAndUpdate(productId, { averageRating }, { new: true });
-
-  return averageRating;
-};
 
 const Product = mongoose.model("Product", productSchema);
 export default Product;

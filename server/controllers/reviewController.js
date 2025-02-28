@@ -9,18 +9,30 @@ import {
   deleteOne,
 } from "./../utils/handleFactory.js";
 import Product from "../models/productModel.js";
+import catchAsync from "../utils/catchAsync.js";
 
-const addReviewToProduct = async (req, newReview) => {
-  const { product } = req.body;
+const addReviewToProduct = catchAsync(async (req, res) => {
+  const { productId } = req.body;
 
-  await Product.findByIdAndUpdate(
-    product,
-    { $push: { reviews: newReview._id } },
-    { new: true }
-  );
+  const product = await Product.findById(productId).populate("reviews");
+  if (!product) {
+    return res.status(404).json({
+      status: "fail",
+      message: "Product not found",
+    });
+  }
 
-  await Product.calculateAverageRating(product);
-};
+  const review = await Review.create(req.body);
+  product.reviews.push(review._id);
+
+  await product.save();
+  res.status(201).json({
+    status: "success",
+    data: {
+      review,
+    },
+  });
+});
 
 const getAllReviews = getAll(Review, [
   {
@@ -32,7 +44,6 @@ const getAllReviews = getAll(Review, [
     select: "title price",
   },
 ]);
-// const createReview = createOne(Review, addReviewToProduct);
 // const updateReview = updateOne(Review);
 const getReviewById = getOne(Review, [
   {
@@ -46,10 +57,4 @@ const getReviewById = getOne(Review, [
 ]);
 const deleteReview = deleteOne(Review);
 
-export {
-  getAllReviews,
-  // createReview,
-  // updateReview,
-  getReviewById,
-  deleteReview,
-};
+export { getAllReviews, addReviewToProduct, getReviewById, deleteReview };

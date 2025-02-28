@@ -12,10 +12,12 @@ export const useCreateOrder = () => {
 
     onSuccess: () => {
       queryClient.invalidateQueries(["cart"]);
-      toast.success("Order created successfully!");
     },
     onError: (error) => {
-      toast.error(error.message || "Failed to create order. Please try again.");
+      const errors = error.response.data.error.errors;
+      Object.values(errors).forEach((err) => {
+        toast.error(err.message);
+      });
     },
   });
 

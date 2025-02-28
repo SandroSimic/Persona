@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { validate } from "uuid";
 
 import validator from "validator";
 
@@ -30,7 +31,7 @@ const orderSchema = new mongoose.Schema(
       required: [true, "Surname is required"],
     },
     zipCode: {
-      type: Number,
+      type: String,
       required: [true, "Zip code is required"],
     },
     email: {

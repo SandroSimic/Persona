@@ -1,0 +1,99 @@
+@use "../../styles/utils.scss" as *;
+
+.favoriteItemContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+
+  & button {
+    background-color: #333333;
+    color: var(--white-color);
+    padding: 1rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    &:hover {
+      background-color: #212121;
+    }
+
+    @include mobile {
+      width: 100%;
+    }
+  }
+
+  @include mobile {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+.favoriteContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  & h2 {
+    font-size: 2rem;
+  }
+}
+
+.favoriteList {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.favoriteItem {
+  display: flex;
+  gap: 1rem;
+  .favoriteImage {
+    width: 10rem;
+    height: 10rem;
+    object-fit: cover;
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+.favoriteDetails {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+
+    & h3 {
+      font-size: 1.6rem;
+    }
+  }
+}
+
+.favoriteSizes {
+  display: flex;
+  gap: 1rem;
+
+  & p {
+    font-size: 1.2rem;
+  }
+
+  & div {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    & span {
+      font-size: 1.2rem;
+    }
+  }
+}
+
+.price {
+  font-size: 1.6rem;
+}

@@ -6,7 +6,7 @@ import styles from "./PopularProducts.module.scss";
 import blackShirtImg from "../assets/blackShirt.png";
 import Section from "../components/ui/Section";
 import Slider from "react-slick";
-
+import { useNavigate } from "react-router-dom";
 const dummyData = [
   {
     id: 1,
@@ -59,6 +59,8 @@ const dummyData = [
 ];
 
 const PopularProducts = () => {
+  const navigate = useNavigate();
+
   const settings = {
     infinite: true,
     autoplay: true,
@@ -105,7 +107,12 @@ const PopularProducts = () => {
           />
         ))}
       </Slider>
-      <button className={styles.allProductBtn}>View All Products</button>
+      <button
+        onClick={() => navigate("/products")}
+        className={styles.allProductBtn}
+      >
+        View All Products
+      </button>
     </Section>
   );
 };

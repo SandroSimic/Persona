@@ -2,8 +2,11 @@ import Section from "./../components/ui/Section";
 import Heading from "./../components/ui/Heading";
 import specialOffersImg from "./../assets/specialOffers.png";
 import styles from "./SpecialOffersSection.module.scss";
+import { useNavigate } from "react-router-dom";
 
 const SpecialOffersSection = () => {
+  const navigate = useNavigate();
+
   return (
     <Section className={styles.specialOffersSection}>
       <Heading mainHeading="SPECIAL OFFERS" />
@@ -23,7 +26,9 @@ const SpecialOffersSection = () => {
             <h3>SALES AND DISCOUNTS!</h3>
             <div>
               <span>60%</span>
-              <button>Shop Now</button>
+              <button onClick={() => navigate("/products?sort=sale")}>
+                Shop Now
+              </button>
             </div>
           </div>
         </div>

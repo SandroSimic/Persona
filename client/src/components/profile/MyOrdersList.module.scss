@@ -1,3 +1,5 @@
+@use "../../styles/utils.scss" as *;
+
 .myOrdersList {
   display: flex;
   gap: 1rem;
@@ -6,6 +8,10 @@
 
   border-bottom: 1px solid #bcbcbc;
   padding-bottom: 3rem;
+
+  @include mobile {
+    flex-direction: column;
+  }
 }
 
 .orderItem {
@@ -63,6 +69,11 @@
     transition: all 0.3s;
     &:hover {
       background-color: #212121;
+    }
+
+    @include mobile {
+      padding: 1rem;
+      width: 100%;
     }
   }
 }

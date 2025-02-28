@@ -1,9 +1,12 @@
 /* eslint-disable react/prop-types */
+import { useNavigate } from "react-router-dom";
 import { getProductDetail } from "../../hooks/product/useGetProduct";
 import styles from "./MyOrdersList.module.scss";
 
 function MyOrdersList({ orderItem }) {
   const { data } = getProductDetail(orderItem.productId);
+
+  const navigate = useNavigate();
 
   return (
     <div className={styles.myOrdersList}>
@@ -25,7 +28,9 @@ function MyOrdersList({ orderItem }) {
         </div>
       </div>
       <div className={styles.actions}>
-        <button>View Product</button>
+        <button onClick={() => navigate(`/product/${orderItem.productId}`)}>
+          View Product
+        </button>
       </div>
     </div>
   );

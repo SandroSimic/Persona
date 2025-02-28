@@ -31,3 +31,11 @@ export const addToFavorite = async (productId) => {
   }
   return data;
 };
+
+export const getFavorites = async () => {
+  const { data } = await axios.get(`${productApi}/get-favorites`, {
+    withCredentials: true,
+  });
+
+  return data;
+};

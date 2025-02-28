@@ -43,12 +43,14 @@ const sendErrorProd = (err, _, res) => {
     return res.status(err.statusCode).json({
       status: err.status,
       message: err.message,
+      error: err,
     });
   } else {
     if (err.message) {
       return res.status(400).json({
         status: "error",
         message: err.message,
+        error: err,
       });
     } else {
       return res.status(500).json({

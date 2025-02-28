@@ -237,6 +237,17 @@ const addToFavorite = catchAsync(async (req, res) => {
   });
 });
 
+const getFavorites = catchAsync(async (req, res) => {
+  const { user } = req;
+
+  const favorites = await Product.find({ _id: { $in: user.favorites } });
+
+  res.status(200).json({
+    status: "success",
+    data: { favorites },
+  });
+});
+
 export {
   getAllProducts,
   createProduct,
@@ -245,4 +256,5 @@ export {
   deleteProduct,
   getTopProducts,
   addToFavorite,
+  getFavorites,
 };
