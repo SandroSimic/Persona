@@ -3,60 +3,10 @@ import "slick-carousel/slick/slick-theme.css";
 import PopularProductsCard from "../components/popularProducts/PopularProductsCard";
 import Heading from "../components/ui/Heading";
 import styles from "./PopularProducts.module.scss";
-import blackShirtImg from "../assets/blackShirt.png";
 import Section from "../components/ui/Section";
 import Slider from "react-slick";
 import { useNavigate } from "react-router-dom";
-const dummyData = [
-  {
-    id: 1,
-    name: "Product 1",
-    price: "$100",
-    image: blackShirtImg,
-  },
-  {
-    id: 2,
-    name: "Product 2",
-    price: "$200",
-    image: blackShirtImg,
-  },
-  {
-    id: 3,
-    name: "Product 3",
-    price: "$300",
-    image: blackShirtImg,
-  },
-  {
-    id: 4,
-    name: "Product 4",
-    price: "$400",
-    image: blackShirtImg,
-  },
-  {
-    id: 5,
-    name: "Product 5",
-    price: "$500",
-    image: blackShirtImg,
-  },
-  {
-    id: 6,
-    name: "Product 6",
-    price: "$600",
-    image: blackShirtImg,
-  },
-  {
-    id: 7,
-    name: "Product 7",
-    price: "$700",
-    image: blackShirtImg,
-  },
-  {
-    id: 8,
-    name: "Product 8",
-    price: "$800",
-    image: blackShirtImg,
-  },
-];
+import { useGetPopularProducts } from "../hooks/product/useGetPopularProducts";
 
 const PopularProducts = () => {
   const navigate = useNavigate();
@@ -91,6 +41,8 @@ const PopularProducts = () => {
     ],
   };
 
+  const { data } = useGetPopularProducts();
+
   return (
     <Section className={styles.popularProductsSection}>
       <Heading
@@ -98,12 +50,13 @@ const PopularProducts = () => {
         subHeading="Explore some of our most popular products"
       />
       <Slider {...settings} className={styles.productSlider}>
-        {dummyData.map((product) => (
+        {data?.data?.popularProducts.map((product) => (
           <PopularProductsCard
             key={product.id}
-            image={product.image}
-            name={product.name}
-            price={product.price}
+            id={product._id}
+            image={product.images[0]}
+            name={product.title}
+            price={product.totalPrice.toFixed(2)}
           />
         ))}
       </Slider>

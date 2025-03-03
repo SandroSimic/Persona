@@ -88,18 +88,18 @@ productSchema.pre("save", function (next) {
 });
 
 // Middleware to calculate `averageRating` from `reviews`
-productSchema.pre("save", function (next) {
-  if (this.reviews.length === 0) {
-    this.averageRating = 0;
-  } else {
-    this.averageRating = this.reviews.reduce(
-      (acc, review) => acc + review.rating,
-      0
-    );
-    this.averageRating = this.averageRating / this.reviews.length;
-  }
-  next();
-});
+// productSchema.pre("save", function (next) {
+//   if (this.reviews.length === 0) {
+//     this.averageRating = 0;
+//   } else {
+//     this.averageRating = this.reviews.reduce(
+//       (acc, review) => acc + review.rating,
+//       0
+//     );
+//     this.averageRating = this.averageRating / this.reviews.length;
+//   }
+//   next();
+// });
 
 // Middleware to calculate `totalAmount` from `sizes`
 productSchema.pre("save", function (next) {

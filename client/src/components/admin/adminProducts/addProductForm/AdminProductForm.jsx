@@ -17,12 +17,9 @@ const AdminProductForm = ({ isEdit = false }) => {
   const { data } = getProductDetail(productId);
   const navigate = useNavigate();
 
-  console.log(data);
   useEffect(() => {
     if (data && isEdit) {
       const product = data?.data?.doc;
-
-      console.log("product", product);
 
       setProductData({
         title: product.title || "",

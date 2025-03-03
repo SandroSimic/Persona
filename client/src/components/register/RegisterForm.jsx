@@ -47,7 +47,7 @@ const RegisterForm = () => {
     try {
       registerUserQuery(formData);
     } catch (error) {
-      console.log("ERRORRRR", error);
+      console.log("ERRORconsole.log", error);
     }
   }
 

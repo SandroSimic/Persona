@@ -15,7 +15,6 @@ function MyOrders() {
     page,
     limit,
   });
-  console.log("My Orders", data);
 
   // Adjusted to match your response structure
   const orders = data?.data?.data || [];

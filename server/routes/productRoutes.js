@@ -5,9 +5,9 @@ import {
   updateProduct,
   getProductById,
   deleteProduct,
-  getTopProducts,
   addToFavorite,
   getFavorites,
+  getPopularProducts,
 } from "../controllers/productController.js";
 
 import { compressImage, uploadMultiple } from "../utils/uploadImage.js";
@@ -23,7 +23,7 @@ router
   .get(getAllProducts)
   .post(uploadMultiple, compressImage, createProduct);
 
-router.get("/get-top-products", getTopProducts);
+router.get("/get-popular-products", getPopularProducts);
 
 router
   .route("/:id")

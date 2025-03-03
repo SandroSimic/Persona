@@ -24,11 +24,11 @@ const AdminProductPricing = ({ product }) => {
         <div className={styles.reviewsContainer}>
           <div>
             <p>average reviews:</p>
-            <span>4.5</span>
+            <span>{product.averageRating}</span>
           </div>
           <div>
             <p>Review Count</p>
-            <span>100</span>
+            <span>{product.reviews.length}</span>
           </div>
         </div>
       </div>

@@ -88,14 +88,16 @@ const Navigation = () => {
         <img src={logo} alt="Logo" />
       </Link>
       <div className={styles.navActions}>
-        <button onClick={handleCartClick} className={styles.cartButton}>
-          <img src={cartIcon} alt="Cart" />
-          {cartData?.data?.cart.totalAmountOfProducts > 0 && (
-            <div className={styles.cartCount}>
-              <span>{cartData?.data?.cart.totalAmountOfProducts}</span>
-            </div>
-          )}
-        </button>
+        {data?.user && (
+          <button onClick={handleCartClick} className={styles.cartButton}>
+            <img src={cartIcon} alt="Cart" />
+            {cartData?.data?.cart.totalAmountOfProducts > 0 && (
+              <div className={styles.cartCount}>
+                <span>{cartData?.data?.cart.totalAmountOfProducts}</span>
+              </div>
+            )}
+          </button>
+        )}
         {isLoading ? (
           <SkeletonLoader />
         ) : data?.user ? (

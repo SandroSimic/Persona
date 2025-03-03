@@ -14,7 +14,6 @@ const AdminProductsInfoForm = () => {
     calculateDiscountedPrice,
   } = useProduct();
 
-
   useEffect(() => {
     if (productData.discount >= 0) {
       setProductData((prev) => ({ ...prev, hasDiscount: true }));
@@ -137,21 +136,19 @@ const AdminProductsInfoForm = () => {
           </div>
 
           {/* Discount */}
-          {productData.discount && (
-            <div className={styles.discountInput}>
-              <h2>Discount (%)</h2>
-              <Input
-                type="number"
-                value={productData.discount}
-                onChange={(e) =>
-                  setProductData((prev) => ({
-                    ...prev,
-                    discount: e.target.value,
-                  }))
-                }
-              />
-            </div>
-          )}
+          <div className={styles.discountInput}>
+            <h2>Discount (%)</h2>
+            <Input
+              type="number"
+              value={productData.discount}
+              onChange={(e) =>
+                setProductData((prev) => ({
+                  ...prev,
+                  discount: e.target.value,
+                }))
+              }
+            />
+          </div>
 
           {productData.discount && (
             <div className={styles.discountedPrice}>

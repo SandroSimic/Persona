@@ -5,6 +5,10 @@ import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { useAddToCart } from "../../hooks/cart/useAddToCart";
 import { useAddToFavorite } from "../../hooks/product/useAddToFavorite";
 import { useLoggedInUser } from "../login/useGetLoggedInUser";
+import StarRating from "../ui/StarRating";
+import WriteReviewModal from "./WriteReviewModal";
+import ReadReviewModal from "./ReadReviewModal";
+import { useNavigate } from "react-router-dom";
 
 function ProductDetail({ data, cartData }) {
   const [sizes, setSizes] = useState(
@@ -18,6 +22,10 @@ function ProductDetail({ data, cartData }) {
 
   const { mutate, isPending } = useAddToCart();
   const { mutate: mutateFavorite } = useAddToFavorite();
+
+  const [openWriteReview, setOpenWriteReview] = useState(false);
+  const [openReadAll, setOpenReadAll] = useState(false);
+  const navigate = useNavigate();
 
   const debounceRef = useRef(false);
 
@@ -74,6 +82,10 @@ function ProductDetail({ data, cartData }) {
   const handleAddToCart = () => {
     if (debounceRef.current) return;
 
+    if (!user?.user) {
+      return navigate("/login");
+    }
+
     if (!selectedSize) {
       setSizeError(true);
       return;
@@ -99,6 +111,9 @@ function ProductDetail({ data, cartData }) {
   };
 
   const handleAddToFavorite = () => {
+    if (!user?.user) {
+      return navigate("/login");
+    }
     mutateFavorite(data._id);
   };
 
@@ -111,109 +126,143 @@ function ProductDetail({ data, cartData }) {
   );
 
   return (
-    <div className={styles.productDetail}>
-      <h1 className={styles.title}>{data.title}</h1>
-      <div className={styles.productInfo}>
-        <div className={styles.productPrice}>
-          <div className={styles.priceWithDiscount}>
-            {data.priceDiscount && data.priceDiscount > 0 ? (
-              <>
-                <span className={styles.priceDiscount}>
-                  ${data.totalPrice.toFixed(2)}
-                </span>
-                <span className={styles.normalPrice}>
+    <>
+      <div className={styles.productDetail}>
+        <h1 className={styles.title}>{data.title}</h1>
+        <div className={styles.productInfo}>
+          <div className={styles.productPrice}>
+            <div className={styles.priceWithDiscount}>
+              {data.priceDiscount && data.priceDiscount > 0 ? (
+                <>
+                  <span className={styles.priceDiscount}>
+                    ${data.totalPrice.toFixed(2)}
+                  </span>
+                  <span className={styles.normalPrice}>
+                    ${data.price.toFixed(2)}
+                  </span>
+                </>
+              ) : (
+                <span className={styles.regularPrice}>
                   ${data.price.toFixed(2)}
                 </span>
-              </>
-            ) : (
-              <span className={styles.regularPrice}>
-                ${data.price.toFixed(2)}
+              )}
+            </div>
+          </div>
+          <div className={styles.line} />
+
+          <div className={styles.sizesContainer}>
+            <div className={styles.sizeInfo}>
+              <span className={styles.sizeTitle}>Size:</span>
+              <span className={styles.sizeGuide}>
+                {selectedSize
+                  ? `Available Quantity: ${selectedSize.availableQty}`
+                  : "Select a size"}
               </span>
+            </div>
+            <div className={styles.sizes}>
+              {sizes.map((size) => (
+                <button
+                  key={size.name}
+                  className={`${styles.size} ${
+                    selectedSize?._id === size._id ? styles.selectedSize : ""
+                  }`}
+                  onClick={() => handleSizeClick(size)}
+                  style={
+                    size.availableQty === 0
+                      ? {
+                          border: "1px solid #AFAFAF",
+                          backgroundColor: "#DADADA",
+                          color: "#AAAAAA",
+                          cursor: "not-allowed",
+                        }
+                      : {}
+                  }
+                >
+                  {size.name}
+                </button>
+              ))}
+            </div>
+            {sizeError && (
+              <div className={styles.errorMessage}>
+                Please select a size before adding to cart.
+              </div>
             )}
           </div>
-        </div>
-        <div className={styles.line} />
+          <div className={styles.line} />
 
-        <div className={styles.sizesContainer}>
-          <div className={styles.sizeInfo}>
-            <span className={styles.sizeTitle}>Size:</span>
-            <span className={styles.sizeGuide}>
-              {selectedSize
-                ? `Available Quantity: ${selectedSize.availableQty}`
-                : "Select a size"}
-            </span>
-          </div>
-          <div className={styles.sizes}>
-            {sizes.map((size) => (
+          <div className={styles.cta}>
+            <select
+              value={quantity}
+              onChange={(e) => setQuantity(Number(e.target.value))}
+            >
+              {Array.from({ length: maxQuantity }, (_, i) => (
+                <option key={i} value={i + 1}>
+                  {i + 1}
+                </option>
+              ))}
+            </select>
+            <div className={styles.buttons}>
               <button
-                key={size.name}
-                className={`${styles.size} ${
-                  selectedSize?._id === size._id ? styles.selectedSize : ""
+                className={`${styles.addToCart} ${
+                  isPending || !selectedSize || quantity === 0
+                    ? styles.disabledButton
+                    : ""
                 }`}
-                onClick={() => handleSizeClick(size)}
-                style={
-                  size.availableQty === 0
-                    ? {
-                        border: "1px solid #AFAFAF",
-                        backgroundColor: "#DADADA",
-                        color: "#AAAAAA",
-                        cursor: "not-allowed",
-                      }
-                    : {}
-                }
+                onClick={handleAddToCart}
+                disabled={isPending || !selectedSize || quantity === 0}
               >
-                {size.name}
+                {isPending ? "Adding to Cart..." : "Add To Cart"}
               </button>
-            ))}
-          </div>
-          {sizeError && (
-            <div className={styles.errorMessage}>
-              Please select a size before adding to cart.
+              <button
+                className={`${styles.addToWhishList} ${
+                  isFavorite ? styles.favorite : ""
+                }`}
+                onClick={handleAddToFavorite}
+              >
+                {isFavorite ? <FaHeart size={20} /> : <FaRegHeart size={20} />}
+                <span>
+                  {isFavorite ? "Remove from Wishlist" : "Add to Wishlist"}
+                </span>
+              </button>
             </div>
-          )}
-        </div>
-        <div className={styles.line} />
-
-        <div className={styles.cta}>
-          <select
-            value={quantity}
-            onChange={(e) => setQuantity(Number(e.target.value))}
-          >
-            {Array.from({ length: maxQuantity }, (_, i) => (
-              <option key={i} value={i + 1}>
-                {i + 1}
-              </option>
-            ))}
-          </select>
-          <div className={styles.buttons}>
-            <button
-              className={`${styles.addToCart} ${
-                isPending || !selectedSize || quantity === 0
-                  ? styles.disabledButton
-                  : ""
-              }`}
-              onClick={handleAddToCart}
-              disabled={isPending || !selectedSize || quantity === 0}
-            >
-              {isPending ? "Adding to Cart..." : "Add To Cart"}
-            </button>
-            <button
-              className={`${styles.addToWhishList} ${
-                isFavorite ? styles.favorite : ""
-              }`}
-              onClick={handleAddToFavorite}
-            >
-              {isFavorite ? <FaHeart size={20} /> : <FaRegHeart size={20} />}
-              <span>
-                {isFavorite ? "Remove from Wishlist" : "Add to Wishlist"}
+          </div>
+          <div className={styles.line} />
+          <div className={styles.productReview}>
+            <div className={styles.reviewTitle}>
+              <h3>Reviews ({data.reviews.length})</h3>
+              <span
+                onClick={() => {
+                  if (!user?.user) {
+                    return navigate("/login");
+                  }
+                  setOpenWriteReview(true);
+                }}
+              >
+                Write a review
               </span>
-            </button>
+            </div>
+            <div className={styles.reviewStars}>
+              <StarRating rating={data.averageRating} />
+              <span onClick={() => setOpenReadAll(true)}>Read All</span>
+            </div>
           </div>
         </div>
-        <div className={styles.line} />
-        <div>REVIEWS</div>
       </div>
-    </div>
+      {openWriteReview && (
+        <WriteReviewModal
+          onClose={() => setOpenWriteReview(false)}
+          isOpen={openWriteReview}
+          productId={data._id}
+        />
+      )}
+      {openReadAll && (
+        <ReadReviewModal
+          onClose={() => setOpenReadAll(false)}
+          isOpen={openReadAll}
+          productId={data._id}
+        />
+      )}
+    </>
   );
 }
 

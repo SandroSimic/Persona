@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import StarRating from "../ui/StarRating";
 import styles from "./ProductCard.module.scss";
 
 const ProductCard = ({ product, onClick }) => {
@@ -40,8 +41,9 @@ const ProductCard = ({ product, onClick }) => {
           </div>
         </div>
       </div>
-      <div>
-        <p>RATING</p>
+      <div className={styles.reviews}>
+        <StarRating small rating={product.averageRating} />{" "}
+        <p>({product.reviews.length})</p>
       </div>
       <button className={styles.btnView} onClick={() => onClick(product._id)}>
         view product

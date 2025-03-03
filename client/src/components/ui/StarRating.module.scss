@@ -1,0 +1,13 @@
+.starRating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  gap: 0.6rem;
+
+  font-size: 2rem;
+}
+
+.small {
+  font-size: 1.3rem;
+}

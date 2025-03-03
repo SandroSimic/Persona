@@ -28,7 +28,6 @@ const AdminProducts = () => {
   const totalItems = data?.totalItems || 0; // Total items from API
   const totalPages = Math.ceil(totalItems / limit); // Calculate total pages
 
-
   return (
     <div
       className={`${
@@ -47,7 +46,9 @@ const AdminProducts = () => {
           />
         )}
       </div>
-      {productIdParam && <AdminProductDetails productId={productIdParam} />}
+      <div>
+        {productIdParam && <AdminProductDetails productId={productIdParam} />}
+      </div>
     </div>
   );
 };

@@ -27,7 +27,7 @@ const generateProducts = (count = 100) => {
     "https://plus.unsplash.com/premium_photo-1661313817350-1fa759c43a3b?q=80&w=2117&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "https://images.unsplash.com/photo-1551794840-8ae3b9c181f8?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?q=80&w=1492&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1511280303142-0051e93baeeb?q=80&w=2030&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    "https://images.unsplash.com/photo-1511280303142-0051e93baeeb?q=80&w=2030&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   ];
 
   return Array.from({ length: count }, () => {
@@ -72,7 +72,7 @@ const seedProducts = async () => {
     console.log("Existing products cleared");
 
     // Generate and insert seed products
-    const products = generateProducts(1000); // Generate 100 products
+    const products = generateProducts(20); // Generate 100 products
     const createdProducts = await Product.insertMany(products);
     console.log(`${createdProducts.length} products added to the database`);
 

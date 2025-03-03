@@ -1,7 +1,10 @@
 /* eslint-disable react/prop-types */
+import { useNavigate } from "react-router-dom";
 import styles from "./PopularProductsCard.module.scss";
 
-const PopularProductsCard = ({ image, name, price }) => {
+const PopularProductsCard = ({ image, name, price, id }) => {
+  const navigate = useNavigate();
+
   return (
     <div className={styles.popularProductsCard}>
       <div className={styles.imageWrapper}>
@@ -11,7 +14,12 @@ const PopularProductsCard = ({ image, name, price }) => {
         <h3>{name}</h3>
         <p>{price}</p>
       </div>
-      <button className={styles.button}>Add to cart</button>
+      <button
+        className={styles.button}
+        onClick={() => navigate(`/product/${id}`)}
+      >
+        View Product{" "}
+      </button>
     </div>
   );
 };

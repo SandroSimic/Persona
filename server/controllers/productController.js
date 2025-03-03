@@ -203,15 +203,6 @@ const getProductById = getOne(Product, [
   },
 ]);
 
-const getTopProducts = catchAsync(async (req, res, next) => {
-  const topProducts = await Product.find()
-    .sort({ averageRating: -1 })
-    .limit(6)
-    .populate("reviews");
-
-  res.status(200).json({ topProducts });
-});
-
 const addToFavorite = catchAsync(async (req, res) => {
   const { productId } = req.body;
   const { user } = req;
@@ -248,13 +239,24 @@ const getFavorites = catchAsync(async (req, res) => {
   });
 });
 
+const getPopularProducts = catchAsync(async (_, res) => {
+  const popularProducts = await Product.find()
+    .sort({ averageRating: -1 })
+    .limit(10);
+
+  res.status(200).json({
+    status: "success",
+    data: { popularProducts },
+  });
+});
+
 export {
+  getPopularProducts,
   getAllProducts,
   createProduct,
   updateProduct,
   getProductById,
   deleteProduct,
-  getTopProducts,
   addToFavorite,
   getFavorites,
 };

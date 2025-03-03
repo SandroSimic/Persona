@@ -39,3 +39,8 @@ export const getFavorites = async () => {
 
   return data;
 };
+
+export const getPopularProducts = async () => {
+  const { data } = await axios.get(`${productApi}/get-popular-products`);
+  return data;
+};

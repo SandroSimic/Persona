@@ -70,8 +70,6 @@ function General({ user }) {
       const imagePreviewUrl = URL.createObjectURL(file);
       setSelectedImage(imagePreviewUrl);
       setImage(file);
-      console.log(file);
-      console.log("IAMGE", image);
 
       // Optionally, call a mutation or function to update the profile image on the server
       // updateProfileImageMutation(file);

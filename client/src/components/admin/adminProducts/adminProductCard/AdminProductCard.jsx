@@ -3,7 +3,9 @@ import styles from "./AdminProductCard.module.scss";
 function AdminProductCard({ product, onClick }) {
   return (
     <div className={styles.adminProductCard} onClick={onClick}>
-      {product.priceDiscount ? <div className={styles.saleCard}>SALE</div> : null}
+      {product.priceDiscount ? (
+        <div className={styles.saleCard}>SALE</div>
+      ) : null}
 
       <div className={styles.imageWrapper}>
         <img src={product.images[0]} alt={product.title} />
@@ -12,7 +14,10 @@ function AdminProductCard({ product, onClick }) {
         <h3>{product.title}</h3>
         <p>
           <span>Price:</span>{" "}
-          {product.totalPrice ? product.totalPrice : product.price}
+          {product.totalPrice
+            ? product.totalPrice.toFixed(2)
+            : product.price.toFixed(2)}
+          $
         </p>
         <div>
           <p>
