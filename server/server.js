@@ -27,18 +27,20 @@ app.use(
       "http://localhost:5173",
       "https://hwo4co8scck4sskckcgc848o.persona-clothing.com",
     ],
-    credentials: true,
+    credentials: true, // ✅ This allows cookies to be sent
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "someSecretKey", // Replace with a secure key
+    secret: process.env.SESSION_SECRET || "someSecretKey",
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === "production", // Secure cookies in production
+      secure: process.env.NODE_ENV === "production", // ✅ Secure cookies in production
       httpOnly: true,
-      sameSite: "strict",
+      sameSite: "None", // ✅ Allow cross-site cookies
     },
   })
 );
