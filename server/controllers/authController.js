@@ -6,7 +6,6 @@ import { s3Upload, s3UploadFromUrl } from "../utils/s3Service.js";
 import passport from "passport";
 import dotenv from "dotenv";
 import crypto from "crypto";
-import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
 
 dotenv.config();
@@ -17,7 +16,8 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:8000/api/auth/google/callback",
+      callbackURL:
+        "https://hwo4co8scck4sskckcgc848o.persona-clothing.com/api/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
