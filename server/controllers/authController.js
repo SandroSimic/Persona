@@ -167,10 +167,11 @@ const forgotPassword = catchAsync(async (req, res) => {
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
-    port: 587,
+    port: 587 || 465,
     secure: false,
     tls: {
       rejectUnauthorized: false,
+      ciphers: "SSLv3",
     },
     auth: {
       user: process.env.EMAIL_USERNAME,
