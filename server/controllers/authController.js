@@ -186,7 +186,17 @@ const forgotPassword = catchAsync(async (req, res) => {
   };
 
   try {
-    await transporter.sendMail(mailOptions);
+    await new Promise((resolve, reject) => {
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.log("Error sending email", error);
+          reject(err);
+        } else {
+          console.log("Email sent", info.response);
+          resolve(info);
+        }
+      });
+    });
     await user.save();
 
     res.status(200).json({
