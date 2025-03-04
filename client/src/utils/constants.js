@@ -1,4 +1,4 @@
-export const BASE_URL = "http://localhost:8000";
+export const BASE_URL = "https://hwo4co8scck4sskckcgc848o.persona-clothing.com";
 
 export const COUNTRIES = [
   "Afghanistan",
