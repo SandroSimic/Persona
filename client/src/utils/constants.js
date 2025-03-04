@@ -1,5 +1,4 @@
-export const BASE_URL =
-  "hhttps://hwo4co8scck4sskckcgc848o.persona-clothing.com";
+export const BASE_URL = "https://hwo4co8scck4sskckcgc848o.persona-clothing.com";
 //https://hwo4co8scck4sskckcgc848o.persona-clothing.com
 
 export const COUNTRIES = [
