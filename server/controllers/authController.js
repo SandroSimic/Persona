@@ -167,20 +167,20 @@ const forgotPassword = catchAsync(async (req, res) => {
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
-    port: 587 || 465,
+    port: 465,
     secure: false,
     tls: {
       rejectUnauthorized: false,
       ciphers: "SSLv3",
     },
     auth: {
-      user: process.env.EMAIL_USERNAME,
-      pass: process.env.EMAIL_PASSWORD,
+      user: "sandrosimic8@gmail.com",
+      pass: "ypkdeflplsmyjfqj",
     },
   });
 
   const mailOptions = {
-    from: process.env.EMAIL_USERNAME,
+    from: "sandrosimic8@gmail.com",
     to: email,
     subject: "Password Reset Code",
     text: `Your password reset code is ${resetCode}. It will expire in 10 minutes.`,
