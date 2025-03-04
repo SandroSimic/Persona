@@ -76,9 +76,7 @@ const LoginForm = () => {
       </form>
       <Line or={true} />
       <div>
-        <a
-          href={`https://hwo4co8scck4sskckcgc848o.persona-clothing.com/api/auth/google`}
-        >
+        <a href={`http://localhost:8000/api/auth/google`}>
           <button className={styles.googleBtn}>
             <img src={googleImg} alt="google logo" />
           </button>
