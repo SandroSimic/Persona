@@ -99,7 +99,7 @@ export const requestPasswordReset = async (email) => {
 
 export const forgotPassword = async (email) => {
   const response = await axios.post(
-    `${authApi}/forgot-password`,
+    `http://localhost:8000/api/auth/forgot-password`,
     { email },
     {
       withCredentials: true,

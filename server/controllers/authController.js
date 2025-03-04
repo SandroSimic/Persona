@@ -6,6 +6,7 @@ import { s3Upload, s3UploadFromUrl } from "../utils/s3Service.js";
 import passport from "passport";
 import dotenv from "dotenv";
 import crypto from "crypto";
+import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
 
 dotenv.config();
@@ -150,8 +151,6 @@ const logoutUser = async (req, res, next) => {
 const forgotPassword = catchAsync(async (req, res) => {
   const { email } = req.body;
 
-  console.log("email", email);
-
   const user = await User.findOne({ email });
 
   if (!user) {
@@ -167,18 +166,13 @@ const forgotPassword = catchAsync(async (req, res) => {
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    tls: {
-      rejectUnauthorized: false,
-      ciphers: "SSLv3",
-    },
     auth: {
       user: process.env.EMAIL_USERNAME,
       pass: process.env.EMAIL_PASSWORD,
     },
   });
+
+  console.log("transporter", transporter);
 
   const mailOptions = {
     from: process.env.EMAIL_USERNAME,
@@ -188,17 +182,7 @@ const forgotPassword = catchAsync(async (req, res) => {
   };
 
   try {
-    await new Promise((resolve, reject) => {
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          console.log("Error sending email", error);
-          reject(err);
-        } else {
-          console.log("Email sent", info.response);
-          resolve(info);
-        }
-      });
-    });
+    await transporter.sendMail(mailOptions);
     await user.save();
 
     res.status(200).json({
