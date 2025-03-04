@@ -60,7 +60,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 if (process.env.NODE_ENV === "production") {
-  const clientPath = path.join(__dirname, "../client/build");
+  const clientPath = path.join(__dirname, "../client/dist");
   app.use(express.static(clientPath));
 
   app.get("*", (req, res) => {
