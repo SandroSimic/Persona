@@ -6,7 +6,6 @@ import { s3Upload, s3UploadFromUrl } from "../utils/s3Service.js";
 import passport from "passport";
 import dotenv from "dotenv";
 import crypto from "crypto";
-import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
 
 dotenv.config();

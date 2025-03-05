@@ -7,10 +7,12 @@ export const useCreateOrder = () => {
 
   const mutation = useMutation({
     mutationFn: async (orderData) => {
+      console.log("ORDER");
       return await createOrder(orderData);
     },
 
     onSuccess: () => {
+      toast.success("Order created successfully");
       queryClient.invalidateQueries(["cart"]);
     },
     onError: (error) => {
