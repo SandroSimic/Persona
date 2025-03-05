@@ -179,19 +179,21 @@ const forgotPassword = catchAsync(async (req, res) => {
     text: `Your password reset code is ${resetCode}. It will expire in 10 minutes.`,
   };
 
-  try {
-    await transporter.sendMail(mailOptions);
-    await user.save();
+  await new Promise((resolve, reject) => {
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(info);
+      }
+    });
+  });
 
-    res.status(200).json({
-      message: "Password reset code sent to your email",
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      message: "Error sending email",
-    });
-  }
+  await user.save();
+
+  res.status(200).json({
+    message: "Password reset code sent to your email",
+  });
 });
 
 const verifyResetCode = catchAsync(async (req, res) => {
