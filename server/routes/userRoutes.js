@@ -27,12 +27,11 @@ router.get(
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    failureRedirect:
-      "https://hwo4co8scck4sskckcgc848o.persona-clothing.com/login",
+    failureRedirect: "https://persona-clothing.com/login",
   }),
   async (req, res) => {
     generateToken(res, req.user._id);
-    res.redirect("https://hwo4co8scck4sskckcgc848o.persona-clothing.com/");
+    res.redirect("https://persona-clothing.com/");
   }
 );
 

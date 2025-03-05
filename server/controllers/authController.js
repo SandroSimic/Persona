@@ -17,8 +17,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL:
-        "https://hwo4co8scck4sskckcgc848o.persona-clothing.com/api/auth/google/callback",
+      callbackURL: "https://persona-clothing.com/api/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
