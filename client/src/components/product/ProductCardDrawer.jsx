@@ -8,11 +8,20 @@ const ProductCardDrawer = ({ product }) => {
   const increaseQuantity = useIncreaseQuantity();
   const decreaseQuantity = useDecreaseQuantity();
 
+  // Get the available quantity for the selected size
+  const sizeObj = product.productId.sizes.find(
+    (size) => size.name === product.selectedSize
+  );
+  const availableQty = sizeObj ? sizeObj.qty : 0;
+
   const handleIncrease = () => {
-    increaseQuantity.mutate({
-      productId: product.productId._id,
-      selectedSize: product.selectedSize,
-    });
+    // Only call increase if current qty is less than available stock
+    if (product.selectedSizeQty < availableQty) {
+      increaseQuantity.mutate({
+        productId: product.productId._id,
+        selectedSize: product.selectedSize,
+      });
+    }
   };
 
   const handleDecrease = () => {
@@ -25,7 +34,7 @@ const ProductCardDrawer = ({ product }) => {
   return (
     <div className={styles.productCardDrawer}>
       <div className={styles.productCardDrawerHeader}>
-        <img src={product.productId.images[0]} />
+        <img src={product.productId.images[0]} alt={product.productId.title} />
         <div className={styles.productCardDrawerInfo}>
           <div className={styles.productCardDrawerTitle}>
             <h2>{product.productId.title}</h2>
@@ -48,7 +57,13 @@ const ProductCardDrawer = ({ product }) => {
           {decreaseQuantity.isPending ? <Spinner mini /> : "-"}
         </button>
         <span>{product.selectedSizeQty}</span>
-        <button onClick={handleIncrease} disabled={increaseQuantity.isPending}>
+        <button
+          onClick={handleIncrease}
+          disabled={
+            increaseQuantity.isPending ||
+            product.selectedSizeQty >= availableQty
+          }
+        >
           {increaseQuantity.isPending ? <Spinner mini /> : "+"}
         </button>
       </div>

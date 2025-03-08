@@ -3,7 +3,6 @@ import { deleteOne, getAll, getOne } from "../utils/handleFactory.js";
 import Order from "./../models/orderModel.js";
 import Cart from "./../models/cartModel.js";
 import Product from "./../models/productModel.js";
-import APIFeatures from "../utils/apiFeatures.js";
 const getAllOrders = getAll(Order, [
   {
     path: "cart",

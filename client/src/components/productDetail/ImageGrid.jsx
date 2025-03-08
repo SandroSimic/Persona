@@ -21,6 +21,10 @@ function ImageGrid({ images }) {
     );
   };
 
+  const handleThumbnailClick = (index) => {
+    setCurrentIndex(index);
+  };
+
   useEffect(() => {
     updateLayout();
     window.addEventListener("resize", updateLayout);
@@ -33,7 +37,10 @@ function ImageGrid({ images }) {
   if (isMobile) {
     // Carousel for mobile
     return (
-      <div style={{ position: "relative", width: "100%", overflow: "hidden" }} className={styles.imageGrid}>
+      <div
+        style={{ position: "relative", width: "100%", overflow: "hidden" }}
+        className={styles.imageGrid}
+      >
         <button
           onClick={handlePrevious}
           style={{
@@ -72,35 +79,47 @@ function ImageGrid({ images }) {
     );
   }
 
-  // Grid for non-mobile screens
-  const columns =
-    images.length === 1
-      ? 1
-      : images.length > 2 && images.length < 4
-      ? 2
-      : images.length >= 4
-      ? 2
-      : 1;
-
-  const gridStyle = {
-    display: "grid",
-    gridTemplateColumns: `repeat(${columns}, 1fr)`,
-    gap: "1rem",
-  };
-
   return (
-    <div style={gridStyle}>
-      {images.map((image, index) => (
+    <div className={styles.imageGrid}>
+      {/* Main Image */}
+      <div style={{ width: "100%", height: "60rem" }}>
         <img
-          key={index}
-          src={image}
-          alt={`product-${index}`}
+          src={images[currentIndex]}
+          alt={`product-${currentIndex}`}
           style={{
             width: "100%",
-            height: images.length === 1 ? "80rem" : "40rem",
+            height: "100%",
+            objectFit: "cover",
           }}
         />
-      ))}
+      </div>
+
+      {/* Thumbnails */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: "1rem",
+          marginTop: "1rem",
+        }}
+      >
+        {images.map((image, index) => (
+          <img
+            key={index}
+            src={image}
+            alt={`thumbnail-${index}`}
+            style={{
+              width: "8rem",
+              height: "8rem",
+              objectFit: "cover",
+              cursor: "pointer",
+              border: index === currentIndex ? "2px solid #000" : "none",
+              borderRadius: "0.5rem",
+            }}
+            onClick={() => handleThumbnailClick(index)}
+          />
+        ))}
+      </div>
     </div>
   );
 }

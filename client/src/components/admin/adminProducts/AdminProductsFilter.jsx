@@ -67,7 +67,8 @@ const AdminProductsFilter = () => {
     else searchParams.delete("totalPrice[lt]");
 
     // update the price discount range
-    if (priceDiscountFrom) searchParams.set("priceDiscount[gt]", priceDiscountFrom);
+    if (priceDiscountFrom)
+      searchParams.set("priceDiscount[gt]", priceDiscountFrom);
     else searchParams.delete("priceDiscount[gt]");
 
     if (priceDiscountTo) searchParams.set("priceDiscount[lt]", priceDiscountTo);
@@ -179,9 +180,9 @@ const AdminProductsFilter = () => {
                 onChange={(e) => setCategory(e.target.value)}
               >
                 <option value="">Select Category</option>
-                <option value="men">Men</option>
-                <option value="women">Women</option>
-                <option value="kids">Kids</option>
+                <option value="Man">Man</option>
+                <option value="Woman">Women</option>
+                <option value="Kids">Kids</option>
               </select>
             </div>
             <div className={styles.filterSection}>

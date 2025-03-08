@@ -1,13 +1,13 @@
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import styles from './ProductsFilter.module.scss';
+import styles from "./ProductsFilter.module.scss";
 import Modal from "../ui/Modal";
 
 const ProductsFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState(-
-    searchParams.get("search") || ""
+  const [searchTerm, setSearchTerm] = useState(
+    -searchParams.get("search") || ""
   );
   const [sortOption, setSortOption] = useState(
     searchParams.get("sort") || "all"
@@ -66,7 +66,8 @@ const ProductsFilter = () => {
     else searchParams.delete("totalPrice[lt]");
 
     // update the price discount range
-    if (priceDiscountFrom) searchParams.set("priceDiscount[gt]", priceDiscountFrom);
+    if (priceDiscountFrom)
+      searchParams.set("priceDiscount[gt]", priceDiscountFrom);
     else searchParams.delete("priceDiscount[gt]");
 
     if (priceDiscountTo) searchParams.set("priceDiscount[lt]", priceDiscountTo);
@@ -122,9 +123,7 @@ const ProductsFilter = () => {
             <option value="stock-high">Stock (High)</option>
             <option value="sale">Sale</option>
           </select>
-          <button onClick={() => setModalIsOpen(true)}>
-            Advance Filters
-          </button>
+          <button onClick={() => setModalIsOpen(true)}>Advance Filters</button>
         </div>
       </div>
       {modalIsOpen && (
@@ -177,9 +176,9 @@ const ProductsFilter = () => {
                 onChange={(e) => setCategory(e.target.value)}
               >
                 <option value="">Select Category</option>
-                <option value="men">Men</option>
-                <option value="women">Women</option>
-                <option value="kids">Kids</option>
+                <option value="Man">Men</option>
+                <option value="Women">Women</option>
+                <option value="Kids">Kids</option>
               </select>
             </div>
             <div className={styles.filterSection}>

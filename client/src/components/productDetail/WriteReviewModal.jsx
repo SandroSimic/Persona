@@ -16,6 +16,7 @@ function WriteReviewModal({ onClose, isOpen, productId }) {
       rating,
       message,
     });
+    onClose();
   };
 
   return (

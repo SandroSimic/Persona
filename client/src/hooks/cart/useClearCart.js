@@ -10,6 +10,7 @@ export const useClearCart = () => {
 
     onSuccess: () => {
       queryClient.invalidateQueries(["cart"]);
+      queryClient.invalidateQueries(["product"]);
     },
     onError: (error) => {
       toast.error(error.message || "Failed to clear cart. Please try again.");

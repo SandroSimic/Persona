@@ -14,7 +14,6 @@ function ProductDetail({ data, cartData }) {
   const [sizes, setSizes] = useState(
     data.sizes.map((size) => ({ ...size, availableQty: size.qty }))
   );
-
   const [selectedSize, setSelectedSize] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [sizeError, setSizeError] = useState(false);
@@ -64,6 +63,7 @@ function ProductDetail({ data, cartData }) {
         ...size,
         availableQty: size.qty,
       }));
+
       setSizes(resetSizes);
     }
   }, [cartData, data.sizes, data._id]);
@@ -73,9 +73,13 @@ function ProductDetail({ data, cartData }) {
 
     setSelectedSize(size);
     setSizeError(false);
-    setQuantity(1);
+    // Instead of resetting the quantity to 1, we now only adjust if quantity exceeds the available quantity
     if (quantity > size.availableQty) {
       setQuantity(size.availableQty);
+    }
+
+    if (quantity <= 0) {
+      setQuantity(1);
     }
   };
 
@@ -103,7 +107,6 @@ function ProductDetail({ data, cartData }) {
       quantity,
     });
 
-    // Start debounce: block further calls for 400ms.
     debounceRef.current = true;
     setTimeout(() => {
       debounceRef.current = false;

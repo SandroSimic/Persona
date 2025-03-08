@@ -12,15 +12,17 @@ const ProductsList = ({ products }) => {
 
   return (
     <div className={styles.productsList}>
-      {products?.map((product) => {
-        return (
+      {products && products.length > 0 ? (
+        products.map((product) => (
           <ProductCard
             key={product._id}
             product={product}
-            onClick={() => handleProductClick(product._id)}
+            onClick={handleProductClick}
           />
-        );
-      })}
+        ))
+      ) : (
+        <p>No products found</p>
+      )}
     </div>
   );
 };

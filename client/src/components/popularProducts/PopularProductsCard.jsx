@@ -12,7 +12,7 @@ const PopularProductsCard = ({ image, name, price, id }) => {
       </div>
       <div className={styles.textWrapper}>
         <h3>{name}</h3>
-        <p>{price}</p>
+        <p>{price}$</p>
       </div>
       <button
         className={styles.button}

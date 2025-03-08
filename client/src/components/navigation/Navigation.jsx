@@ -20,6 +20,8 @@ const Navigation = () => {
   const { data: cartData } = getCart();
   const { logout } = useLogout();
 
+  console.log("cartData", cartData);
+
   const clearCart = useClearCart();
   const navigate = useNavigate();
   const userMenuRef = useRef(null);
@@ -113,14 +115,11 @@ const Navigation = () => {
                 <Link to="/profile" className={styles.profileBtn}>
                   <span>Profile</span>
                 </Link>
-                {data
-                  ? data.user?.isAdmin && (
-                      <Link to="/admin" className={styles.profileBtn}>
-                        <span>Admin</span>
-                      </Link>
-                    )
-                  : null}
-
+                {data && data.user?.isAdmin && (
+                  <Link to="/admin" className={styles.profileBtn}>
+                    <span>Admin</span>
+                  </Link>
+                )}
                 <button className={styles.logoutBtn} onClick={logout}>
                   Logout
                 </button>
